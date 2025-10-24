@@ -8,7 +8,10 @@ export class StateSyncController implements OnStart {
 	private syncer = CharmSync.client({ atoms: sharedAtoms });
 
 	public onStart() {
-		Events.State.SyncState.connect((payloads) => this.syncer.sync(payloads));
+		Events.State.SyncState.connect((payloads) => {
+			warn("payloads", payloads);
+			this.syncer.sync(payloads);
+		});
 		Events.State.RequestSyncState.fire();
 	}
 }

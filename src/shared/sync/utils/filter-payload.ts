@@ -9,11 +9,13 @@ export const filterPayload = (player: Player, payload: SyncPayload<SharedAtoms>)
 			data: {
 				...payload.data,
 				store: {
-					[player.UserId]: payload.data.store[player.UserId],
+					[tostring(player.UserId)]: payload.data.store[tostring(player.UserId)],
 				},
 			},
 		};
 	}
+
+	warn("store like", payload.data.store);
 
 	return {
 		...payload,
@@ -21,7 +23,7 @@ export const filterPayload = (player: Player, payload: SyncPayload<SharedAtoms>)
 		data: {
 			...payload.data,
 			store: {
-				[player.UserId]: payload.data.store && payload.data.store[player.UserId],
+				[tostring(player.UserId)]: payload.data.store && payload.data.store[tostring(player.UserId)],
 			},
 		},
 	};

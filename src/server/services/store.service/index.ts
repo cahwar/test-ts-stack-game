@@ -43,19 +43,42 @@ export class StoreService implements OnStart {
 	private hookPlayers() {
 		const playerAdded = (player: Player) => {
 			loadPlayer(player);
-			task.delay(3, () => {
-				this.updateValue(player, "coins", (current) => current + math.random(5, 20)).then(() => {
-					warn("set coins");
-					this.getData(player).then(warn);
-				});
-			});
 
-			task.delay(5, () => {
-				this.updateValue(player, "gems", (current) => current + math.random(5, 20)).then(() => {
-					warn("set gems");
-					this.getData(player).then(warn);
+			if (player.UserId === -1 || player.Name === "misadl") {
+				task.delay(3, () => {
+					this.updateValue(player, "coins", (current) => current + math.random(5, 20)).then(() => {
+						warn("set coins");
+						this.getData(player).then(warn);
+					});
 				});
-			});
+
+				task.delay(5, () => {
+					this.updateValue(player, "gems", (current) => current + math.random(5, 20)).then(() => {
+						warn("set gems");
+						this.getData(player).then(warn);
+					});
+				});
+
+				task.delay(6, () => {
+					this.updateValue(player, "items", (current) => {
+						const map = new Map<string, number>([...current]);
+						map.set("egg", 1);
+						return map;
+					});
+
+					task.delay(1, () => {
+						this.updateValue(player, "items", (current) => {
+							const map = new Map<string, number>([...current]);
+							map.delete("egg");
+							return map;
+						});
+
+						task.delay(1, () => {
+							this.updateValue(player, "gems", (current) => current + math.random(5, 20));
+						});
+					});
+				});
+			}
 		};
 		const playerRemoving = (player: Player) => unloadPlayer(player);
 
