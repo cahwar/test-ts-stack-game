@@ -33,6 +33,7 @@
     "@rbxts/charm": "^0.10.0",
     "@rbxts/charm-sync": "^0.3.0",
     "@rbxts/lyra": "^0.6.0",
+    "@rbxts/object-utils": "^1.0.4",
     "@rbxts/react": "^17.2.3",
     "@rbxts/react-roblox": "^17.2.3",
     "@rbxts/t": "^3.2.1"
