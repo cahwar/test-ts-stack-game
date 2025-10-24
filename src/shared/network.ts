@@ -1,14 +1,18 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import { Networking } from "@flamework/networking";
 import { SyncPayload } from "@rbxts/charm-sync";
-import { PlayerAtoms } from "./data.shared";
+import { SharedAtoms } from "./sync/state-sync-shared";
 
 interface ClientToServerEvents {
-	RequestSyncAtoms: () => void;
+	State: {
+		RequestSyncState: () => void;
+	};
 }
 
 interface ServerToClientEvents {
-	SyncAtoms: (payload: SyncPayload<PlayerAtoms>) => void;
+	State: {
+		SyncState: (payloads: SyncPayload<SharedAtoms>) => void;
+	};
 }
 
 interface ClientToServerFunctions {}
