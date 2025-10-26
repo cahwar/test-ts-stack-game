@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import { Networking } from "@flamework/networking";
 import { SyncPayload } from "@rbxts/charm-sync";
-import { SharedAtoms } from "./sync/state-sync-shared";
+import { SharedAtoms } from "./state-sync/atoms";
 
 interface ClientToServerEvents {
 	State: {
 		RequestSyncState: () => void;
 	};
+	Click: () => void;
 }
 
 interface ServerToClientEvents {

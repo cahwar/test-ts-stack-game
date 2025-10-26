@@ -1,17 +1,18 @@
 import { Controller, OnStart } from "@flamework/core";
-import CharmSync from "@rbxts/charm-sync";
+import CharmSync, { SyncPayload } from "@rbxts/charm-sync";
 import { Events } from "client/network";
-import { sharedAtoms } from "shared/sync/state-sync-shared";
+import { SharedAtoms, sharedAtoms } from "shared/state-sync/atoms";
 
 @Controller()
 export class StateSyncController implements OnStart {
 	private syncer = CharmSync.client({ atoms: sharedAtoms });
 
 	public onStart() {
-		Events.State.SyncState.connect((payloads) => {
-			warn("payloads", payloads);
+		Events.State.SyncState.connect((payloads: SyncPayload<SharedAtoms>) => {
+			warn("Controller Payloads", payloads);
 			this.syncer.sync(payloads);
 		});
+
 		Events.State.RequestSyncState.fire();
 	}
 }

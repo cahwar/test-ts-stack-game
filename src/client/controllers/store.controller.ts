@@ -1,54 +1,37 @@
-import { Controller, OnInit } from "@flamework/core";
-import { subscribe } from "@rbxts/charm";
+import { Controller } from "@flamework/core";
 import { Players } from "@rbxts/services";
-import { PlayerDataElement, PlayerData } from "shared/store/store-shared";
-import { sharedAtoms } from "shared/sync/state-sync-shared";
+import { sharedAtoms } from "shared/state-sync/atoms";
+import { Data, DataKeys } from "shared/store";
 
 @Controller()
-export class StoreController implements OnInit {
-	onInit(): void | Promise<void> {
-		this.getData().then(warn);
+export class StoreController {
+	private dataKey = tostring(Players.LocalPlayer.UserId);
 
-		this.getValue("coins").then((value) => {
-			warn(value);
+	public getData(): Promise<Data> {
+		let data = sharedAtoms.store()[this.dataKey];
 
-			subscribe(
-				() => sharedAtoms.store()[tostring(Players.LocalPlayer.UserId)]!.coins,
-				(state) => {
-					warn("coins " + state);
-				},
-			);
+		if (data) return Promise.resolve(data);
 
-			subscribe(
-				() => sharedAtoms.store()[tostring(Players.LocalPlayer.UserId)]!.gems,
-				(state) => {
-					warn("gemsss " + state);
-				},
-			);
-		});
-	}
+		return new Promise((resolve: (data: Data) => void) => {
+			do {
+				data = sharedAtoms.store()[this.dataKey];
 
-	public getData(): Promise<PlayerData> {
-		const playerIndex = tostring(Players.LocalPlayer.UserId);
-		let store = sharedAtoms.store();
-		let playerData = store[playerIndex];
-
-		if (playerData) {
-			return Promise.resolve(playerData);
-		}
-
-		return new Promise((resolve) => {
-			while (playerData === undefined) {
-				store = sharedAtoms.store();
-				playerData = store[playerIndex];
 				task.wait();
-			}
+			} while (data === undefined);
 
-			resolve(playerData);
+			resolve(data);
 		});
 	}
 
-	public getValue<Key extends PlayerDataElement>(name: Key): Promise<PlayerData[Key]> {
-		return this.getData().then((data) => data[name]);
+	public getDataAsync(): Data {
+		return this.getData().expect();
+	}
+
+	public getValue<Key extends DataKeys>(key: Key) {
+		return this.getData().then((data) => data[key]);
+	}
+
+	public getValueAsync<Key extends DataKeys>(key: Key) {
+		return this.getValue(key).expect();
 	}
 }
