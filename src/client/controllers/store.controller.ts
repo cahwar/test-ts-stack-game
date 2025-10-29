@@ -17,7 +17,7 @@ export class StoreController {
 				data = sharedAtoms.store()[this.dataKey];
 
 				task.wait();
-			} while (data === undefined);
+			} while (!data);
 
 			resolve(data);
 		});

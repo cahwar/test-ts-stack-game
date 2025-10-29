@@ -41,20 +41,11 @@ export class StateSyncService implements OnInit {
 
 	public onInit() {
 		this.syncer.connect((player: Player, payloads: CharmSync.SyncPayload<SharedAtoms>) => {
-			warn(string.rep("=", 20));
-			warn("Server Payloads", player.DisplayName);
-
 			const filteredPayload = filterPlayerPayload(player, payloads);
 			const isEmpty = isPayloadEmpty(filteredPayload);
 
-			warn("==>", filteredPayload);
-			warn("==> Empty:", isEmpty);
-
 			if (!isEmpty) {
-				warn("=>> Firing", player.DisplayName);
 				Events.State.SyncState.fire(player, payloads);
-			} else {
-				warn("=>> Not Firing", player.DisplayName);
 			}
 		});
 

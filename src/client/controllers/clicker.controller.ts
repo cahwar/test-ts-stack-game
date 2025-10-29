@@ -1,10 +1,14 @@
 import { Controller, OnStart } from "@flamework/core";
 import { UserInputService } from "@rbxts/services";
 import { Events } from "client/network";
+import { StoreController } from "./store.controller";
+import { subscribe } from "@rbxts/charm";
 
 @Controller()
 export class ClickerController implements OnStart {
 	private latestClickTick = 0;
+
+	constructor(private readonly storeController: StoreController) {}
 
 	public onStart() {
 		UserInputService.InputBegan.Connect((inputObject: InputObject, gameProcessedEvent: boolean) => {
@@ -18,6 +22,11 @@ export class ClickerController implements OnStart {
 
 			this.click();
 		});
+
+		subscribe(
+			() => this.storeController.getValueAsync("coins"),
+			(coins) => warn("coins", coins),
+		);
 	}
 
 	private isOnCooldown() {
