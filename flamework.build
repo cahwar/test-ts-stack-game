@@ -15,7 +15,8 @@
 		"test-react-charm-flamework:out/server/services/playe-lifecycle.service@OnPlayerJoined": "server/services/playe-lifecycle.service@OnPlayerJoined",
 		"test-react-charm-flamework:out/server/services/playe-lifecycle.service@OnPlayerRemoving": "server/services/playe-lifecycle.service@OnPlayerRemoving",
 		"test-react-charm-flamework:out/server/services/clicker.service@ClickService": "server/services/clicker.service@ClickService",
-		"test-react-charm-flamework:out/client/controllers/store.controller@StoreController": "client/controllers/store.controller@StoreController"
+		"test-react-charm-flamework:out/client/controllers/store.controller@StoreController": "client/controllers/store.controller@StoreController",
+		"test-react-charm-flamework:out/client/controllers/ui.controller@UIController": "client/controllers/ui.controller@UIController"
 	},
 	"metadata": {}
 }

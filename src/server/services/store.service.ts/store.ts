@@ -35,10 +35,10 @@ export const store = Lyra.createPlayerStore({
 });
 
 export const loadPlayer = (player: Player) => {
-	store.loadAsync(player);
+	store.load(player).catch((reason: unknown) => warn(`@${player.DisplayName} data load error:`, reason));
 };
 
 export const unloadPlayer = (player: Player) => {
 	removeSharedDataAtomKey(tostring(player.UserId));
-	store.unloadAsync(player);
+	store.unload(player).catch((reason: unknown) => warn(`@${player.DisplayName} data unload error:`, reason));
 };
