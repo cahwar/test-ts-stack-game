@@ -34,9 +34,13 @@
     "@rbxts/charm-sync": "^0.3.0",
     "@rbxts/lyra": "^0.6.0",
     "@rbxts/object-utils": "^1.0.4",
+    "@rbxts/pretty-react-hooks": "^0.6.4",
     "@rbxts/react": "^17.2.3",
     "@rbxts/react-charm": "^0.3.0",
     "@rbxts/react-roblox": "^17.2.3",
-    "@rbxts/t": "^3.2.1"
+    "@rbxts/ripple": "^0.9.3",
+    "@rbxts/t": "^3.2.1",
+    "@rbxts/trove": "^1.3.0",
+    "@rbxts/ui-labs": "^2.4.1"
   }
 }

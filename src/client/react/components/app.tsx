@@ -1,11 +1,6 @@
 import React from "@rbxts/react";
-import { Layer } from "./layer";
-import { CoinCounter } from "./coin-counter";
+import { Layer } from "./composables/layer";
 
 export function App() {
-	return (
-		<Layer>
-			<CoinCounter></CoinCounter>
-		</Layer>
-	);
+	return <Layer></Layer>;
 }

@@ -5,8 +5,9 @@ import { createPortal, createRoot } from "@rbxts/react-roblox";
 import { Players } from "@rbxts/services";
 import { App } from "client/react/components/app";
 
+export
 @Controller()
-export class UIController implements OnStart {
+class UIController implements OnStart {
 	onStart(): void {
 		const root = createRoot(new Instance("Folder"));
 		const target = Players.LocalPlayer.WaitForChild("PlayerGui");

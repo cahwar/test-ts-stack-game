@@ -4,7 +4,7 @@ import Object from "@rbxts/object-utils";
 import { Events } from "server/network";
 import { SharedAtoms, sharedAtoms } from "shared/state-sync/atoms";
 
-const filterPlayerPayload = (player: Player, payloads: CharmSync.SyncPayload<SharedAtoms>) => {
+function filterPlayerPayload(player: Player, payloads: CharmSync.SyncPayload<SharedAtoms>) {
 	if (payloads.type === "init") {
 		return {
 			...payloads,
@@ -22,9 +22,9 @@ const filterPlayerPayload = (player: Player, payloads: CharmSync.SyncPayload<Sha
 			store: { [tostring(player.UserId)]: payloads.data.store && payloads.data.store[tostring(player.UserId)] },
 		},
 	};
-};
+}
 
-const isPayloadEmpty = (payloads: CharmSync.SyncPayload<SharedAtoms>) => {
+function isPayloadEmpty(payloads: CharmSync.SyncPayload<SharedAtoms>) {
 	if (Object.isEmpty(payloads.data)) return true;
 
 	for (const [, value] of pairs(payloads.data)) {
@@ -33,7 +33,7 @@ const isPayloadEmpty = (payloads: CharmSync.SyncPayload<SharedAtoms>) => {
 	}
 
 	return true;
-};
+}
 
 @Service()
 export class StateSyncService implements OnInit {
