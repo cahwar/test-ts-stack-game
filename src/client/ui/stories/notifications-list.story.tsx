@@ -20,7 +20,7 @@ const story = {
 			mockNotifications.push({ message: "Hello, world!", visible: true, id: getUniqueId(), duration: 1 });
 		}
 
-		return <NotificationList Notifications={mockNotifications}></NotificationList>;
+		return <NotificationList Notifications={mockNotifications} Dismiss={() => {}}></NotificationList>;
 	},
 };
 

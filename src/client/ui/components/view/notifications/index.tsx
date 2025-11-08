@@ -6,11 +6,15 @@ import { Dependency } from "@flamework/core";
 import { NotificationController } from "client/controllers/notification.controller";
 
 export function Notifications() {
-	const notifications = useAtom(() => Dependency<NotificationController>().getNotifications());
+	warn("Rerender notification main");
+
+	const controller = Dependency<NotificationController>();
+	const notifications = useAtom(() => controller.getNotifications());
+	const dismiss = (id: string) => controller.dismiss(id);
 
 	return (
-		<Layer DisplayOrder={1000}>
-			<NotificationList Notifications={notifications}></NotificationList>
+		<Layer DisplayOrder={1000} IgnoreGuiInset={false}>
+			<NotificationList Notifications={notifications} Dismiss={dismiss}></NotificationList>
 		</Layer>
 	);
 }

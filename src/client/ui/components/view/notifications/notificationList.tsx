@@ -4,23 +4,27 @@ import React from "@rbxts/react";
 import { NotificationData } from "client/controllers/notification.controller";
 import { TextNotification } from "./text-notification";
 
-const WIDTH = 400;
-const HEIGHT = 150;
+const WIDTH = 500;
+const HEIGHT = 200;
 const ELEMENTS_PADDING = 15;
 
 export interface NotificationListProps {
+	Dismiss: (id: string) => void;
+
 	Notifications: Array<NotificationData>;
 }
 
 export function NotificationList(props: NotificationListProps) {
+	warn("rerender notification list");
+
 	const px = usePx();
 
 	const size1 = UDim2.fromOffset(px(WIDTH), px(HEIGHT));
 
 	return (
 		<Frame
-			AnchorPoint={new Vector2(0.5, 1)}
-			Position={new UDim2(0.5, 0, 1, -px(50))}
+			AnchorPoint={new Vector2(0.5, 0)}
+			Position={new UDim2(0.5, 0, 0, px(50))}
 			Size={size1}
 			BackgroundTransparency={1}
 			ClipsDescendants={true}
@@ -29,7 +33,7 @@ export function NotificationList(props: NotificationListProps) {
 				<uilistlayout
 					FillDirection={Enum.FillDirection.Vertical}
 					HorizontalAlignment={Enum.HorizontalAlignment.Center}
-					VerticalAlignment={Enum.VerticalAlignment.Bottom}
+					VerticalAlignment={Enum.VerticalAlignment.Top}
 					Padding={new UDim(0, px(ELEMENTS_PADDING))}
 				></uilistlayout>
 
@@ -39,6 +43,8 @@ export function NotificationList(props: NotificationListProps) {
 						Message={data.message + " " + data.id}
 						key={data.id}
 						Visible={data.visible}
+						Id={data.id}
+						Dismiss={props.Dismiss}
 					></TextNotification>
 				))}
 			</>
