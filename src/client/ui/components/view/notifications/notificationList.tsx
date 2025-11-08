@@ -16,7 +16,6 @@ export function NotificationList(props: NotificationListProps) {
 	const px = usePx();
 
 	const size1 = UDim2.fromOffset(px(WIDTH), px(HEIGHT));
-	const size2 = UDim2.fromScale(0.35, 0.25);
 
 	return (
 		<Frame
