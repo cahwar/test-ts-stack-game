@@ -1,45 +1,47 @@
 import { Controller, OnStart } from "@flamework/core";
-import { atom } from "@rbxts/charm";
+import { atom, computed } from "@rbxts/charm";
 import { setTimeout } from "@rbxts/set-timeout";
 import { Events } from "client/network";
 import { getUniqueId } from "shared/utils/functions/get-unique-id";
 
 export interface NotificationData {
 	message: string;
-	duration: number;
 	visible: boolean;
 	id: string;
 }
 
+const REMOVAL_DELAY = 1;
+const MAX_NOTIFICATIONS = 3;
+
 @Controller()
 export class NotificationController implements OnStart {
 	public notifications = atom<Array<NotificationData>>([]);
+	private visibleNotifications = computed(() => this.notifications().filter((data) => data.visible));
 
 	onStart(): void {
 		Events.Notifications.Add.connect((message: string, duration: number) => this.add(message, duration));
-
-		task.spawn(() => {
-			while (true) {
-				this.add("hello, world", 1.5);
-				task.wait(1);
-			}
-		});
 	}
 
 	add(message: string, duration: number): void {
 		const id = getUniqueId();
-		this.notifications((notifications) => [...notifications, { message, duration, id, visible: true }]);
+
+		if (this.visibleNotifications().size() >= MAX_NOTIFICATIONS) {
+			this.dismiss(this.visibleNotifications()[0]?.id);
+		}
+
+		this.notifications((notifications) => [...notifications, { message, id, visible: true }]);
 		setTimeout(() => this.dismiss(id), duration);
 	}
 
 	dismiss(id: string): void {
 		this.notifications((notifications) =>
 			notifications.map((notification) => {
-				return notification.id === id ? { ...notification, visible: false } : notification;
+				if (notification.id !== id) return notification;
+				return { ...notification, visible: false };
 			}),
 		);
 
-		task.delay(1, () => this.remove(id));
+		task.delay(REMOVAL_DELAY, () => this.remove(id));
 	}
 
 	remove(id: string): void {
@@ -48,5 +50,9 @@ export class NotificationController implements OnStart {
 
 	getNotifications(): Array<NotificationData> {
 		return this.notifications();
+	}
+
+	getVisibleNotifications(): Array<NotificationData> {
+		return this.visibleNotifications();
 	}
 }

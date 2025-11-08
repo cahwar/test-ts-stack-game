@@ -1,5 +1,5 @@
 import React from "@rbxts/react";
-import { Notifications } from "./view/notifications";
+import { Notifications } from "./view/text-notifications";
 
 export function App() {
 	return (
