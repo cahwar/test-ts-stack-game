@@ -14,6 +14,10 @@ interface ServerToClientEvents {
 	State: {
 		SyncState: (payloads: SyncPayload<SharedAtoms>) => void;
 	};
+
+	Notifications: {
+		Add: (message: string, duration: number) => void;
+	};
 }
 
 interface ClientToServerFunctions {}

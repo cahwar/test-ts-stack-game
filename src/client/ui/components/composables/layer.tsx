@@ -29,8 +29,8 @@ export function Layer(props: LayerProps) {
 
 	return (
 		<screengui
-			ResetOnSpawn={props.ResetOnSpawn}
-			IgnoreGuiInset={props.IgnoreGuiInset}
+			ResetOnSpawn={props.ResetOnSpawn || false}
+			IgnoreGuiInset={props.IgnoreGuiInset || true}
 			DisplayOrder={props.DisplayOrder}
 			Enabled={props.Enabled}
 		>

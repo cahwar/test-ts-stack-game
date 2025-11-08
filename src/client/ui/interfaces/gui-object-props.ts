@@ -1,7 +1,7 @@
 import React, { Ref } from "@rbxts/react";
 import { Property } from "../types";
 
-export interface InstanceProps<T extends Instance> {
+export interface GuiObjectProps<T extends Instance> {
 	ref?: Ref<T>;
 	children?: React.ReactNode;
 	Change?: React.InstanceChangeEvent<T>;
@@ -15,9 +15,10 @@ export interface InstanceProps<T extends Instance> {
 	Rotation?: Property<number>;
 	LayoutOrder?: number;
 	ZIndex?: number;
+	ClipsDescendants?: boolean;
 }
 
-export const InstancePropsKeys = [
+export const GuiObjectPropsKeys = [
 	"ref",
 	"Change",
 	"Event",
@@ -30,13 +31,14 @@ export const InstancePropsKeys = [
 	"Rotation",
 	"LayoutOrder",
 	"ZIndex",
+	"ClipsDescendants",
 ];
 
-export function selectInstanceProps<T extends Instance>(props: InstanceProps<T>) {
+export function selectGuiObjectProps<T extends Instance>(props: GuiObjectProps<T>) {
 	const selected: Record<string, unknown> = {};
 
 	for (const [k, v] of pairs(props)) {
-		if (InstancePropsKeys.includes(k)) {
+		if (GuiObjectPropsKeys.includes(k)) {
 			selected[k] = v;
 		}
 	}

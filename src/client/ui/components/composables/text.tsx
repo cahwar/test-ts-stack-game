@@ -1,9 +1,10 @@
 import React from "@rbxts/react";
-import { InstanceProps, selectInstanceProps } from "client/react/interfaces/instance-props";
-import { Property } from "client/react/types";
+import { GuiObjectProps, selectGuiObjectProps } from "client/ui/interfaces/gui-object-props";
+import { Property } from "client/ui/types";
 import { Stroke } from "../style/stroke";
 
-export interface TextProps extends InstanceProps<TextLabel> {
+export interface TextProps extends GuiObjectProps<TextLabel> {
+	Text: string;
 	TextStrokeTransparency?: Property<number>;
 	MaxVisibleGraphemes?: Property<number>;
 	TextTransparency?: Property<number>;
@@ -16,7 +17,6 @@ export interface TextProps extends InstanceProps<TextLabel> {
 	FontWeight?: Enum.FontWeight;
 	FontStyle?: Enum.FontStyle;
 	Font?: Enum.Font;
-	Text?: string;
 	StrokeSize?: Property<number>;
 	StrokeColor?: Property<Color3>;
 }
@@ -29,7 +29,7 @@ export function Text(props: TextProps) {
 		<textlabel
 			BackgroundTransparency={1}
 			BorderSizePixel={0}
-			{...selectInstanceProps(props)}
+			{...selectGuiObjectProps(props)}
 			TextStrokeTransparency={props.TextStrokeTransparency ?? 1}
 			MaxVisibleGraphemes={props.MaxVisibleGraphemes}
 			TextXAlignment={props.TextXAlignment}

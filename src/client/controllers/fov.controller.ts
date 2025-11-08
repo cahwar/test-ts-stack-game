@@ -27,11 +27,11 @@ export class FovController implements OnStart {
 	}
 
 	public addFov(name: string, fovInfo: FovInfo): void {
-		this.fovs(new Map([...this.fovs(), [name, fovInfo]]));
+		this.fovs((currentFovs) => new Map([...currentFovs, [name, fovInfo]]));
 	}
 
 	public removeFov(name: string): void {
-		this.fovs(new Map([...this.fovs(), [name, undefined]]));
+		this.fovs((currentFovs) => new Map([...currentFovs, [name, undefined]]));
 	}
 
 	public static getDefaultFov() {

@@ -11,7 +11,7 @@ function tweenVolume(sound: Sound, volume: number, tweenInfo: TweenInfo) {
 export function playSound(sound: Sound, parent: Instance = Workspace.CurrentCamera!) {
 	const clonedSound = sound.Clone();
 	clonedSound.Parent = parent;
-	clonedSound.Stopped.Once(() => Debris.AddItem(clonedSound, 0));
+	clonedSound.Ended.Once(() => Debris.AddItem(clonedSound, 0));
 	clonedSound.Play();
 }
 
