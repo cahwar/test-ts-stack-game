@@ -1,20 +1,18 @@
 import React from "@rbxts/react";
-import { Layer } from "../../composables/layer";
-import { NotificationList } from "./notificationList";
-import { useAtom } from "@rbxts/react-charm";
 import { Dependency } from "@flamework/core";
+import { useAtom } from "@rbxts/react-charm";
 import { NotificationController } from "client/controllers/notification.controller";
+import { Layer } from "../../composables/layer";
+import { TextNotificationsList } from "./text-notifications-list";
 
 export function Notifications() {
-	warn("Rerender notification main");
-
 	const controller = Dependency<NotificationController>();
-	const notifications = useAtom(() => controller.getNotifications());
 	const dismiss = (id: string) => controller.dismiss(id);
+	const notifications = useAtom(() => controller.getNotifications());
 
 	return (
 		<Layer DisplayOrder={1000} IgnoreGuiInset={false}>
-			<NotificationList Notifications={notifications} Dismiss={dismiss}></NotificationList>
+			<TextNotificationsList Notifications={notifications} Dismiss={dismiss}></TextNotificationsList>
 		</Layer>
 	);
 }
