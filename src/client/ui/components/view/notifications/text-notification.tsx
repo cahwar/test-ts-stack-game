@@ -12,7 +12,7 @@ export interface TextNotificationProps {
 }
 
 const WIDTH = 1;
-const HEIGHT = 0.4;
+const HEIGHT = 0.45;
 
 export function TextNotification(props: TextNotificationProps) {
 	const [scale, scaleMotor] = useMotion(0);
