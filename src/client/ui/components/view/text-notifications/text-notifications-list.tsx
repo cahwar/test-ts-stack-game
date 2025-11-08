@@ -28,7 +28,7 @@ export function TextNotificationsList(props: TextNotificationsListProps) {
 				<uilistlayout
 					SortOrder={Enum.SortOrder.LayoutOrder}
 					HorizontalAlignment={Enum.HorizontalAlignment.Center}
-					VerticalAlignment={Enum.VerticalAlignment.Bottom}
+					VerticalAlignment={Enum.VerticalAlignment.Top}
 					FillDirection={Enum.FillDirection.Vertical}
 					Padding={new UDim(0, px(PADDING))}
 				></uilistlayout>

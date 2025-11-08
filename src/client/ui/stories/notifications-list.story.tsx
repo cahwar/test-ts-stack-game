@@ -17,7 +17,7 @@ const story = {
 		const mockNotifications: Array<NotificationData> = [];
 
 		for (let i = 0; i < props.controls.notificationsCount; i++) {
-			mockNotifications.push({ message: "Hello, world!", visible: true, id: getUniqueId() });
+			mockNotifications.push({ message: "Hello, world!" + " " + i, visible: true, id: getUniqueId() });
 		}
 
 		return <TextNotificationsList Notifications={mockNotifications} Dismiss={() => {}}></TextNotificationsList>;
