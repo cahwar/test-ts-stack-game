@@ -21,7 +21,7 @@ export function NotificationList(props: NotificationListProps) {
 		<Frame
 			AnchorPoint={new Vector2(0.5, 1)}
 			Position={new UDim2(0.5, 0, 1, -px(50))}
-			Size={size2}
+			Size={size1}
 			BackgroundTransparency={1}
 			ClipsDescendants={true}
 		>
