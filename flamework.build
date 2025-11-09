@@ -19,7 +19,8 @@
 		"test-react-charm-flamework:out/client/controllers/character-lifecycle.controller@OnCharacterAdded": "client/controllers/character-lifecycle.controller@OnCharacterAdded",
 		"test-react-charm-flamework:out/client/controllers/character-lifecycle.controller@OnCharacterRemoved": "client/controllers/character-lifecycle.controller@OnCharacterRemoved",
 		"test-react-charm-flamework:out/client/controllers/run-effect.controller@RunEffectController": "client/controllers/run-effect.controller@RunEffectController",
-		"test-react-charm-flamework:out/client/controllers/notification.controller@NotificationController": "client/controllers/notification.controller@NotificationController"
+		"test-react-charm-flamework:out/client/controllers/notification.controller@NotificationController": "client/controllers/notification.controller@NotificationController",
+		"test-react-charm-flamework:out/client/controllers/ui-page.controller@UIPageController": "client/controllers/ui-page.controller@UIPageController"
 	},
 	"metadata": {}
 }
