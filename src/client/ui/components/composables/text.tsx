@@ -1,9 +1,9 @@
 import React from "@rbxts/react";
-import { GuiObjectProps, selectGuiObjectProps } from "client/ui/interfaces/gui-object-props";
+import { NativeProps, useNativeProps } from "client/ui/hooks/use-native-props";
 import { Property } from "client/ui/types";
 import { Stroke } from "../style/stroke";
 
-export interface TextProps extends GuiObjectProps<TextLabel> {
+interface NativeTextProps extends NativeProps<TextLabel> {
 	Text: string;
 	TextStrokeTransparency?: Property<number>;
 	MaxVisibleGraphemes?: Property<number>;
@@ -17,19 +17,25 @@ export interface TextProps extends GuiObjectProps<TextLabel> {
 	FontWeight?: Enum.FontWeight;
 	FontStyle?: Enum.FontStyle;
 	Font?: Enum.Font;
-	StrokeSize?: Property<number>;
-	StrokeColor?: Property<Color3>;
+}
+
+export interface TextProps extends NativeTextProps {
+	strokeSize?: Property<number>;
+	strokeColor?: Property<Color3>;
+	useStroke?: boolean;
 }
 
 const TEXT_COLOR = Color3.fromRGB(255, 255, 255);
 const FONT = Enum.Font.FredokaOne;
 
 export function Text(props: TextProps) {
+	const nativeProps = useNativeProps(props);
+
 	return (
 		<textlabel
 			BackgroundTransparency={1}
 			BorderSizePixel={0}
-			{...selectGuiObjectProps(props)}
+			{...nativeProps}
 			TextStrokeTransparency={props.TextStrokeTransparency ?? 1}
 			MaxVisibleGraphemes={props.MaxVisibleGraphemes}
 			TextXAlignment={props.TextXAlignment}
@@ -45,9 +51,7 @@ export function Text(props: TextProps) {
 			)}
 			Text={props.Text}
 		>
-			{(props.StrokeSize !== undefined || props.StrokeColor !== undefined) && (
-				<Stroke Size={props.StrokeSize} Color={props.StrokeColor} />
-			)}
+			{props.useStroke && <Stroke size={props.strokeSize ?? 2} color={props.strokeColor} />}
 			{props.children}
 		</textlabel>
 	);

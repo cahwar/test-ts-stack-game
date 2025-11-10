@@ -1,7 +1,7 @@
 import React, { Ref } from "@rbxts/react";
 import { Property } from "../types";
 
-export interface GuiObjectProps<T extends Instance> {
+export interface NativeProps<T extends Instance> {
 	ref?: Ref<T>;
 	children?: React.ReactNode;
 	Change?: React.InstanceChangeEvent<T>;
@@ -13,12 +13,12 @@ export interface GuiObjectProps<T extends Instance> {
 	BackgroundColor3?: Property<Color3>;
 	Visible?: Property<boolean>;
 	Rotation?: Property<number>;
+	ClipsDescendants?: boolean;
 	LayoutOrder?: number;
 	ZIndex?: number;
-	ClipsDescendants?: boolean;
 }
 
-export const GuiObjectPropsKeys = [
+const NativeKeys = [
 	"ref",
 	"Change",
 	"Event",
@@ -34,11 +34,11 @@ export const GuiObjectPropsKeys = [
 	"ClipsDescendants",
 ];
 
-export function selectGuiObjectProps<T extends Instance>(props: GuiObjectProps<T>) {
+export function useNativeProps<T extends Instance>(props: NativeProps<T>): Partial<NativeProps<T>> {
 	const selected: Record<string, unknown> = {};
 
 	for (const [k, v] of pairs(props)) {
-		if (GuiObjectPropsKeys.includes(k)) {
+		if (NativeKeys.includes(k)) {
 			selected[k] = v;
 		}
 	}
