@@ -4,11 +4,11 @@ import { useAtom } from "@rbxts/react-charm";
 import { useFlameworkDependency } from "client/ui/hooks/use-flamework-dependency";
 import { UIPageController } from "client/controllers/ui-page.controller";
 import { TestPage } from "./pages/test-page";
-import { PageToggleProps } from "./page";
+import { PageActivityProps } from "./page";
 import Object from "@rbxts/object-utils";
 import { Layer } from "../../composables/layer";
 
-const PAGES: Record<PageList, React.FunctionComponent<PageToggleProps>> = {
+const PAGES: Record<PageList, React.FunctionComponent<PageActivityProps>> = {
 	[PageList.test]: TestPage,
 	[PageList.notOverrideableTest]: TestPage,
 };
@@ -21,7 +21,7 @@ export function Pages() {
 
 	return (
 		<Layer>
-			{Object.entries(PAGES).map((value) => React.createElement(value[1], { Enabled: usePage(value[0]) }))}
+			{Object.entries(PAGES).map((value) => React.createElement(value[1], { enabled: usePage(value[0]) }))}
 		</Layer>
 	);
 }

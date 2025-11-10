@@ -1,13 +1,13 @@
 import React from "@rbxts/react";
 import { usePx } from "client/ui/hooks/use-px";
-import { Page, PageToggleProps } from "../page";
+import { Page, PageActivityProps } from "../page";
 
-export function TestPage({ Enabled }: PageToggleProps) {
+export function TestPage({ enabled }: PageActivityProps) {
 	const px = usePx();
 
 	return (
 		<Page
-			Enabled={Enabled}
+			enabled={enabled}
 			AnchorPoint={new Vector2(0.5, 0.5)}
 			Position={UDim2.fromScale(0.5, 0.5)}
 			Size={UDim2.fromOffset(px(600), px(350))}

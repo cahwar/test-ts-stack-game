@@ -22,7 +22,7 @@ interface NativeTextProps extends NativeProps<TextLabel> {
 export interface TextProps extends NativeTextProps {
 	strokeSize?: Property<number>;
 	strokeColor?: Property<Color3>;
-	useStroke?: boolean;
+	ignoreStroke?: boolean;
 }
 
 const TEXT_COLOR = Color3.fromRGB(255, 255, 255);
@@ -51,7 +51,7 @@ export function Text(props: TextProps) {
 			)}
 			Text={props.Text}
 		>
-			{props.useStroke && <Stroke size={props.strokeSize ?? 2} color={props.strokeColor} />}
+			{props.ignoreStroke !== true && <Stroke size={props.strokeSize ?? 2} color={props.strokeColor} />}
 			{props.children}
 		</textlabel>
 	);

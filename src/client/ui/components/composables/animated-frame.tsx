@@ -1,36 +1,51 @@
 import React, { useEffect } from "@rbxts/react";
 import { SpringOptions } from "@rbxts/ripple";
 import { Frame, FrameProps } from "./frame";
-import { ExcludedProps } from "client/ui/types";
 import { MountDelay } from "./mount-delay";
 import { lerpBinding, useMotion } from "@rbxts/pretty-react-hooks";
 import { springs } from "shared/constants/ui/springs";
+import { useNativeProps } from "client/ui/hooks/use-native-props";
 
 export interface AnimatedFrameProps extends FrameProps {
-	springConfig: SpringOptions;
 	enabled: boolean;
+	ignoreScale?: boolean;
+	ignorePosition?: boolean;
+	unmountedPosition?: UDim2;
+	springConfig?: SpringOptions;
 }
 
 export function AnimatedFrame(props: AnimatedFrameProps) {
 	const [alpha, alphaMotor] = useMotion(0);
 
 	useEffect(() => {
-		alphaMotor.spring(props.Visible ? 1 : 0, props.springConfig ?? springs.responsive);
-	}, [props.Visible]);
+		alphaMotor.spring(props.enabled ? 1 : 0, props.springConfig ?? springs.responsive);
+	}, [props.enabled]);
 
-	const frameProps: ExcludedProps<FrameProps, AnimatedFrameProps> = {
-		...props,
-		springConfig: undefined,
-		enabled: undefined,
-	};
+	const nativeProps = useNativeProps(props);
 
 	return (
-		<MountDelay shouldRender={props.enabled}>
-			<Frame
-				{...frameProps}
-				Position={lerpBinding(alpha, UDim2.fromScale(0, -1.5), props.Position ?? UDim2.fromScale(0.5, 0.5))}
-			>
-				{props.children}
+		<MountDelay shouldRender={props.enabled} unmountDelay={0.5}>
+			<Frame {...nativeProps} BackgroundTransparency={1}>
+				<Frame
+					BackgroundColor3={props.BackgroundColor3}
+					AnchorPoint={new Vector2(0.5, 0.5)}
+					Position={lerpBinding(
+						props.ignorePosition === true ? 1 : alpha,
+						props.unmountedPosition ?? UDim2.fromScale(0.5, 2),
+						UDim2.fromScale(0.5, 0.5),
+					)}
+					Size={lerpBinding(
+						props.ignoreScale === true ? 1 : alpha,
+						UDim2.fromScale(0, 0),
+						UDim2.fromScale(1, 1),
+					)}
+					cornerRadius={props.cornerRadius}
+					useStroke={props.useStroke}
+					strokeSize={props.strokeSize}
+					strokeColor={props.strokeColor}
+				>
+					{props.children}
+				</Frame>
 			</Frame>
 		</MountDelay>
 	);

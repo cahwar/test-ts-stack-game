@@ -10,8 +10,8 @@ const EDGE_OFFSET = 50;
 const PADDING = 15;
 
 export interface TextNotificationsListProps {
-	Notifications: Array<NotificationData>;
-	Dismiss: (id: string) => void;
+	notifications: Array<NotificationData>;
+	dismiss: (id: string) => void;
 }
 
 export function TextNotificationsList(props: TextNotificationsListProps) {
@@ -33,11 +33,11 @@ export function TextNotificationsList(props: TextNotificationsListProps) {
 					Padding={new UDim(0, px(PADDING))}
 				></uilistlayout>
 
-				{props.Notifications.map((data) => (
+				{props.notifications.map((data) => (
 					<TextNotification
-						Data={data}
-						Dismiss={props.Dismiss}
-						LayoutOrder={props.Notifications.indexOf(data)}
+						data={data}
+						dismisss={props.dismiss}
+						layoutOrder={props.notifications.indexOf(data)}
 						key={data.id}
 					></TextNotification>
 				))}
