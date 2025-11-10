@@ -1,11 +1,11 @@
 import React from "@rbxts/react";
 
 export interface CornerProps {
-	Radius: UDim | React.Binding<UDim>;
+	radius: UDim | React.Binding<UDim>;
 }
 
-const DEFAULT_RADIUS = new UDim(0, 32);
+const DEFAULT_RADIUS = new UDim(0.1, 0);
 
-export function Corner({ Radius: radius = DEFAULT_RADIUS }: CornerProps) {
+export function Corner({ radius = DEFAULT_RADIUS }: CornerProps) {
 	return <uicorner CornerRadius={radius} />;
 }

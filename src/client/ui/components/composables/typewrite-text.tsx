@@ -4,13 +4,14 @@ import { Text, TextProps } from "./text";
 import { useEffect } from "@rbxts/react";
 import { getSound } from "shared/utils/asset-utils";
 import { playSound } from "shared/utils/sfx-utils";
+import { ExcludedProps } from "client/ui/types";
 
 const TYPEWRITE_DURATION = 0.4;
 const SOUND_THROTTLE_WAIT = 0.1;
 const TYPE_SOUND = getSound("Typewrite");
 
 export interface TypewriteTextProps extends TextProps {
-	TypewriteDuration?: number;
+	typewriteDuration?: number;
 }
 
 export function TypewriteText(props: TypewriteTextProps) {
@@ -23,12 +24,12 @@ export function TypewriteText(props: TypewriteTextProps) {
 		{ wait: SOUND_THROTTLE_WAIT },
 	);
 
-	const textProps = { ...props, TypewriteDuration: undefined };
+	const textProps: ExcludedProps<TextProps, TypewriteTextProps> = { ...props, typewriteDuration: undefined };
 
 	useEffect(() => {
 		graphemesMotor.immediate(0);
 		graphemesMotor.tween(props.Text.size(), {
-			time: props.TypewriteDuration ?? TYPEWRITE_DURATION,
+			time: props.typewriteDuration ?? TYPEWRITE_DURATION,
 			style: Enum.EasingStyle.Linear,
 		});
 	}, [props.Text]);

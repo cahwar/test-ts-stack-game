@@ -1,22 +1,15 @@
 import React from "@rbxts/react";
 import { FrameProps } from "../../composables/frame";
-import { TransitionMountFrame } from "../../composables/transition-mount-frame";
+import { AnimatedFrame } from "../../composables/animated-frame";
 
-const MOUNT_DELAY = 0;
-const UNMOUNT_DELAY = 0.5;
-
-export interface PageToggleProps {
-	Enabled: boolean;
+export interface PageActivityProps {
+	enabled: boolean;
 }
 
-export interface PageProps extends FrameProps, PageToggleProps {
-	UnmountedPosition?: UDim2;
+export interface PageProps extends FrameProps, PageActivityProps {
+	unmountedPosition?: UDim2;
 }
 
 export function Page(props: PageProps) {
-	return (
-		<TransitionMountFrame MountDelay={MOUNT_DELAY} UnmountDelay={UNMOUNT_DELAY} {...props}>
-			{props.children}
-		</TransitionMountFrame>
-	);
+	return <AnimatedFrame {...props}>{props.children}</AnimatedFrame>;
 }

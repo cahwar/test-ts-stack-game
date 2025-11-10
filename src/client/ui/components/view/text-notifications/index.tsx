@@ -12,7 +12,7 @@ export function Notifications() {
 
 	return (
 		<Layer DisplayOrder={1000} IgnoreGuiInset={false}>
-			<TextNotificationsList Notifications={notifications} Dismiss={dismiss}></TextNotificationsList>
+			<TextNotificationsList notifications={notifications} dismiss={dismiss}></TextNotificationsList>
 		</Layer>
 	);
 }

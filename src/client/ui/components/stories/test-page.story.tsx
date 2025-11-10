@@ -1,19 +1,16 @@
 import React from "@rbxts/react";
 import ReactRoblox from "@rbxts/react-roblox";
 import { InferProps } from "@rbxts/ui-labs";
+import { TestPage } from "../view/pages/pages/test-page";
 
-import { TestPage } from "../components/view/pages/pages/test-page";
-
-const controls = {
-	enabled: true,
-};
+const controls = { enabled: true };
 
 const story = {
 	react: React,
 	reactRoblox: ReactRoblox,
 	controls: controls,
 	story: (props: InferProps<typeof controls>) => {
-		return <TestPage Enabled={props.controls.enabled}></TestPage>;
+		return <TestPage enabled={props.controls.enabled}></TestPage>;
 	},
 };
 
