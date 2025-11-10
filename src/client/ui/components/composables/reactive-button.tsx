@@ -1,6 +1,5 @@
 import { lerpBinding, useEventListener, useMotion, useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import React, { useState } from "@rbxts/react";
-import { UserInputService } from "@rbxts/services";
+import React from "@rbxts/react";
 
 import { GuiObjectProps } from "client/ui/interfaces/gui-object-props";
 import { Property } from "client/ui/types";
@@ -8,6 +7,7 @@ import { springs } from "shared/constants/ui/springs";
 import { Frame } from "./frame";
 import { getSound } from "shared/utils/asset-utils";
 import { playSound } from "shared/utils/sfx-utils";
+import { useButtonState } from "client/ui/hooks/use-button-state";
 
 const HOVER_SCALE = 1.1;
 const PRESS_SCALE = 0.9;
@@ -27,8 +27,8 @@ export interface ReactiveButtonProps extends GuiObjectProps<ImageButton> {
 }
 
 export function ReactiveButton(props: ReactiveButtonProps) {
-	const [hovered, setHovered] = useState(false);
-	const [pressed, setPressed] = useState(false);
+	const [hovered, pressed, buttonStateEvents] = useButtonState();
+
 	const [scale, scaleMotor] = useMotion(1);
 
 	useUpdateEffect(() => {
@@ -36,11 +36,6 @@ export function ReactiveButton(props: ReactiveButtonProps) {
 		else if (hovered) scaleMotor.spring(HOVER_SCALE, springs.responsive);
 		else scaleMotor.spring(1, springs.responsive);
 	}, [hovered, pressed]);
-
-	useEventListener(UserInputService.TouchEnded, () => {
-		setPressed(false);
-		setHovered(false);
-	});
 
 	const guiObjectProps = {
 		...props,
@@ -65,23 +60,19 @@ export function ReactiveButton(props: ReactiveButtonProps) {
 				},
 
 				MouseButton1Down: () => {
-					setPressed(true);
 					props.OnMouseDown?.();
 				},
 
 				MouseButton1Up: () => {
-					setPressed(false);
 					props.OnMouseUp?.();
 				},
 
 				MouseEnter: () => {
-					setHovered(true);
 					playSound(HOVER_SOUND);
 					props.OnMouseEnter?.();
 				},
 
 				MouseLeave: () => {
-					setHovered(false);
 					props.OnMouseLeave?.();
 				},
 			}}

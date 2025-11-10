@@ -1,6 +1,6 @@
 import React from "@rbxts/react";
 import ReactRoblox from "@rbxts/react-roblox";
-import { Hud } from "../components/view/hud";
+import { HudRender } from "../components/view/hud/hud-render";
 
 const controls = {};
 
@@ -9,7 +9,7 @@ const story = {
 	reactRoblox: ReactRoblox,
 	controls: controls,
 	story: () => {
-		return <Hud></Hud>;
+		return <HudRender togglePage={() => {}}></HudRender>;
 	},
 };
 
