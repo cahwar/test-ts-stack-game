@@ -5,6 +5,8 @@ import { springs } from "shared/constants/ui/springs";
 import { Frame, FrameProps } from "./frame";
 import { DelayRender } from "./delay-render";
 import { SpringOptions } from "@rbxts/ripple";
+import { Corner } from "../style/corner";
+import { Stroke } from "../style/stroke";
 
 const MOUNT_DELAY = 0;
 const UNMOUNT_DELAY = 0.5;
@@ -41,13 +43,23 @@ export function TransitionMountFrame(props: TransitionMountFrameProps) {
 			MountDelay={props.MountDelay ?? MOUNT_DELAY}
 			UnmountDelay={props.UnmountDelay ?? UNMOUNT_DELAY}
 		>
-			<Frame
-				{...frameProps}
-				Position={lerpBinding(scale, props.UnmountedPosition ?? UNMOUNTED_POSITION, props.Position as UDim2)}
-				Size={lerpBinding(scale, UNMOUNTED_SIZE, props.Size as UDim2)}
-			>
-				{props.children}
-			</Frame>
+			<>
+				{props.CornerRadius && <Corner Radius={props.CornerRadius} />}
+				{(props.StrokeSize !== undefined || props.StrokeColor !== undefined) && (
+					<Stroke Size={props.StrokeSize} Color={props.StrokeColor} />
+				)}
+				<Frame
+					{...frameProps}
+					Position={lerpBinding(
+						scale,
+						props.UnmountedPosition ?? UNMOUNTED_POSITION,
+						props.Position as UDim2,
+					)}
+					Size={lerpBinding(scale, UNMOUNTED_SIZE, props.Size as UDim2)}
+				>
+					{props.children}
+				</Frame>
+			</>
 		</DelayRender>
 	);
 }
