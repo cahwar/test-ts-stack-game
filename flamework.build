@@ -20,7 +20,13 @@
 		"test-react-charm-flamework:out/client/controllers/character-lifecycle.controller@OnCharacterRemoved": "client/controllers/character-lifecycle.controller@OnCharacterRemoved",
 		"test-react-charm-flamework:out/client/controllers/run-effect.controller@RunEffectController": "client/controllers/run-effect.controller@RunEffectController",
 		"test-react-charm-flamework:out/client/controllers/notification.controller@NotificationController": "client/controllers/notification.controller@NotificationController",
-		"test-react-charm-flamework:out/client/controllers/ui-page.controller@UIPageController": "client/controllers/ui-page.controller@UIPageController"
+		"test-react-charm-flamework:out/client/controllers/ui-page.controller@UIPageController": "client/controllers/ui-page.controller@UIPageController",
+		"test-react-charm-flamework:out/server/services/admin.service@AdminService": "server/services/admin.service@AdminService",
+		"test-react-charm-flamework:out/server/services/store.service/init@StoreService": "server/services/store.service/init@StoreService",
+		"test-react-charm-flamework:out/server/services/init@AdminService": "server/services/init@AdminService",
+		"test-react-charm-flamework:out/server/services/admin.service/init@AdminService": "server/services/admin.service/init@AdminService",
+		"test-react-charm-flamework:out/shared/utils/player-atom-store@PlayerAtomStore": "shared/utils/player-atom-store@PlayerAtomStore",
+		"test-react-charm-flamework:out/client/controllers/admin.controller@AdminController": "client/controllers/admin.controller@AdminController"
 	},
 	"metadata": {}
 }

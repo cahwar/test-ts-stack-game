@@ -2,7 +2,7 @@ import { OnInit, Service } from "@flamework/core";
 import { OnPlayerJoined, OnPlayerRemoving } from "./playe-lifecycle.service";
 import { atom } from "@rbxts/charm";
 import { Events } from "server/network";
-import { StoreService } from "./store.service.ts";
+import { StoreService } from "./store.service";
 
 @Service()
 export class ClickService implements OnInit, OnPlayerJoined, OnPlayerRemoving {

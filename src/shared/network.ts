@@ -7,6 +7,11 @@ interface ClientToServerEvents {
 	State: {
 		RequestSyncState: () => void;
 	};
+
+	Admin: {
+		ProcessCommand: (name: string) => void;
+	};
+
 	Click: () => void;
 }
 
@@ -20,7 +25,12 @@ interface ServerToClientEvents {
 	};
 }
 
-interface ClientToServerFunctions {}
+interface ClientToServerFunctions {
+	Admin: {
+		GetCommands: () => Array<string>;
+		HasAccess: () => boolean;
+	};
+}
 
 interface ServerToClientFunctions {}
 
