@@ -19,7 +19,11 @@ export function CommandsList({ sendRequest, commands }: CommandsListProps) {
 			BorderSizePixel={0}
 			BackgroundTransparency={1}
 		>
-			<uilistlayout Padding={new UDim(0, px(15))}></uilistlayout>
+			<uilistlayout
+				Padding={new UDim(0, px(15))}
+				HorizontalAlignment={Enum.HorizontalAlignment.Center}
+				VerticalAlignment={Enum.VerticalAlignment.Top}
+			></uilistlayout>
 
 			{commands.map((value) => (
 				<CommandButton commandName={value} sendRequest={sendRequest} />

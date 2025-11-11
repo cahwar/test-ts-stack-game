@@ -3,20 +3,20 @@ import ReactRoblox from "@rbxts/react-roblox";
 import { InferProps } from "@rbxts/ui-labs";
 import { AdminPage } from "../view/pages/pages/admin-page/admin-page";
 
-const controls = { enabled: true };
+const controls = { enabled: true, commandsAmount: 5 };
 
 const story = {
 	react: React,
 	reactRoblox: ReactRoblox,
 	controls: controls,
 	story: (props: InferProps<typeof controls>) => {
-		return (
-			<AdminPage
-				enabled={props.controls.enabled}
-				sendRequest={() => {}}
-				commands={["test_command_1", "test_command_2", "test_command_3"]}
-			></AdminPage>
-		);
+		const mockCommands = new Array<string>();
+
+		for (let i = 0; i < props.controls.commandsAmount; i++) {
+			mockCommands.push(`test_command #${i}`);
+		}
+
+		return <AdminPage enabled={props.controls.enabled} sendRequest={() => {}} commands={mockCommands}></AdminPage>;
 	},
 };
 

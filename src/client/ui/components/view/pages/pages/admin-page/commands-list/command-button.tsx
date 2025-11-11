@@ -13,7 +13,7 @@ export function CommandButton({ commandName, sendRequest }: CommandButtonProps) 
 
 	return (
 		<imagebutton
-			Size={UDim2.fromScale(1, 0.15)}
+			Size={UDim2.fromScale(0.8, 0.15)}
 			BorderSizePixel={0}
 			BackgroundColor3={Color3.fromRGB(227, 130, 166)}
 			Event={{ MouseButton1Click: () => sendRequest(commandName) }}
