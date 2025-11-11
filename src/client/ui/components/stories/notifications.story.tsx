@@ -16,7 +16,11 @@ const story = {
 	story: (props: InferProps<typeof controls>) => {
 		const mockNotifications = new Array<NotificationData>();
 		for (let i = 0; i < props.controls.amount; i++) {
-			mockNotifications.push({ id: getUniqueId(), message: `Hello, world! #${i}`, visible: true });
+			mockNotifications.push({
+				id: getUniqueId(),
+				message: `Hello, world! World, hello! Haaaa! lorem ipsum! #${i}`,
+				visible: true,
+			});
 		}
 
 		return <TextNotificationsList notifications={mockNotifications} dismiss={() => {}}></TextNotificationsList>;

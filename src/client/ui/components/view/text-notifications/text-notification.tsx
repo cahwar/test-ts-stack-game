@@ -5,7 +5,6 @@ import { springs } from "shared/constants/ui/springs";
 import { TypewriteText } from "../../composables/typewrite-text";
 
 const SCALE_SIZE = UDim2.fromScale(1, 0.3);
-const STROKE_SIZE = 2;
 
 export interface TextNotificationProps {
 	data: NotificationData;
@@ -40,7 +39,6 @@ export function TextNotification(props: TextNotificationProps) {
 				Position={UDim2.fromScale(0.5, 0.5)}
 				TextScaled={true}
 				RichText={true}
-				strokeSize={lerpBinding(scale, 0, STROKE_SIZE)}
 			></TypewriteText>
 		</imagebutton>
 	);

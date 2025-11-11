@@ -2,6 +2,7 @@ import React from "@rbxts/react";
 import { NativeProps, useNativeProps } from "client/ui/hooks/use-native-props";
 import { Property } from "client/ui/types";
 import { Stroke } from "../style/stroke";
+import { usePx } from "client/ui/hooks/use-px";
 
 interface NativeTextProps extends NativeProps<TextLabel> {
 	Text: string;
@@ -11,6 +12,7 @@ interface NativeTextProps extends NativeProps<TextLabel> {
 	TextColor3?: Property<Color3>;
 	TextXAlignment?: Enum.TextXAlignment;
 	TextYAlignment?: Enum.TextYAlignment;
+	TextWrap?: boolean;
 	TextScaled?: boolean;
 	TextSize?: number;
 	RichText?: boolean;
@@ -29,6 +31,8 @@ const TEXT_COLOR = Color3.fromRGB(255, 255, 255);
 const FONT = Enum.Font.FredokaOne;
 
 export function Text(props: TextProps) {
+	const px = usePx();
+
 	const nativeProps = useNativeProps(props);
 
 	return (
@@ -42,6 +46,7 @@ export function Text(props: TextProps) {
 			TextYAlignment={props.TextYAlignment}
 			TextColor3={props.TextColor3 ?? TEXT_COLOR}
 			TextScaled={props.TextScaled}
+			TextWrap={props.TextWrap}
 			TextSize={props.TextSize}
 			RichText={props.RichText}
 			FontFace={Font.fromName(
@@ -51,7 +56,7 @@ export function Text(props: TextProps) {
 			)}
 			Text={props.Text}
 		>
-			{props.ignoreStroke !== true && <Stroke size={props.strokeSize ?? 2} color={props.strokeColor} />}
+			{props.ignoreStroke !== true && <Stroke size={props.strokeSize ?? px(3)} color={props.strokeColor} />}
 			{props.children}
 		</textlabel>
 	);
