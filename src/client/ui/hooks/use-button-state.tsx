@@ -6,7 +6,7 @@ export function useButtonState() {
 	const [hovered, setHovered] = useState(false);
 	const [pressed, setPressed] = useState(false);
 
-	const buttonStateEvents = {
+	const buttonStateCallbacks = {
 		onMouseDown: () => setPressed(true),
 		onMouseUp: () => setPressed(false),
 		onMouseEnter: () => setHovered(true),
@@ -18,5 +18,5 @@ export function useButtonState() {
 		setHovered(false);
 	});
 
-	return [hovered, pressed, buttonStateEvents];
+	return { hovered, pressed, buttonStateCallbacks };
 }

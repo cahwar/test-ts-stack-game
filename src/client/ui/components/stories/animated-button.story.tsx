@@ -1,0 +1,29 @@
+import React from "@rbxts/react";
+import ReactRoblox from "@rbxts/react-roblox";
+import { AnimatedButton } from "../composables/animated-button";
+import { usePx } from "client/ui/hooks/use-px";
+import { CenterHighlightGradient } from "../style/center-highlight-gradient";
+
+const story = {
+	react: React,
+	reactRoblox: ReactRoblox,
+	controls: {},
+	story: () => {
+		const px = usePx();
+		return (
+			<AnimatedButton
+				Size={UDim2.fromOffset(px(100), px(100))}
+				Position={UDim2.fromScale(0.5, 0.5)}
+				AnchorPoint={new Vector2(0.5, 0.5)}
+				BackgroundColor3={Color3.fromRGB(255, 255, 255)}
+				useStroke={true}
+				strokeSize={px(5)}
+				cornerRadius={new UDim(0, px(8))}
+			>
+				<CenterHighlightGradient PrimaryColor={Color3.fromRGB(250, 158, 77)}></CenterHighlightGradient>
+			</AnimatedButton>
+		);
+	},
+};
+
+export = story;
