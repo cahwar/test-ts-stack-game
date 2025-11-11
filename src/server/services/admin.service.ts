@@ -26,6 +26,10 @@ export class AdminService implements OnInit, OnPlayerRemoving {
 		});
 
 		Functions.Admin.HasAccess.setCallback((player) => this.hasAccess(player));
+
+		this.registerCommand("GetMoney", (player) => {
+			warn(player.DisplayName, "get money!");
+		});
 	}
 
 	onPlayerRemoving(player: Player): void {

@@ -7,10 +7,12 @@ import { TestPage } from "./pages/test-page";
 import { PageActivityProps } from "./page";
 import Object from "@rbxts/object-utils";
 import { Layer } from "../../composables/layer";
+import { AdminPageWrapper } from "./pages/admin-page";
 
 const PAGES: Record<PageList, React.FunctionComponent<PageActivityProps>> = {
 	[PageList.test]: TestPage,
 	[PageList.notOverrideableTest]: TestPage,
+	[PageList.admin]: AdminPageWrapper,
 };
 
 export function Pages() {

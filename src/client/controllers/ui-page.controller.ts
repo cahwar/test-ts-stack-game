@@ -4,6 +4,7 @@ import { atom, peek } from "@rbxts/charm";
 export enum PageList {
 	test = "test",
 	notOverrideableTest = "notOverriableTest",
+	admin = "admin",
 }
 
 const NOT_OVERRIDEABLE: Array<PageList> = [PageList.notOverrideableTest];
