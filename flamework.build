@@ -29,7 +29,8 @@
 		"test-react-charm-flamework:out/client/controllers/admin.controller@AdminController": "client/controllers/admin.controller@AdminController",
 		"test-react-charm-flamework:out/server/services/player-lifecycle.service@PlayerLifecycleService": "server/services/player-lifecycle.service@PlayerLifecycleService",
 		"test-react-charm-flamework:out/server/services/player-lifecycle.service@OnPlayerJoined": "server/services/player-lifecycle.service@OnPlayerJoined",
-		"test-react-charm-flamework:out/server/services/player-lifecycle.service@OnPlayerRemoving": "server/services/player-lifecycle.service@OnPlayerRemoving"
+		"test-react-charm-flamework:out/server/services/player-lifecycle.service@OnPlayerRemoving": "server/services/player-lifecycle.service@OnPlayerRemoving",
+		"test-react-charm-flamework:out/client/controllers/multiple-jump.controller@MultipleJumpController": "client/controllers/multiple-jump.controller@MultipleJumpController"
 	},
 	"metadata": {}
 }
