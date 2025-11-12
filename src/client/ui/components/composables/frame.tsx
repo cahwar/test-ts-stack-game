@@ -1,13 +1,13 @@
 import React from "@rbxts/react";
 import { NativeProps, useNativeProps } from "client/ui/hooks/use-native-props";
-import { Property } from "client/ui/types";
+import { BindedProperty } from "client/ui/types";
 import { Corner } from "../style/corner";
 import { Stroke } from "../style/stroke";
 
 export interface FrameProps extends NativeProps<Frame> {
-	cornerRadius?: Property<UDim>;
-	strokeSize?: Property<number>;
-	strokeColor?: Property<Color3>;
+	cornerRadius?: BindedProperty<UDim>;
+	strokeSize?: BindedProperty<number>;
+	strokeColor?: BindedProperty<Color3>;
 	useStroke?: boolean;
 }
 

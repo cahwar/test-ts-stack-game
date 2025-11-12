@@ -1,15 +1,15 @@
 import React from "@rbxts/react";
 import { NativeProps, useNativeProps } from "client/ui/hooks/use-native-props";
-import { Property } from "client/ui/types";
+import { BindedProperty } from "client/ui/types";
 import { Stroke } from "../style/stroke";
 import { usePx } from "client/ui/hooks/use-px";
 
 interface NativeTextProps extends NativeProps<TextLabel> {
 	Text: string;
-	TextStrokeTransparency?: Property<number>;
-	MaxVisibleGraphemes?: Property<number>;
-	TextTransparency?: Property<number>;
-	TextColor3?: Property<Color3>;
+	TextStrokeTransparency?: BindedProperty<number>;
+	MaxVisibleGraphemes?: BindedProperty<number>;
+	TextTransparency?: BindedProperty<number>;
+	TextColor3?: BindedProperty<Color3>;
 	TextXAlignment?: Enum.TextXAlignment;
 	TextYAlignment?: Enum.TextYAlignment;
 	TextWrap?: boolean;
@@ -22,8 +22,8 @@ interface NativeTextProps extends NativeProps<TextLabel> {
 }
 
 export interface TextProps extends NativeTextProps {
-	strokeSize?: Property<number>;
-	strokeColor?: Property<Color3>;
+	strokeSize?: BindedProperty<number>;
+	strokeColor?: BindedProperty<Color3>;
 	ignoreStroke?: boolean;
 }
 

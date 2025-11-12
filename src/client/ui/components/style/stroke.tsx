@@ -1,10 +1,10 @@
 import React from "@rbxts/react";
 import { usePx } from "client/ui/hooks/use-px";
-import { Property } from "client/ui/types";
+import { BindedProperty } from "client/ui/types";
 
 export interface StrokeProps {
-	size?: Property<number>;
-	color?: Property<Color3>;
+	size?: BindedProperty<number>;
+	color?: BindedProperty<Color3>;
 }
 
 const DEFAULT_SIZE = 3;

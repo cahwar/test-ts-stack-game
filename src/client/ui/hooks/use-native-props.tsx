@@ -1,18 +1,18 @@
 import React, { Ref } from "@rbxts/react";
-import { Property } from "../types";
+import { BindedProperty } from "../types";
 
 export interface NativeProps<T extends Instance> {
 	ref?: Ref<T>;
 	children?: React.ReactNode;
 	Change?: React.InstanceChangeEvent<T>;
 	Event?: React.InstanceEvent<T>;
-	AnchorPoint?: Property<Vector2>;
-	Position?: Property<UDim2>;
-	Size?: Property<UDim2>;
-	BackgroundTransparency?: Property<number>;
-	BackgroundColor3?: Property<Color3>;
-	Visible?: Property<boolean>;
-	Rotation?: Property<number>;
+	AnchorPoint?: BindedProperty<Vector2>;
+	Position?: BindedProperty<UDim2>;
+	Size?: BindedProperty<UDim2>;
+	BackgroundTransparency?: BindedProperty<number>;
+	BackgroundColor3?: BindedProperty<Color3>;
+	Visible?: BindedProperty<boolean>;
+	Rotation?: BindedProperty<number>;
 	ClipsDescendants?: boolean;
 	LayoutOrder?: number;
 	ZIndex?: number;

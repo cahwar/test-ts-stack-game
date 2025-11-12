@@ -1,6 +1,5 @@
 import React, { useMemo } from "@rbxts/react";
-import { ExcludedProps } from "client/ui/types";
-import { ButtonProps, Button } from "./button";
+import { ButtonProps } from "./button";
 import { Frame } from "./frame";
 import { useButtonState } from "client/ui/hooks/use-button-state";
 import { lerpBinding, useMotion, useUpdateEffect } from "@rbxts/pretty-react-hooks";
@@ -8,30 +7,24 @@ import { springs } from "shared/constants/ui/springs";
 import { getSound } from "shared/utils/asset-utils";
 import { playSound } from "shared/utils/sfx-utils";
 import { brighten } from "shared/utils/color-utils";
+import { useNativeProps } from "client/ui/hooks/use-native-props";
+import { ButtonContext } from "client/ui/contexts/button-context";
 
 const HOVER_SOUND = getSound("MouseHover");
 const CLICK_SOUND = getSound("MouseClick");
 
 export interface AnimatedButtonProps extends ButtonProps {
+	innerPaddingScale?: Vector2;
 	ignoreHoverScale?: boolean;
 	ignorePressScale?: boolean;
 	ignoreSound?: boolean;
 	ignoreColor?: boolean;
-	innerPaddingScale?: Vector2;
 }
 
 export function AnimatedButton(props: AnimatedButtonProps) {
 	const { hovered, pressed, buttonStateCallbacks } = useButtonState();
-	const [alpha, alphaMotor] = useMotion(1);
 	const [brightness, brightnessMotor] = useMotion(0);
-
-	const frameSize = useMemo(
-		() =>
-			props.innerPaddingScale
-				? UDim2.fromScale(1 / props.innerPaddingScale.X, 1 / props.innerPaddingScale.Y)
-				: UDim2.fromScale(1, 1),
-		[],
-	);
+	const [alpha, alphaMotor] = useMotion(1);
 
 	useUpdateEffect(() => {
 		let scale = 1;
@@ -58,42 +51,47 @@ export function AnimatedButton(props: AnimatedButtonProps) {
 		}
 	}, [pressed]);
 
+	const frameSize = useMemo(
+		() =>
+			props.innerPaddingScale
+				? UDim2.fromScale(1 / props.innerPaddingScale.X, 1 / props.innerPaddingScale.Y)
+				: UDim2.fromScale(1, 1),
+		[],
+	);
+
 	const event = useMemo(
 		() => ({
-			onMouseDown: () => {
-				props.onMouseDown?.();
-				buttonStateCallbacks.onMouseDown();
+			MouseButton1Click: () => {
+				props.onMouseClick?.();
 			},
 
-			onMouseUp: () => {
-				props.onMouseUp?.();
-				buttonStateCallbacks.onMouseUp();
-			},
-
-			onMouseEnter: () => {
+			MouseEnter: () => {
 				props.onMouseEnter?.();
 				buttonStateCallbacks.onMouseEnter();
 			},
 
-			onMouseLeave: () => {
+			MouseLeave: () => {
 				props.onMouseLeave?.();
 				buttonStateCallbacks.onMouseLeave();
+			},
+
+			MouseButton1Down: () => {
+				props.onMouseDown?.();
+				buttonStateCallbacks.onMouseDown();
+			},
+
+			MouseButton1Up: () => {
+				props.onMouseUp?.();
+				buttonStateCallbacks.onMouseUp();
 			},
 		}),
 		[],
 	);
 
-	const buttonProps: ExcludedProps<ButtonProps, AnimatedButtonProps> = {
-		...props,
-		ignoreHoverScale: undefined,
-		ignorePressScale: undefined,
-		ignoreSound: undefined,
-		ignoreColor: undefined,
-		innerPaddingScale: undefined,
-	};
+	const nativeProps = useNativeProps(props);
 
 	return (
-		<Button {...buttonProps} {...event} BackgroundTransparency={1} cornerRadius={undefined} useStroke={false}>
+		<imagebutton {...nativeProps} Event={event} BackgroundTransparency={1}>
 			<Frame
 				BackgroundColor3={brightness.map((value) => {
 					return brighten(props.BackgroundColor3 as Color3, props.ignoreColor ? 0 : value);
@@ -106,8 +104,8 @@ export function AnimatedButton(props: AnimatedButtonProps) {
 				strokeColor={props.strokeColor}
 				cornerRadius={props.cornerRadius}
 			>
-				{props.children}
+				<ButtonContext.Provider value={{ hovered, pressed }}>{props.children}</ButtonContext.Provider>
 			</Frame>
-		</Button>
+		</imagebutton>
 	);
 }
