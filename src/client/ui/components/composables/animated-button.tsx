@@ -7,23 +7,44 @@ import { lerpBinding, useMotion, useUpdateEffect } from "@rbxts/pretty-react-hoo
 import { springs } from "shared/constants/ui/springs";
 import { getSound } from "shared/utils/asset-utils";
 import { playSound } from "shared/utils/sfx-utils";
+import { brighten } from "shared/utils/color-utils";
 
 const HOVER_SOUND = getSound("MouseHover");
 const CLICK_SOUND = getSound("MouseClick");
 
 export interface AnimatedButtonProps extends ButtonProps {
-	ignoreScale?: boolean;
+	ignoreHoverScale?: boolean;
+	ignorePressScale?: boolean;
 	ignoreSound?: boolean;
+	ignoreColor?: boolean;
+	innerPaddingScale?: Vector2;
 }
 
 export function AnimatedButton(props: AnimatedButtonProps) {
 	const { hovered, pressed, buttonStateCallbacks } = useButtonState();
 	const [alpha, alphaMotor] = useMotion(1);
+	const [brightness, brightnessMotor] = useMotion(0);
+
+	const frameSize = useMemo(
+		() =>
+			props.innerPaddingScale
+				? UDim2.fromScale(1 / props.innerPaddingScale.X, 1 / props.innerPaddingScale.Y)
+				: UDim2.fromScale(1, 1),
+		[],
+	);
 
 	useUpdateEffect(() => {
-		const scale = pressed || hovered ? (pressed ? 0.9 : 1.1) : 1;
+		let scale = 1;
+
+		if (hovered && !props.ignoreHoverScale) scale = 1.1;
+		if (pressed && !props.ignorePressScale) scale = 0.9;
+
 		alphaMotor.spring(scale, springs.responsive);
 	}, [hovered, pressed]);
+
+	useUpdateEffect(() => {
+		brightnessMotor.spring(hovered ? 1 : 0, springs.stiff);
+	}, [hovered]);
 
 	useUpdateEffect(() => {
 		if (hovered) {
@@ -64,17 +85,22 @@ export function AnimatedButton(props: AnimatedButtonProps) {
 
 	const buttonProps: ExcludedProps<ButtonProps, AnimatedButtonProps> = {
 		...props,
-		ignoreScale: undefined,
+		ignoreHoverScale: undefined,
+		ignorePressScale: undefined,
 		ignoreSound: undefined,
+		ignoreColor: undefined,
+		innerPaddingScale: undefined,
 	};
 
 	return (
 		<Button {...buttonProps} {...event} BackgroundTransparency={1} cornerRadius={undefined} useStroke={false}>
 			<Frame
-				BackgroundColor3={props.BackgroundColor3}
+				BackgroundColor3={brightness.map((value) => {
+					return brighten(props.BackgroundColor3 as Color3, props.ignoreColor ? 0 : value);
+				})}
 				AnchorPoint={new Vector2(0.5, 0.5)}
 				Position={UDim2.fromScale(0.5, 0.5)}
-				Size={lerpBinding(props.ignoreScale ? 1 : alpha, UDim2.fromScale(0, 0), UDim2.fromScale(1, 1))}
+				Size={lerpBinding(alpha, UDim2.fromScale(0, 0), frameSize)}
 				useStroke={props.useStroke}
 				strokeSize={props.strokeSize}
 				strokeColor={props.strokeColor}

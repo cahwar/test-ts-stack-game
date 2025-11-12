@@ -1,6 +1,6 @@
 import React from "@rbxts/react";
+import { AnimatedButton } from "client/ui/components/composables/animated-button";
 import { Text } from "client/ui/components/composables/text";
-import { Corner } from "client/ui/components/style/corner";
 import { usePx } from "client/ui/hooks/use-px";
 
 export interface CommandButtonProps {
@@ -12,13 +12,15 @@ export function CommandButton({ commandName, sendRequest }: CommandButtonProps) 
 	const px = usePx();
 
 	return (
-		<imagebutton
+		<AnimatedButton
 			Size={UDim2.fromScale(0.8, 0.15)}
-			BorderSizePixel={0}
 			BackgroundColor3={Color3.fromRGB(227, 130, 166)}
-			Event={{ MouseButton1Click: () => sendRequest(commandName) }}
+			onMouseClick={() => sendRequest(commandName)}
+			cornerRadius={new UDim(0, px(16))}
+			useStroke={true}
+			innerPaddingScale={new Vector2(1, 1.2)}
+			ignoreHoverScale={true}
 		>
-			<Corner radius={new UDim(0, px(16))} />
 			<Text
 				Size={UDim2.fromScale(0.8, 0.8)}
 				Position={UDim2.fromScale(0.5, 0.5)}
@@ -27,6 +29,6 @@ export function CommandButton({ commandName, sendRequest }: CommandButtonProps) 
 				TextScaled={true}
 				TextColor3={Color3.fromRGB(220, 200, 220)}
 			/>
-		</imagebutton>
+		</AnimatedButton>
 	);
 }
