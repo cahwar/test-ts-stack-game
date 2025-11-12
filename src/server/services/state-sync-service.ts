@@ -39,7 +39,7 @@ function isPayloadEmpty(payloads: CharmSync.SyncPayload<SharedAtoms>) {
 export class StateSyncService implements OnInit {
 	private syncer = CharmSync.server({ atoms: sharedAtoms });
 
-	public onInit() {
+	onInit(): void {
 		this.syncer.connect((player: Player, payloads: CharmSync.SyncPayload<SharedAtoms>) => {
 			const filteredPayload = filterPlayerPayload(player, payloads);
 			const isEmpty = isPayloadEmpty(filteredPayload);

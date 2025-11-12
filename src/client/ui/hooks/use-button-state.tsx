@@ -10,7 +10,10 @@ export function useButtonState() {
 		onMouseDown: () => setPressed(true),
 		onMouseUp: () => setPressed(false),
 		onMouseEnter: () => setHovered(true),
-		onMouseLeave: () => setHovered(false),
+		onMouseLeave: () => {
+			setHovered(false);
+			setPressed(false);
+		},
 	};
 
 	useEventListener(UserInputService.TouchEnded, () => {

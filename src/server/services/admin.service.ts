@@ -2,6 +2,7 @@ import { OnInit, Service } from "@flamework/core";
 import { RunService } from "@rbxts/services";
 import { Events, Functions } from "server/network";
 import { OnPlayerRemoving } from "./playe-lifecycle.service";
+import { StoreService } from "./store.service";
 
 const GROUP_ID = 1;
 const ROLES = ["Admin", "Developer", "Coder", "Owner", "Tester"];
@@ -11,6 +12,8 @@ const NAMES = ["misadl"];
 export class AdminService implements OnInit, OnPlayerRemoving {
 	private commands = new Map<string, (player: Player) => void>();
 	private cachedAccess = new Map<Player, boolean | undefined>();
+
+	constructor(private readonly storeService: StoreService) {}
 
 	onInit(): void | Promise<void> {
 		Events.Admin.ProcessCommand.connect((player: Player, name: string) => {
@@ -29,6 +32,10 @@ export class AdminService implements OnInit, OnPlayerRemoving {
 
 		this.registerCommand("GetMoney", (player) => {
 			warn(player.DisplayName, "get money!");
+		});
+
+		this.registerCommand("Reset", (player) => {
+			this.storeService.reset(player);
 		});
 	}
 

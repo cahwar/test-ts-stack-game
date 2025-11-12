@@ -11,7 +11,7 @@ export interface OnPlayerRemoving {
 
 @Service()
 export class PlayerLifecycleService implements OnStart {
-	public onStart() {
+	onStart(): void {
 		const joinListeners = new Set<OnPlayerJoined>();
 		const removingListeners = new Set<OnPlayerRemoving>();
 

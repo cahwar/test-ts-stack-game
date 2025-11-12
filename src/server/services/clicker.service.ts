@@ -43,6 +43,6 @@ export class ClickService implements OnInit, OnPlayerJoined, OnPlayerRemoving {
 
 	private click(player: Player) {
 		this.setLatestTick(player);
-		this.storeService.updateValueAsync(player, "coins", (currentCoins) => currentCoins + math.random(3, 5));
+		this.storeService.updateValue(player, "coins", (currentCoins) => currentCoins + math.random(3, 5));
 	}
 }
