@@ -1,7 +1,7 @@
 import { OnInit, Service } from "@flamework/core";
 import { RunService } from "@rbxts/services";
 import { Events, Functions } from "server/network";
-import { OnPlayerRemoving } from "./playe-lifecycle.service";
+import { OnPlayerRemoving } from "./player-lifecycle.service";
 import { StoreService } from "./store.service";
 
 const GROUP_ID = 1;

@@ -26,7 +26,10 @@
 		"test-react-charm-flamework:out/server/services/init@AdminService": "server/services/init@AdminService",
 		"test-react-charm-flamework:out/server/services/admin.service/init@AdminService": "server/services/admin.service/init@AdminService",
 		"test-react-charm-flamework:out/shared/utils/player-atom-store@PlayerAtomStore": "shared/utils/player-atom-store@PlayerAtomStore",
-		"test-react-charm-flamework:out/client/controllers/admin.controller@AdminController": "client/controllers/admin.controller@AdminController"
+		"test-react-charm-flamework:out/client/controllers/admin.controller@AdminController": "client/controllers/admin.controller@AdminController",
+		"test-react-charm-flamework:out/server/services/player-lifecycle.service@PlayerLifecycleService": "server/services/player-lifecycle.service@PlayerLifecycleService",
+		"test-react-charm-flamework:out/server/services/player-lifecycle.service@OnPlayerJoined": "server/services/player-lifecycle.service@OnPlayerJoined",
+		"test-react-charm-flamework:out/server/services/player-lifecycle.service@OnPlayerRemoving": "server/services/player-lifecycle.service@OnPlayerRemoving"
 	},
 	"metadata": {}
 }
