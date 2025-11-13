@@ -1,6 +1,6 @@
 import Lyra from "@rbxts/lyra";
 import { sharedAtoms } from "shared/state-sync/atoms";
-import { schema, template, migrationSteps, Data } from "shared/store";
+import { schema, template, migrationSteps, Data, dataName } from "shared/store";
 
 function getMigrationStepsFromDescribtion(migrationStepsDescribtion: Record<string, Partial<Data>>) {
 	const migrationSteps = [];
@@ -27,7 +27,7 @@ function removeSharedDataAtomKey(key: string) {
 }
 
 export const store = Lyra.createPlayerStore({
-	name: "Data_v1",
+	name: dataName,
 	template: template,
 	schema: schema,
 	migrationSteps: getMigrationStepsFromDescribtion(migrationSteps),

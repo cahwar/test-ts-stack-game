@@ -7,7 +7,7 @@ import { Data, DataKeys } from "shared/store";
 export class StoreController {
 	private dataKey = tostring(Players.LocalPlayer.UserId);
 
-	public getData(): Promise<Data> {
+	getData(): Promise<Data> {
 		let data = sharedAtoms.store()[this.dataKey];
 
 		if (data) return Promise.resolve(data);
@@ -23,15 +23,7 @@ export class StoreController {
 		});
 	}
 
-	public getDataAsync(): Data {
-		return this.getData().expect();
-	}
-
-	public getValue<Key extends DataKeys>(key: Key) {
+	getValue<Key extends DataKeys>(key: Key): Promise<Data[Key]> {
 		return this.getData().then((data) => data[key]);
-	}
-
-	public getValueAsync<Key extends DataKeys>(key: Key) {
-		return this.getValue(key).expect();
 	}
 }

@@ -1,16 +1,19 @@
-import { Controller, OnStart } from "@flamework/core";
+import { Controller, OnStart, Modding } from "@flamework/core";
 import { UserInputService } from "@rbxts/services";
 import { Events } from "client/network";
-import { StoreController } from "./store.controller";
-import { subscribe } from "@rbxts/charm";
+
+export interface OnClick {
+	onClick(): void;
+}
 
 @Controller()
-export class ClickerController implements OnStart {
+export class ClickerController implements OnStart, OnClick {
+	private onClickListeners: Set<OnClick> = new Set();
 	private latestClickTick = 0;
 
-	constructor(private readonly storeController: StoreController) {}
+	onStart() {
+		Modding.onListenerAdded<OnClick>((listener) => this.onClickListeners.add(listener));
 
-	public onStart() {
 		UserInputService.InputBegan.Connect((inputObject: InputObject, gameProcessedEvent: boolean) => {
 			if (gameProcessedEvent) return;
 			if (
@@ -22,15 +25,18 @@ export class ClickerController implements OnStart {
 
 			this.click();
 		});
+	}
 
-		subscribe(
-			() => this.storeController.getValueAsync("coins"),
-			(coins) => warn("coins", coins),
-		);
+	onClick(): void {
+		Events.Click.fire();
 	}
 
 	private isOnCooldown() {
-		return tick() - this.latestClickTick < 0.3;
+		return tick() - this.latestClickTick < this.getCooldown();
+	}
+
+	private getCooldown() {
+		return 0.3;
 	}
 
 	private setCooldown() {
@@ -40,6 +46,6 @@ export class ClickerController implements OnStart {
 	private click() {
 		this.setCooldown();
 
-		Events.Click.fire();
+		this.onClickListeners.forEach((listener) => listener.onClick());
 	}
 }

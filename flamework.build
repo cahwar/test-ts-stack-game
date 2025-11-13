@@ -30,7 +30,14 @@
 		"test-react-charm-flamework:out/server/services/player-lifecycle.service@PlayerLifecycleService": "server/services/player-lifecycle.service@PlayerLifecycleService",
 		"test-react-charm-flamework:out/server/services/player-lifecycle.service@OnPlayerJoined": "server/services/player-lifecycle.service@OnPlayerJoined",
 		"test-react-charm-flamework:out/server/services/player-lifecycle.service@OnPlayerRemoving": "server/services/player-lifecycle.service@OnPlayerRemoving",
-		"test-react-charm-flamework:out/client/controllers/multiple-jump.controller@MultipleJumpController": "client/controllers/multiple-jump.controller@MultipleJumpController"
+		"test-react-charm-flamework:out/client/controllers/multiple-jump.controller@MultipleJumpController": "client/controllers/multiple-jump.controller@MultipleJumpController",
+		"test-react-charm-flamework:out/client/controllers/money-clicker.controller@MoneyClickerController": "client/controllers/money-clicker.controller@MoneyClickerController",
+		"test-react-charm-flamework:out/client/controllers/clicker.controller@OnClick": "client/controllers/clicker.controller@OnClick",
+		"test-react-charm-flamework:out/client/controllers/power-clicker.controller@MoneyClickerController": "client/controllers/power-clicker.controller@MoneyClickerController",
+		"test-react-charm-flamework:out/server/services/clicker.service@OnClick": "server/services/clicker.service@OnClick",
+		"test-react-charm-flamework:out/server/services/power-clicker.service@PowerClickerService": "server/services/power-clicker.service@PowerClickerService",
+		"test-react-charm-flamework:out/client/controllers/power-clicker.controller@PowerClickController": "client/controllers/power-clicker.controller@PowerClickController",
+		"test-react-charm-flamework:out/client/controllers/power-clicker.controller@PowerClickerController": "client/controllers/power-clicker.controller@PowerClickerController"
 	},
 	"metadata": {}
 }

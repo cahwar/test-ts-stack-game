@@ -1,48 +1,49 @@
-import { OnInit, Service } from "@flamework/core";
+import { Modding, OnStart, Service } from "@flamework/core";
 import { OnPlayerJoined, OnPlayerRemoving } from "./player-lifecycle.service";
-import { atom } from "@rbxts/charm";
 import { Events } from "server/network";
-import { StoreService } from "./store.service";
+import { PlayerAtomStore } from "shared/utils/player-atom-store";
+
+export interface OnClick {
+	onClick(player: Player): void;
+}
 
 @Service()
-export class ClickService implements OnInit, OnPlayerJoined, OnPlayerRemoving {
-	private latestClickTicks = atom<Record<string, number | undefined>>({});
-	private cooldown: number = (script.GetAttribute("Cooldown") as number) ?? 0.3;
+export class ClickService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
+	private onClickListeners: Set<OnClick> = new Set();
+	private latestClickTicks = new PlayerAtomStore<number>();
 
-	constructor(private readonly storeService: StoreService) {}
+	onStart(): void {
+		Modding.onListenerAdded<OnClick>((listener) => this.onClickListeners.add(listener));
 
-	public onInit() {
 		Events.Click.connect((player) => {
 			if (this.isOnCooldown(player)) return;
 			this.click(player);
 		});
 	}
 
-	public onPlayerJoined(player: Player): void {
-		this.latestClickTicks((state) => ({
-			...state,
-			[tostring(player.UserId)]: 0,
-		}));
+	onPlayerJoined(player: Player): void {
+		this.latestClickTicks.set(player, 0);
 	}
 
-	public onPlayerRemoving(player: Player): void {
-		this.latestClickTicks((state) => ({
-			...state,
-			[tostring(player.UserId)]: undefined,
-		}));
+	onPlayerRemoving(player: Player): void {
+		this.latestClickTicks.remove(player);
 	}
 
-	private isOnCooldown(player: Player) {
-		const latestTick = this.latestClickTicks()[tostring(player.UserId)] ?? 0;
-		return tick() - latestTick < this.cooldown;
+	isOnCooldown(player: Player) {
+		const latestTick = this.latestClickTicks.get(player) ?? 0;
+		return tick() - latestTick < this.getCooldown(player);
 	}
 
-	private setLatestTick(player: Player) {
-		this.latestClickTicks((currentState) => ({ ...currentState, [tostring(player.UserId)]: tick() }));
+	getCooldown(player: Player) {
+		return (player.GetAttribute("Cooldown") as number) ?? 0.3;
 	}
 
-	private click(player: Player) {
+	setLatestTick(player: Player) {
+		this.latestClickTicks.set(player, tick());
+	}
+
+	click(player: Player) {
 		this.setLatestTick(player);
-		this.storeService.updateValue(player, "coins", (currentCoins) => currentCoins + math.random(3, 5));
+		this.onClickListeners.forEach((listener) => listener.onClick(player));
 	}
 }
