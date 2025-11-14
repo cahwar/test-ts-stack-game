@@ -41,7 +41,9 @@
 		"test-react-charm-flamework:out/client/controllers/pop-ups.controller@PopUpsController": "client/controllers/pop-ups.controller@PopUpsController",
 		"test-react-charm-flamework:out/client/controllers/pop-up.controller@PopUpsController": "client/controllers/pop-up.controller@PopUpsController",
 		"test-react-charm-flamework:out/client/controllers/pop-up.controller@PopUpController": "client/controllers/pop-up.controller@PopUpController",
-		"test-react-charm-flamework:out/client/controllers/ui-effect.controller@UIEffectController": "client/controllers/ui-effect.controller@UIEffectController"
+		"test-react-charm-flamework:out/client/controllers/ui-effect.controller@UIEffectController": "client/controllers/ui-effect.controller@UIEffectController",
+		"test-react-charm-flamework:out/client/controllers/combat.controller@CombatController": "client/controllers/combat.controller@CombatController",
+		"test-react-charm-flamework:out/server/services/weapon.service@WeaponService": "server/services/weapon.service@WeaponService"
 	},
 	"metadata": {}
 }

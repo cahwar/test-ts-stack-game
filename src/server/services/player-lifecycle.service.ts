@@ -19,7 +19,9 @@ export class PlayerLifecycleService implements OnStart {
 		Modding.onListenerAdded<OnPlayerRemoving>((value: OnPlayerRemoving) => removingListeners.add(value));
 
 		Players.GetPlayers().forEach((player) => {
-			joinListeners.forEach((listener) => listener.onPlayerJoined(player));
+			task.spawn(() => {
+				joinListeners.forEach((listener) => listener.onPlayerJoined(player));
+			});
 		});
 
 		Players.PlayerAdded.Connect((player) => {
