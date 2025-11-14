@@ -7,8 +7,8 @@ import { FovController } from "./fov.controller";
 import { springs } from "shared/constants/ui/springs";
 
 @Controller()
-export class UIEffectController implements OnStart, OnRender {
-	private alphaMotion = createMotion(0);
+export class UIEffectController implements OnStart {
+	private alphaMotion = createMotion(0, { start: true });
 
 	constructor(
 		private readonly pageController: UIPageController,
@@ -32,10 +32,6 @@ export class UIEffectController implements OnStart, OnRender {
 			if (page !== undefined) this.enablePageEffect();
 			else this.disablePageEffect();
 		});
-	}
-
-	onRender(dt: number): void {
-		this.alphaMotion.step(dt);
 	}
 
 	private enablePageEffect() {
