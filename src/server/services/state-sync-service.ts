@@ -25,6 +25,8 @@ function filterPlayerPayload(player: Player, payloads: CharmSync.SyncPayload<Sha
 }
 
 function isPayloadEmpty(payloads: CharmSync.SyncPayload<SharedAtoms>) {
+	if (payloads.type === "init") return false;
+
 	if (Object.isEmpty(payloads.data)) return true;
 
 	for (const [, value] of pairs(payloads.data)) {
