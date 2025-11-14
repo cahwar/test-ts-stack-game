@@ -36,7 +36,7 @@ export class ClickerController implements OnStart, OnClick {
 	}
 
 	private getCooldown() {
-		return 0.3;
+		return 0.1;
 	}
 
 	private setCooldown() {

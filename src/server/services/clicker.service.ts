@@ -35,7 +35,7 @@ export class ClickService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 	}
 
 	getCooldown(player: Player) {
-		return (player.GetAttribute("Cooldown") as number) ?? 0.3;
+		return (player.GetAttribute("Cooldown") as number) ?? 0.1;
 	}
 
 	setLatestTick(player: Player) {
