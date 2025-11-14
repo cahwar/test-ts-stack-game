@@ -1,4 +1,4 @@
-import { Controller, OnRender, OnStart } from "@flamework/core";
+import { Controller, OnStart } from "@flamework/core";
 import { PageList, UIPageController } from "./ui-page.controller";
 import { subscribe } from "@rbxts/charm";
 import { createMotion } from "@rbxts/ripple";
