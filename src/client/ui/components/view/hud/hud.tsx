@@ -4,11 +4,13 @@ import { Layer } from "../../composables/layer";
 import { Frame } from "../../composables/frame";
 import { usePx } from "client/ui/hooks/use-px";
 import { AdminButton } from "./admin-button";
+import { ValueDisplay } from "./value-display";
 
 export interface HudProps {
 	togglePage: (page: PageList) => void;
 	showAdminButton: boolean;
 	enabled: boolean;
+	values: Array<{ value: number; icon: string }>;
 }
 
 export function Hud(props: HudProps) {
@@ -24,7 +26,17 @@ export function Hud(props: HudProps) {
 					AnchorPoint={new Vector2(0, 0.5)}
 					Size={UDim2.fromScale(0.15, 0.4)}
 					BackgroundTransparency={0.5}
-				></Frame>
+				>
+					<uilistlayout
+						HorizontalAlignment={Enum.HorizontalAlignment.Center}
+						VerticalAlignment={Enum.VerticalAlignment.Top}
+						Padding={new UDim(0, px(15))}
+					></uilistlayout>
+
+					{props.values.map((data) => (
+						<ValueDisplay value={data.value} icon={data.icon}></ValueDisplay>
+					))}
+				</Frame>
 			</>
 		</Layer>
 	);

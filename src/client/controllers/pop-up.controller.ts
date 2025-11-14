@@ -16,20 +16,20 @@ export interface PopUpData {
 
 @Controller()
 export class PopUpController {
-	private atom = atom<PopUpData[]>([]);
+	private popUps = atom<PopUpData[]>([]);
 
 	get(): Array<PopUpData> {
-		return this.atom();
+		return this.popUps();
 	}
 
 	add(text: string, icon: string, timeout: number = 0.9): void {
 		const id = getUniqueId();
-		this.atom((prevState) => [...prevState, { text, icon, id, visible: true }]);
+		this.popUps((prevState) => [...prevState, { text, icon, id, visible: true }]);
 		setTimeout(() => this.dismiss(id), timeout);
 	}
 
 	dismiss(id: string): void {
-		this.atom((prevState) =>
+		this.popUps((prevState) =>
 			prevState.map((popUp) => {
 				if (popUp.id !== id) return popUp;
 				return { ...popUp, visible: false };
@@ -40,7 +40,7 @@ export class PopUpController {
 	}
 
 	private remove(id: string): void {
-		this.atom((prevState) => [...prevState.filter((popUp) => popUp.id !== id)]);
+		this.popUps((prevState) => [...prevState.filter((popUp) => popUp.id !== id)]);
 	}
 
 	subscribePopValue(selector: Selector<number>, icon: string = "") {
