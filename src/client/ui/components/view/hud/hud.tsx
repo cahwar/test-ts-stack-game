@@ -1,10 +1,12 @@
-import React from "@rbxts/react";
+import React, { useEffect } from "@rbxts/react";
 import { PageList } from "client/controllers/ui-page.controller";
 import { Layer } from "../../composables/layer";
 import { Frame } from "../../composables/frame";
 import { usePx } from "client/ui/hooks/use-px";
 import { AdminButton } from "./admin-button";
 import { ValueDisplay } from "./value-display";
+import { lerpBinding, useMotion } from "@rbxts/pretty-react-hooks";
+import { springs } from "shared/constants/ui/springs";
 
 export interface HudProps {
 	togglePage: (page: PageList) => void;
@@ -16,13 +18,19 @@ export interface HudProps {
 export function Hud(props: HudProps) {
 	const px = usePx();
 
+	const [alpha, alphaMotor] = useMotion(0);
+
+	useEffect(() => {
+		alphaMotor.spring(props.enabled ? 1 : 0, springs.responsive);
+	}, [props.enabled]);
+
 	return (
 		<Layer>
 			<>
 				{props.showAdminButton && <AdminButton togglePage={props.togglePage}></AdminButton>}
 
 				<Frame
-					Position={new UDim2(0, px(10), 0.5, 0)}
+					Position={lerpBinding(alpha, UDim2.fromScale(-1, 0.5), new UDim2(0, px(10), 0.5, 0))}
 					AnchorPoint={new Vector2(0, 0.5)}
 					Size={UDim2.fromScale(0.15, 0.4)}
 					BackgroundTransparency={0.5}

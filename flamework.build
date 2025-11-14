@@ -40,7 +40,8 @@
 		"test-react-charm-flamework:out/client/controllers/power-clicker.controller@PowerClickerController": "client/controllers/power-clicker.controller@PowerClickerController",
 		"test-react-charm-flamework:out/client/controllers/pop-ups.controller@PopUpsController": "client/controllers/pop-ups.controller@PopUpsController",
 		"test-react-charm-flamework:out/client/controllers/pop-up.controller@PopUpsController": "client/controllers/pop-up.controller@PopUpsController",
-		"test-react-charm-flamework:out/client/controllers/pop-up.controller@PopUpController": "client/controllers/pop-up.controller@PopUpController"
+		"test-react-charm-flamework:out/client/controllers/pop-up.controller@PopUpController": "client/controllers/pop-up.controller@PopUpController",
+		"test-react-charm-flamework:out/client/controllers/ui-effect.controller@UIEffectController": "client/controllers/ui-effect.controller@UIEffectController"
 	},
 	"metadata": {}
 }

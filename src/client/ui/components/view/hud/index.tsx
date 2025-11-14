@@ -13,7 +13,7 @@ export function HudWrapper() {
 	const storeController = useFlameworkDependency<StoreController>();
 
 	const togglePage = (page: PageList) => pageController.toggle(page);
-	const activePage = useAtom(() => pageController.get());
+	const activePage = useAtom(pageController.getSelector());
 	const hasAdminAccess = useAtom(adminController.hasAccess);
 
 	const power = useAtom(() => storeController.getValue("power").expect());
