@@ -5,7 +5,7 @@ import { Hud } from "./hud";
 import { useAtom } from "@rbxts/react-charm";
 import { AdminController } from "client/controllers/admin.controller";
 import { StoreController } from "client/controllers/store.controller";
-import { COIN_ICON, POWER_ICON } from "shared/constants/ui/icons";
+import { MONEY_ICON, POWER_ICON } from "shared/constants/ui/icons";
 
 export function HudWrapper() {
 	const pageController = useFlameworkDependency<UIPageController>();
@@ -26,7 +26,7 @@ export function HudWrapper() {
 			enabled={activePage === undefined}
 			values={[
 				{ value: power, icon: POWER_ICON },
-				{ value: money, icon: COIN_ICON },
+				{ value: money, icon: MONEY_ICON },
 			]}
 		/>
 	);

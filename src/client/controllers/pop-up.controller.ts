@@ -1,9 +1,11 @@
-import { Controller } from "@flamework/core";
+import { Controller, OnStart } from "@flamework/core";
 import { atom, Selector, subscribe } from "@rbxts/charm";
 import { setTimeout } from "@rbxts/set-timeout";
 import { NEGATIVE_COLOR, POSITIVE_COLOR } from "shared/constants/ui/palette";
 import { getUniqueId } from "shared/utils/functions/get-unique-id";
 import { getColoredString } from "shared/utils/text-utils";
+import { StoreController } from "./store.controller";
+import { MONEY_ICON, POWER_ICON } from "shared/constants/ui/icons";
 
 const REMOVE_DELAY = 0.5;
 
@@ -15,8 +17,15 @@ export interface PopUpData {
 }
 
 @Controller()
-export class PopUpController {
+export class PopUpController implements OnStart {
 	private popUps = atom<PopUpData[]>([]);
+
+	constructor(private readonly storeController: StoreController) {}
+
+	onStart(): void {
+		this.subscribePopValue(() => this.storeController.getValue("power").expect(), POWER_ICON);
+		this.subscribePopValue(() => this.storeController.getValue("money").expect(), MONEY_ICON);
+	}
 
 	get(): Array<PopUpData> {
 		return this.popUps();

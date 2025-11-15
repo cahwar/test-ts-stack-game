@@ -31,7 +31,11 @@ export class AdminService implements OnInit, OnPlayerRemoving {
 		Functions.Admin.HasAccess.setCallback((player) => this.hasAccess(player));
 
 		this.registerCommand("GetMoney", (player) => {
-			warn(player.DisplayName, "get money!");
+			this.storeService.updateValue(player, "money", (state) => state + 1000);
+		});
+
+		this.registerCommand("GetPower", (player) => {
+			this.storeService.updateValue(player, "power", (state) => state + 100);
 		});
 
 		this.registerCommand("Reset", (player) => {

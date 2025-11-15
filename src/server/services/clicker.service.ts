@@ -2,6 +2,9 @@ import { Modding, OnStart, Service } from "@flamework/core";
 import { OnPlayerJoined, OnPlayerRemoving } from "./player-lifecycle.service";
 import { Events } from "server/network";
 import { PlayerAtomStore } from "shared/utils/player-atom-store";
+import { sharedAtoms } from "shared/state-sync/atoms";
+
+const COOLDOWN = 0.17;
 
 export interface OnClick {
 	onClick(player: Player): void;
@@ -22,10 +25,14 @@ export class ClickService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 	}
 
 	onPlayerJoined(player: Player): void {
+		sharedAtoms.clickCooldown((prev) => ({ ...prev, [tostring(player.UserId)]: COOLDOWN }));
+
 		this.latestClickTicks.set(player, 0);
 	}
 
 	onPlayerRemoving(player: Player): void {
+		sharedAtoms.clickCooldown((prev) => ({ ...prev, [tostring(player.UserId)]: undefined }));
+
 		this.latestClickTicks.remove(player);
 	}
 
@@ -35,7 +42,7 @@ export class ClickService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 	}
 
 	getCooldown(player: Player) {
-		return (player.GetAttribute("Cooldown") as number) ?? 0.1;
+		return sharedAtoms.clickCooldown()[tostring(player.UserId)] ?? COOLDOWN;
 	}
 
 	setLatestTick(player: Player) {

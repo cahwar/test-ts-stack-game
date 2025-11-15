@@ -1,6 +1,7 @@
 import { Controller, OnStart, Modding } from "@flamework/core";
-import { UserInputService } from "@rbxts/services";
+import { Players, UserInputService } from "@rbxts/services";
 import { Events } from "client/network";
+import { sharedAtoms } from "shared/state-sync/atoms";
 
 export interface OnClick {
 	onClick(): void;
@@ -36,7 +37,7 @@ export class ClickerController implements OnStart, OnClick {
 	}
 
 	private getCooldown() {
-		return 0.1;
+		return sharedAtoms.clickCooldown()[tostring(Players.LocalPlayer.UserId)] ?? 0.4;
 	}
 
 	private setCooldown() {

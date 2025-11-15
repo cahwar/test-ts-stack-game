@@ -2,7 +2,7 @@ import React from "@rbxts/react";
 import ReactRoblox from "@rbxts/react-roblox";
 import { InferProps } from "@rbxts/ui-labs";
 import { Hud } from "../view/hud/hud";
-import { COIN_ICON, POWER_ICON } from "shared/constants/ui/icons";
+import { MONEY_ICON, POWER_ICON } from "shared/constants/ui/icons";
 
 const controls = { enabled: true, showAdminButton: true };
 
@@ -18,7 +18,7 @@ const story = {
 				togglePage={() => {}}
 				values={[
 					{ value: 1532, icon: POWER_ICON },
-					{ value: 1532, icon: COIN_ICON },
+					{ value: 1532, icon: MONEY_ICON },
 				]}
 			></Hud>
 		);
