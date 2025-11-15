@@ -3,6 +3,7 @@ import { Notifications } from "./view/text-notifications";
 import { Pages } from "./view/pages";
 import { HudWrapper } from "./view/hud";
 import { PopUpWrapper } from "./view/pop-up";
+import { FloatersWrapper } from "./view/floaters";
 
 export function App() {
 	return (
@@ -11,6 +12,7 @@ export function App() {
 			<Pages></Pages>
 			<HudWrapper></HudWrapper>
 			<PopUpWrapper></PopUpWrapper>
+			<FloatersWrapper></FloatersWrapper>
 		</>
 	);
 }

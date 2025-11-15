@@ -23,6 +23,10 @@ interface ServerToClientEvents {
 	Notifications: {
 		Add: (message: string, duration: number) => void;
 	};
+
+	Combat: {
+		Damaged: (target: Instance, damage: number, isCritical: boolean) => void;
+	};
 }
 
 interface ClientToServerFunctions {
