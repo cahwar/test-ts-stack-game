@@ -9,6 +9,8 @@ export class WeaponConfig {
 		public readonly damage: number,
 		public readonly name: string,
 		public readonly displayName?: string,
+		public readonly cooldown: number = 0.2,
+		public readonly radius: number = 8,
 	) {}
 }
 

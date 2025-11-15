@@ -1,7 +1,8 @@
 import { Controller, OnStart, Modding } from "@flamework/core";
-import { Players, UserInputService } from "@rbxts/services";
+import { UserInputService } from "@rbxts/services";
 import { Events } from "client/network";
-import { sharedAtoms } from "shared/state-sync/atoms";
+import { StoreController } from "./store.controller";
+import { WeaponConfigs } from "shared/constants/configs/weapon.config";
 
 export interface OnClick {
 	onClick(): void;
@@ -11,6 +12,8 @@ export interface OnClick {
 export class ClickerController implements OnStart, OnClick {
 	private onClickListeners: Set<OnClick> = new Set();
 	private latestClickTick = 0;
+
+	constructor(private readonly storeController: StoreController) {}
 
 	onStart() {
 		Modding.onListenerAdded<OnClick>((listener) => this.onClickListeners.add(listener));
@@ -37,7 +40,7 @@ export class ClickerController implements OnStart, OnClick {
 	}
 
 	private getCooldown() {
-		return sharedAtoms.clickCooldown()[tostring(Players.LocalPlayer.UserId)] ?? 0.4;
+		return WeaponConfigs[this.storeController.getValue("weapon").expect()]?.cooldown ?? 0.5;
 	}
 
 	private setCooldown() {

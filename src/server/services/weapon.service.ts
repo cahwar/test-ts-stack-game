@@ -3,6 +3,7 @@ import { OnPlayerJoined } from "./player-lifecycle.service";
 import { isAlive, onCharacterLoaded } from "shared/utils/player-utils";
 import { StoreService } from "./store.service";
 import { getReplicatedAsset } from "shared/utils/asset-utils";
+import { WeaponConfig, WeaponConfigs } from "shared/constants/configs/weapon.config";
 
 const WEAPON_FOLDER = getReplicatedAsset("Weapon") as Folder;
 
@@ -21,6 +22,12 @@ export class WeaponService implements OnPlayerJoined {
 		this.storeService.onChange(player, "weapon", (newValue: string) => {
 			this.setModel(player, newValue);
 		});
+	}
+
+	getEquippedConfig(player: Player): WeaponConfig {
+		const weapon = this.storeService.getValue(player, "weapon").expect();
+		const config = WeaponConfigs[weapon] as WeaponConfig;
+		return config;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars

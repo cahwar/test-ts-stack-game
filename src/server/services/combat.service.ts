@@ -3,16 +3,14 @@ import { OnClick } from "./clicker.service";
 import { isAlive } from "shared/utils/player-utils";
 import { getAround } from "shared/utils/functions/get-around";
 import { Events } from "server/network";
-import { StoreService } from "./store.service";
-import { WeaponConfig, WeaponConfigs } from "shared/constants/configs/weapon.config";
+import { WeaponService } from "./weapon.service";
 
-const RADIUS = 10;
 const CRITICAL_MULTIPLER = 1.5;
 const CRITICAL_CHANCE = 10;
 
 @Service()
 export class CombatService implements OnClick {
-	constructor(private readonly storeService: StoreService) {}
+	constructor(private readonly weaponService: WeaponService) {}
 
 	onClick(player: Player): void {
 		if (!isAlive(player)) return;
@@ -20,7 +18,7 @@ export class CombatService implements OnClick {
 		const character = player.Character as Model;
 		const targets = getAround(
 			character.PrimaryPart!.Position,
-			RADIUS,
+			this.getRadius(player),
 			(instance: Instance) => instance.HasTag("Target"),
 			[character],
 		);
@@ -42,9 +40,11 @@ export class CombatService implements OnClick {
 		Events.Combat.Damaged.broadcast(target, damage, isCritical);
 	}
 
-	private getDamage(player: Player) {
-		const weapon = this.storeService.getValue(player, "weapon").expect();
-		const config = WeaponConfigs[weapon] as WeaponConfig;
-		return config?.damage ?? 5;
+	private getDamage(player: Player): number {
+		return this.weaponService.getEquippedConfig(player)?.damage ?? 5;
+	}
+
+	private getRadius(player: Player): number {
+		return this.weaponService.getEquippedConfig(player)?.radius ?? 10;
 	}
 }
