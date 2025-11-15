@@ -1,17 +1,51 @@
-import { Players } from "@rbxts/services";
 import { OnStart, Service } from "@flamework/core";
-import { loadPlayer, store, unloadPlayer } from "./store";
+import { addListener, loadPlayer, store, unloadPlayer } from "./store";
 import { Data, DataKeys, template } from "shared/store";
 import { teleport } from "shared/utils/teleport-utils";
+import { OnPlayerJoined, OnPlayerRemoving } from "../player-lifecycle.service";
+
+interface Listener<K extends DataKeys = DataKeys> {
+	key: K;
+	callback: (newValue: Data[K], prevValue?: Data[K]) => void;
+}
 
 @Service()
-export class StoreService implements OnStart {
-	onStart() {
-		this.hookPlayers();
+export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
+	private playerListeners = new Map<string, Listener[] | undefined>();
 
+	onStart() {
 		game.BindToClose(() => {
 			store.closeAsync();
 		});
+
+		addListener((userId, newData, oldData?) => {
+			if (!oldData) return;
+
+			this.playerListeners.get(userId)?.forEach((listener) => {
+				const key = listener.key;
+
+				if (oldData[key] !== newData[key]) {
+					listener.callback(newData[listener.key], oldData[listener.key]);
+				}
+			});
+		});
+	}
+
+	onPlayerJoined(player: Player): void {
+		loadPlayer(player);
+
+		this.playerListeners.set(tostring(player.UserId), []);
+	}
+
+	onPlayerRemoving(player: Player): void {
+		unloadPlayer(player);
+
+		this.playerListeners.set(tostring(player.UserId), undefined);
+	}
+
+	onChange<K extends DataKeys>(player: Player, key: K, callback: (newValue: Data[K], prevValue?: Data[K]) => void) {
+		const listener: Listener = { key, callback } as Listener;
+		this.playerListeners.get(tostring(player.UserId))?.push(listener);
 	}
 
 	getData(player: Player) {
@@ -56,14 +90,4 @@ export class StoreService implements OnStart {
 				});
 			});
 	}
-
-	private hookPlayers = () => {
-		const playerAdded = (player: Player) => loadPlayer(player);
-		const playerRemoving = (player: Player) => unloadPlayer(player);
-
-		Players.GetPlayers().forEach(playerAdded);
-
-		Players.PlayerAdded.Connect(playerAdded);
-		Players.PlayerRemoving.Connect(playerRemoving);
-	};
 }

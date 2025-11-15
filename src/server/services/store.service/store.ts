@@ -12,18 +12,26 @@ function getMigrationStepsFromDescribtion(migrationStepsDescribtion: Record<stri
 	return migrationSteps;
 }
 
-function updateSharedDataAtom(key: string, data: Data) {
+function updateStoreAtom(userId: string, data: Data) {
 	sharedAtoms.store((state) => ({
 		...state,
-		[key]: data,
+		[userId]: data,
 	}));
 }
 
-function removeSharedDataAtomKey(key: string) {
+function excludeFromStoreAtom(userId: string) {
 	sharedAtoms.store((state) => ({
 		...state,
-		[key]: undefined,
+		[userId]: undefined,
 	}));
+}
+
+const changeListeners: Array<(userId: string, newData: Data, oldData?: Data) => void> = [];
+
+function triggerChangeListeners(userId: string, newData: Data, oldData?: Data) {
+	if (!oldData) return;
+
+	changeListeners.forEach((listener) => listener(userId, newData, oldData));
 }
 
 export const store = Lyra.createPlayerStore({
@@ -31,7 +39,7 @@ export const store = Lyra.createPlayerStore({
 	template: template,
 	schema: schema,
 	migrationSteps: getMigrationStepsFromDescribtion(migrationSteps),
-	changedCallbacks: [updateSharedDataAtom],
+	changedCallbacks: [updateStoreAtom, triggerChangeListeners],
 });
 
 export function loadPlayer(player: Player) {
@@ -39,6 +47,10 @@ export function loadPlayer(player: Player) {
 }
 
 export function unloadPlayer(player: Player) {
-	removeSharedDataAtomKey(tostring(player.UserId));
+	excludeFromStoreAtom(tostring(player.UserId));
 	store.unload(player).catch((reason: unknown) => warn(`@${player.DisplayName} data unload error:`, reason));
+}
+
+export function addListener(callback: (key: string, newData: Data, oldData?: Data) => void) {
+	changeListeners.push(callback);
 }

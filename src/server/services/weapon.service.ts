@@ -17,6 +17,10 @@ export class WeaponService implements OnPlayerJoined {
 	onPlayerJoined(player: Player): void {
 		if (player.Character) this.onCharacterAdded(player, player.Character);
 		player.CharacterAdded.Connect((character) => this.onCharacterAdded(player, character));
+
+		this.storeService.onChange(player, "weapon", (newValue: string) => {
+			this.setModel(player, newValue);
+		});
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,19 +40,20 @@ export class WeaponService implements OnPlayerJoined {
 		});
 
 		const tool = getWeapon(name);
-		const handle = (tool.FindFirstChild("Handle") as BasePart).Clone();
+
+		const model = (tool.FindFirstChild("Handle") as BasePart).Clone();
 		const hand = character.FindFirstChild("RightHand") as BasePart;
 
-		handle.CFrame = hand.CFrame;
-		handle.Parent = character;
+		model.CFrame = hand.CFrame;
+		model.Parent = character;
 
 		const motor = new Instance("Motor6D");
-		motor.Parent = handle;
+		motor.Parent = model;
 		motor.Part0 = hand;
-		motor.Part1 = handle;
+		motor.Part1 = model;
 		motor.C0 = new CFrame().mul(CFrame.Angles(math.rad(-90), 0, 0));
 		motor.C1 = tool.Grip;
 
-		tool.AddTag("ToolDisplay");
+		model.AddTag("ToolDisplay");
 	}
 }
