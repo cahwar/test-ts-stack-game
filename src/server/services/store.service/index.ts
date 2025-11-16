@@ -9,7 +9,7 @@ interface Listener<K extends DataKeys = DataKeys> {
 	callback: (newValue: Data[K], prevValue?: Data[K]) => void;
 }
 
-@Service()
+@Service({ loadOrder: 0 })
 export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 	private playerListeners = new Map<string, Listener[] | undefined>();
 

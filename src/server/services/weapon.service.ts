@@ -53,6 +53,7 @@ export class WeaponService implements OnPlayerJoined {
 
 		model.CFrame = hand.CFrame;
 		model.Parent = character;
+		model.Name = name;
 
 		const motor = new Instance("Motor6D");
 		motor.Parent = model;
