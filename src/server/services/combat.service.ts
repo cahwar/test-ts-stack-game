@@ -19,29 +19,30 @@ export class CombatService implements OnClick {
 	onClick(player: Player): void {
 		if (!isPlayerAlive(player)) return;
 
+		const weaponConfig = this.weaponService.getEquippedConfig(player);
+		const damage = this.storeService.getValue(player, "power").expect();
+
 		const character = player.Character as Model;
-		const targets = getAround(
+		const targets = getAround<Model>(
 			character.PrimaryPart!.Position,
-			this.getRadius(player),
+			weaponConfig.radius,
 			(instance: Instance) => instance.HasTag("Target"),
 			[character],
 		);
 
-		const damage = this.getDamage(player);
-
 		targets.sort(
 			(a, b) =>
-				player.DistanceFromCharacter((a as Model).GetPivot().Position) <
-				player.DistanceFromCharacter((b as Model).GetPivot().Position),
+				player.DistanceFromCharacter(a.GetPivot().Position) <
+				player.DistanceFromCharacter(b.GetPivot().Position),
 		);
 
 		let count = 0;
 
 		targets.forEach((target) => {
-			if (count >= this.getSplashHits(player)) return;
+			if (count >= weaponConfig.splashHits) return;
 
 			const isCritical = math.random(1, 100) < CRITICAL_CHANCE;
-			this.damage(target as Model, damage * (isCritical ? CRITICAL_MULTIPLER : 1), isCritical);
+			this.damage(target, damage * (isCritical ? CRITICAL_MULTIPLER : 1), isCritical);
 
 			count += 1;
 		});
@@ -54,17 +55,5 @@ export class CombatService implements OnClick {
 		humanoid.TakeDamage(damage);
 
 		Events.Combat.Damaged.broadcast(target, damage, isCritical);
-	}
-
-	private getDamage(player: Player): number {
-		return this.storeService.getValue(player, "power").expect();
-	}
-
-	private getRadius(player: Player): number {
-		return this.weaponService.getEquippedConfig(player)?.radius ?? 10;
-	}
-
-	private getSplashHits(player: Player): number {
-		return this.weaponService.getEquippedConfig(player)?.splashHits ?? 1;
 	}
 }

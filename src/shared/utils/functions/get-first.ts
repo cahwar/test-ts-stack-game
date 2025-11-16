@@ -1,6 +1,9 @@
 import { Workspace } from "@rbxts/services";
 
-export function getFirstParent(instance: Instance, predicate: (parent: Instance) => boolean): Instance | undefined {
+export function getFirstParent<T extends Instance>(
+	instance: Instance,
+	predicate: (parent: Instance) => boolean,
+): T | undefined {
 	let parent = instance.Parent as Instance;
 
 	while (!predicate(parent) && parent !== Workspace) {
@@ -8,5 +11,5 @@ export function getFirstParent(instance: Instance, predicate: (parent: Instance)
 		task.wait();
 	}
 
-	return parent === Workspace ? undefined : parent;
+	return parent === Workspace ? undefined : (parent as T);
 }
