@@ -27,6 +27,10 @@ interface ServerToClientEvents {
 	Combat: {
 		Damaged: (target: Model, damage: number, isCritical: boolean) => void;
 	};
+
+	Npc: {
+		Killed: (npc: Model, effectTime: number) => void;
+	};
 }
 
 interface ClientToServerFunctions {

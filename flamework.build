@@ -56,7 +56,11 @@
 		"test-react-charm-flamework:out/server/services/character-lifecycle.service@OnCharacterAdded": "server/services/character-lifecycle.service@OnCharacterAdded",
 		"test-react-charm-flamework:out/server/services/character-lifecycle.service@OnCharacterRemoved": "server/services/character-lifecycle.service@OnCharacterRemoved",
 		"test-react-charm-flamework:out/server/services/collision.service@CollisionGroup": "server/services/collision.service@CollisionGroup",
-		"test-react-charm-flamework:out/server/services/collision.service@CollisionService": "server/services/collision.service@CollisionService"
+		"test-react-charm-flamework:out/server/services/collision.service@CollisionService": "server/services/collision.service@CollisionService",
+		"test-react-charm-flamework:out/server/services/npc.service/init@NpcService": "server/services/npc.service/init@NpcService",
+		"test-react-charm-flamework:out/shared/constants/configs/npc.config@NpcConfig": "shared/constants/configs/npc.config@NpcConfig",
+		"test-react-charm-flamework:out/server/components/npc-node.component@NpcNode": "server/components/npc-node.component@NpcNode",
+		"test-react-charm-flamework:out/client/controllers/npc.controller@NpcController": "client/controllers/npc.controller@NpcController"
 	},
 	"metadata": {}
 }

@@ -1,13 +1,13 @@
 import { createMotion } from "@rbxts/ripple";
 import { CollectionService, RunService, Workspace } from "@rbxts/services";
 import { Trove } from "@rbxts/trove";
+import { RAYCAST_IGNORE_TAGS } from "shared/constants/ignore-tags";
 import { springs } from "shared/constants/ui/springs";
 import { getReplicatedAsset } from "shared/utils/asset-utils";
 
 const INSTANCE = getReplicatedAsset("TargetRing") as BasePart;
 const INSTANCE_SIZE = INSTANCE.Size;
 const RING_SIZE_MULTIPLER = 1.56;
-const RAYCAST_IGNORE_TAGS = ["Npc", "PlayerCharacter"];
 
 export class TargetRing {
 	private scaleMotion = createMotion(0, { start: true });
