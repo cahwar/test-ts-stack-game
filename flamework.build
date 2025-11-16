@@ -47,7 +47,11 @@
 		"test-react-charm-flamework:out/server/services/combat.service@CombatService": "server/services/combat.service@CombatService",
 		"test-react-charm-flamework:out/client/controllers/floater-controller@FloaterController": "client/controllers/floater-controller@FloaterController",
 		"test-react-charm-flamework:out/client/controllers/damage.controller@DamageController": "client/controllers/damage.controller@DamageController",
-		"test-react-charm-flamework:out/shared/constants/configs/weapon.config@WeaponConfig": "shared/constants/configs/weapon.config@WeaponConfig"
+		"test-react-charm-flamework:out/shared/constants/configs/weapon.config@WeaponConfig": "shared/constants/configs/weapon.config@WeaponConfig",
+		"test-react-charm-flamework:out/client/controllers/target.controller@TargetController": "client/controllers/target.controller@TargetController",
+		"test-react-charm-flamework:out/client/controllers/target.controller/target.controller@TargetController": "client/controllers/target.controller/target.controller@TargetController",
+		"test-react-charm-flamework:out/client/controllers/target.controller/init@TargetController": "client/controllers/target.controller/init@TargetController",
+		"test-react-charm-flamework:out/client/controllers/target.controller/target-ring@TargetRing": "client/controllers/target.controller/target-ring@TargetRing"
 	},
 	"metadata": {}
 }

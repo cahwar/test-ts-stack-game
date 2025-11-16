@@ -1,6 +1,6 @@
 import { Service } from "@flamework/core";
 import { OnPlayerJoined } from "./player-lifecycle.service";
-import { isAlive, onCharacterLoaded } from "shared/utils/player-utils";
+import { isPlayerAlive, onCharacterLoaded } from "shared/utils/player-utils";
 import { StoreService } from "./store.service";
 import { getReplicatedAsset } from "shared/utils/asset-utils";
 import { WeaponConfig, WeaponConfigs } from "shared/constants/configs/weapon.config";
@@ -38,7 +38,7 @@ export class WeaponService implements OnPlayerJoined {
 	}
 
 	private setModel(player: Player, name: string) {
-		if (!isAlive(player)) return;
+		if (!isPlayerAlive(player)) return;
 
 		const character = player.Character as Model;
 

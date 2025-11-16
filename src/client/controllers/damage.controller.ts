@@ -21,10 +21,9 @@ export class DamageController implements OnStart {
 		});
 	}
 
-	private playDamagedEffect(target: Instance, damage: number, isCritical: boolean) {
-		const primaryPart: BasePart = target.IsA("Model")
-			? ((target.PrimaryPart as BasePart) ?? (target.FindFirstChildWhichIsA("BasePart", true) as BasePart))
-			: (target as BasePart);
+	private playDamagedEffect(target: Model, damage: number, isCritical: boolean) {
+		const primaryPart: BasePart =
+			(target.PrimaryPart as BasePart) ?? (target.FindFirstChildWhichIsA("BasePart", true) as BasePart);
 
 		emitParticlesFromAttributes(getVfx("Damage"), primaryPart);
 		flashHighlight(target, "DamageHighlight", 0.15, Color3.fromRGB(0, 0, 0), Color3.fromRGB(255, 70, 73), 0.5, 0.5);

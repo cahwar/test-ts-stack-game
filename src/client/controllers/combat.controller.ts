@@ -6,7 +6,7 @@ import { loadAnimation, playAnimation, stopAnimation } from "shared/utils/animat
 import { Players } from "@rbxts/services";
 import { playSound } from "shared/utils/sfx-utils";
 import { setTimeout } from "@rbxts/set-timeout";
-import { isAlive } from "shared/utils/player-utils";
+import { isPlayerAlive } from "shared/utils/player-utils";
 
 const IDLE_ANIMATION = getAnimation("ShoulderIdle");
 const ATTACK_ANIMATIONS = [getAnimation("Attack1"), getAnimation("Attack2"), getAnimation("Attack3")];
@@ -30,7 +30,7 @@ export class CombatController implements OnCharacterAdded, OnClick {
 	}
 
 	private attack() {
-		if (!isAlive()) return;
+		if (!isPlayerAlive()) return;
 
 		const character = Players.LocalPlayer.Character as Model;
 

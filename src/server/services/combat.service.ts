@@ -1,6 +1,6 @@
 import { Service } from "@flamework/core";
 import { OnClick } from "./clicker.service";
-import { isAlive } from "shared/utils/player-utils";
+import { isPlayerAlive } from "shared/utils/player-utils";
 import { getAround } from "shared/utils/functions/get-around";
 import { Events } from "server/network";
 import { WeaponService } from "./weapon.service";
@@ -13,7 +13,7 @@ export class CombatService implements OnClick {
 	constructor(private readonly weaponService: WeaponService) {}
 
 	onClick(player: Player): void {
-		if (!isAlive(player)) return;
+		if (!isPlayerAlive(player)) return;
 
 		const character = player.Character as Model;
 		const targets = getAround(
@@ -27,11 +27,11 @@ export class CombatService implements OnClick {
 
 		targets.forEach((target) => {
 			const isCritical = math.random(1, 100) < CRITICAL_CHANCE;
-			this.damage(target, damage * (isCritical ? CRITICAL_MULTIPLER : 1), isCritical);
+			this.damage(target as Model, damage * (isCritical ? CRITICAL_MULTIPLER : 1), isCritical);
 		});
 	}
 
-	private damage(target: Instance, damage: number, isCritical: boolean) {
+	private damage(target: Model, damage: number, isCritical: boolean) {
 		const humanoid = target.FindFirstChildWhichIsA("Humanoid");
 		if (!humanoid || humanoid.GetState() === Enum.HumanoidStateType.Dead) return;
 

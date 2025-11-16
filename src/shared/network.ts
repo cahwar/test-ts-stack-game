@@ -25,7 +25,7 @@ interface ServerToClientEvents {
 	};
 
 	Combat: {
-		Damaged: (target: Instance, damage: number, isCritical: boolean) => void;
+		Damaged: (target: Model, damage: number, isCritical: boolean) => void;
 	};
 }
 

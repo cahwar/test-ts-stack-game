@@ -1,18 +1,13 @@
 import { Players, RunService } from "@rbxts/services";
+import { isCharacterAlive } from "./character-utils";
 
-export function isAlive(player?: Player): boolean {
+export function isPlayerAlive(player?: Player): boolean {
 	if (!player) {
 		if (RunService.IsClient()) player = Players.LocalPlayer;
 		else return false;
 	}
 
-	const character = player.Character;
-	if (character === undefined) return false;
-
-	const humanoid = character.FindFirstChildWhichIsA("Humanoid");
-	if (humanoid === undefined || humanoid.GetState() === Enum.HumanoidStateType.Dead) return false;
-
-	return true;
+	return isCharacterAlive(player.Character);
 }
 
 export function onCharacterLoaded(player: Player) {
