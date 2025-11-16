@@ -54,7 +54,9 @@
 		"test-react-charm-flamework:out/client/controllers/target.controller/target-ring@TargetRing": "client/controllers/target.controller/target-ring@TargetRing",
 		"test-react-charm-flamework:out/server/services/character-lifecycle.service@CharacterLifecycleService": "server/services/character-lifecycle.service@CharacterLifecycleService",
 		"test-react-charm-flamework:out/server/services/character-lifecycle.service@OnCharacterAdded": "server/services/character-lifecycle.service@OnCharacterAdded",
-		"test-react-charm-flamework:out/server/services/character-lifecycle.service@OnCharacterRemoved": "server/services/character-lifecycle.service@OnCharacterRemoved"
+		"test-react-charm-flamework:out/server/services/character-lifecycle.service@OnCharacterRemoved": "server/services/character-lifecycle.service@OnCharacterRemoved",
+		"test-react-charm-flamework:out/server/services/collision.service@CollisionGroup": "server/services/collision.service@CollisionGroup",
+		"test-react-charm-flamework:out/server/services/collision.service@CollisionService": "server/services/collision.service@CollisionService"
 	},
 	"metadata": {}
 }
