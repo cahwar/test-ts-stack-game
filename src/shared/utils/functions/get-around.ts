@@ -1,7 +1,7 @@
 import { Workspace } from "@rbxts/services";
 import { getFirstParent } from "./get-first";
 
-export function getAround(
+export function getAround<T = Model | BasePart>(
 	position: Vector3,
 	radius: number,
 	predicate: (instance: Instance) => boolean,

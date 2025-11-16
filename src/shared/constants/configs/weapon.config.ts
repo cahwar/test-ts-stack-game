@@ -6,15 +6,15 @@
 
 export class WeaponConfig {
 	constructor(
-		public readonly damage: number,
 		public readonly name: string,
-		public readonly displayName?: string,
+		public readonly power: number,
+		public readonly splashHits: number = 1,
 		public readonly cooldown: number = 0.2,
 		public readonly radius: number = 8,
 	) {}
 }
 
 export const WeaponConfigs: Record<string, WeaponConfig> = {
-	Katana: new WeaponConfig(20, "Katana"),
-	Axe: new WeaponConfig(15, "Axe"),
+	Katana: new WeaponConfig("Katana", 1),
+	Axe: new WeaponConfig("Axe", 2),
 };
