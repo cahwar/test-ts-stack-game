@@ -5,7 +5,7 @@ import { Players, UserInputService } from "@rbxts/services";
 import { getAnimation, getSound, getVfx } from "shared/utils/asset-utils";
 import { emitParticles } from "shared/utils/vfx-utils";
 import { playSound } from "shared/utils/sfx-utils";
-import { playAnimation } from "shared/utils/animation-utils";
+import { loadAnimation, playAnimation } from "shared/utils/animation-utils";
 
 const EXTRA_JUMPS = 1;
 const JUMPS_GAP = 0.2;
@@ -41,6 +41,8 @@ export class MultipleJumpController implements OnCharacterAdded, OnCharacterRemo
 			if (newValue === Enum.HumanoidStateType.Jumping) this.latestJumpTick = tick();
 			else if (newValue === Enum.HumanoidStateType.Landed) this.count = 0;
 		});
+
+		loadAnimation(character, JUMP_ANIMATION);
 	}
 
 	onCharacterRemoved(): void {
