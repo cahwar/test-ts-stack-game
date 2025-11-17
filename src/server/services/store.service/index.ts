@@ -91,23 +91,27 @@ export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 			.catch((err) => warn(err));
 	}
 
-	setValue<Key extends DataKeys>(player: Player, key: Key, value: Data[Key]): Promise<boolean> {
-		return store.update(player, (data) => {
-			data[key] = value;
+	setValue<Key extends DataKeys>(player: Player, key: Key, value: Data[Key]): Promise<boolean | void> {
+		return store
+			.update(player, (data) => {
+				data[key] = value;
 
-			return true;
-		});
+				return true;
+			})
+			.catch((err) => warn(err));
 	}
 
 	updateValue<Key extends DataKeys>(
 		player: Player,
 		key: Key,
 		updateCallback: (value: Data[Key]) => Data[Key],
-	): Promise<boolean> {
-		return store.update(player, (data) => {
-			data[key] = updateCallback(data[key]);
-			return true;
-		});
+	): Promise<boolean | void> {
+		return store
+			.update(player, (data) => {
+				data[key] = updateCallback(data[key]);
+				return true;
+			})
+			.catch((err) => warn(err));
 	}
 
 	reset(player: Player): void {
@@ -127,6 +131,7 @@ export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 				teleport([player], game.PlaceId).catch((err: unknown) => {
 					warn(tostring(err));
 				});
-			});
+			})
+			.catch((err) => warn(err));
 	}
 }
