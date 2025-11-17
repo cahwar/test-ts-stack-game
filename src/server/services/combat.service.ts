@@ -52,18 +52,22 @@ export class CombatService implements OnClick {
 			if (count >= weaponConfig.splashHits) return;
 
 			const isCritical = math.random(1, 100) < CRITICAL_CHANCE;
-			this.damage(target, damage * (isCritical ? CRITICAL_MULTIPLER : 1), isCritical);
+			if (this.damage(target, damage * (isCritical ? CRITICAL_MULTIPLER : 1), isCritical)) {
+				Events.Combat.Targeted.fire(player, target);
+			}
 
 			count += 1;
 		});
 	}
 
-	private damage(target: Model, damage: number, isCritical: boolean) {
+	private damage(target: Model, damage: number, isCritical: boolean): boolean {
 		const humanoid = target.FindFirstChildWhichIsA("Humanoid");
-		if (!humanoid || humanoid.GetState() === Enum.HumanoidStateType.Dead) return;
+		if (!humanoid || humanoid.GetState() === Enum.HumanoidStateType.Dead) return false;
 
 		humanoid.TakeDamage(damage);
 
 		Events.Combat.Damaged.broadcast(target, damage, isCritical);
+
+		return true;
 	}
 }

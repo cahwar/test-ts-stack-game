@@ -17,6 +17,8 @@ export class DamageController implements OnStart {
 
 	onStart(): void {
 		Events.Combat.Damaged.connect((target, damage, isCritical) => {
+			if (target === undefined) return;
+
 			this.playDamagedEffect(target, damage, isCritical);
 		});
 	}

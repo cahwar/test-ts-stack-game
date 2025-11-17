@@ -20,6 +20,7 @@ export class NpcController implements OnStart {
 	onStart(): void {
 		CollectionService.GetTagged("Npc").forEach((npc) => this.add(npc as Model));
 		CollectionService.GetInstanceAddedSignal("Npc").Connect((npc) => this.add(npc as Model));
+		CollectionService.GetInstanceRemovedSignal("Npc").Connect((npc) => this.remove(npc as Model));
 
 		observe(this.npcs, (npc) => {
 			if (this.shouldPlayEffect(npc)) {
@@ -28,6 +29,8 @@ export class NpcController implements OnStart {
 		});
 
 		Events.Npc.Killed.connect((npc, effectTime) => {
+			if (npc === undefined) return;
+
 			if (this.shouldPlayEffect(npc)) {
 				this.playKilledEffect(npc, effectTime);
 			}

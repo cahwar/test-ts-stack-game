@@ -25,11 +25,12 @@ interface ServerToClientEvents {
 	};
 
 	Combat: {
-		Damaged: (target: Model, damage: number, isCritical: boolean) => void;
+		Damaged: (target: Model | undefined, damage: number, isCritical: boolean) => void;
+		Targeted: (target: Model | undefined) => void;
 	};
 
 	Npc: {
-		Killed: (npc: Model, effectTime: number) => void;
+		Killed: (npc: Model | undefined, effectTime: number) => void;
 	};
 }
 

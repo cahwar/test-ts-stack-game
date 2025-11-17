@@ -24,7 +24,9 @@ export class TargetController implements OnStart, OnRender, OnCharacterRemoved {
 	private facePosition: Vector3 | undefined = undefined;
 
 	onStart(): void {
-		Events.Combat.Damaged.connect((target) => {
+		Events.Combat.Targeted.connect((target) => {
+			if (target === undefined) return;
+
 			if (isPlayerAlive()) this.add(target);
 		});
 
