@@ -6,10 +6,10 @@ export function getFirstParent<T extends Instance>(
 ): T | undefined {
 	let parent = instance.Parent as Instance;
 
-	while (!predicate(parent) && parent !== Workspace) {
+	while (parent !== undefined && parent !== Workspace && !predicate(parent)) {
 		parent = parent.Parent as Instance;
 		task.wait();
 	}
 
-	return parent === Workspace ? undefined : (parent as T);
+	return parent === undefined || parent === Workspace ? undefined : (parent as T);
 }

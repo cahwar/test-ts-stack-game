@@ -3,6 +3,7 @@ import { addListener, loadPlayer, store, unloadPlayer } from "./store";
 import { Data, DataKeys, template } from "shared/store";
 import { teleport } from "shared/utils/teleport-utils";
 import { OnPlayerJoined, OnPlayerRemoving } from "../player-lifecycle.service";
+import { attempt } from "shared/utils/functions/attempt";
 
 interface Listener<K extends DataKeys = DataKeys> {
 	key: K;
@@ -13,7 +14,7 @@ interface Listener<K extends DataKeys = DataKeys> {
 export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 	private playerListeners = new Map<string, Listener[] | undefined>();
 
-	onStart() {
+	onStart(): void {
 		game.BindToClose(() => {
 			store.closeAsync();
 		});
@@ -43,20 +44,54 @@ export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 		this.playerListeners.set(tostring(player.UserId), undefined);
 	}
 
-	onChange<K extends DataKeys>(player: Player, key: K, callback: (newValue: Data[K], prevValue?: Data[K]) => void) {
+	onChange<K extends DataKeys>(
+		player: Player,
+		key: K,
+		callback: (newValue: Data[K], prevValue?: Data[K]) => void,
+	): () => void {
+		const userId = tostring(player.UserId);
+
 		const listener: Listener = { key, callback } as Listener;
-		this.playerListeners.get(tostring(player.UserId))?.push(listener);
+		this.playerListeners.get(userId)?.push(listener);
+
+		return () => {
+			const playerListeners = this.playerListeners.get(userId);
+			if (playerListeners === undefined) return;
+
+			const index = playerListeners.indexOf(listener);
+			if (index !== undefined) playerListeners.remove(index);
+		};
 	}
 
-	getData(player: Player) {
-		return store.get(player);
+	getData(player: Player): Promise<Data> {
+		return attempt<Data>(
+			() => store.getAsync(player),
+			(err?: unknown) => {
+				return (
+					player.IsDescendantOf(game) &&
+					err !== undefined &&
+					typeIs(err, "string") &&
+					err.find("Key not loaded")[0] !== undefined
+				);
+			},
+			3,
+			1,
+		);
 	}
 
-	getValue<Key extends DataKeys>(player: Player, key: Key) {
-		return this.getData(player).then((data: Data) => data[key]);
+	useValue<Key extends DataKeys>(player: Player, key: Key, callback: (value: Data[Key]) => void): void {
+		this.getValue(player, key).then((value) => {
+			if (value !== undefined) callback(value);
+		});
 	}
 
-	setValue<Key extends DataKeys>(player: Player, key: Key, value: Data[Key]) {
+	getValue<Key extends DataKeys>(player: Player, key: Key): Promise<Data[Key] | void> {
+		return this.getData(player)
+			.then((data: Data) => data[key])
+			.catch((err) => warn(err));
+	}
+
+	setValue<Key extends DataKeys>(player: Player, key: Key, value: Data[Key]): Promise<boolean> {
 		return store.update(player, (data) => {
 			data[key] = value;
 
@@ -64,14 +99,18 @@ export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 		});
 	}
 
-	updateValue<Key extends DataKeys>(player: Player, key: Key, updateCallback: (value: Data[Key]) => Data[Key]) {
+	updateValue<Key extends DataKeys>(
+		player: Player,
+		key: Key,
+		updateCallback: (value: Data[Key]) => Data[Key],
+	): Promise<boolean> {
 		return store.update(player, (data) => {
 			data[key] = updateCallback(data[key]);
 			return true;
 		});
 	}
 
-	reset(player: Player) {
+	reset(player: Player): void {
 		const set = <Key extends DataKeys>(data: Data, k: Key, v: Data[Key]) => {
 			data[k] = v;
 		};

@@ -4,6 +4,7 @@ import { isPlayerAlive, onCharacterLoaded } from "shared/utils/player-utils";
 import { StoreService } from "./store.service";
 import { getReplicatedAsset } from "shared/utils/asset-utils";
 import { WeaponConfig, WeaponConfigs } from "shared/constants/configs/weapon.config";
+import { OnCharacterAdded } from "./character-lifecycle.service";
 
 const WEAPON_FOLDER = getReplicatedAsset("Weapon") as Folder;
 
@@ -12,32 +13,37 @@ function getWeapon(name: string): Tool {
 }
 
 @Service()
-export class WeaponService implements OnPlayerJoined {
+export class WeaponService implements OnPlayerJoined, OnCharacterAdded {
 	constructor(private readonly storeService: StoreService) {}
 
 	onPlayerJoined(player: Player): void {
-		if (player.Character) this.onCharacterAdded(player, player.Character);
-		player.CharacterAdded.Connect((character) => this.onCharacterAdded(player, character));
-
 		this.storeService.onChange(player, "weapon", (newValue: string) => {
 			this.setModel(player, newValue);
 		});
 	}
 
-	getEquippedConfig(player: Player): WeaponConfig {
-		const weapon = this.storeService.getValue(player, "weapon").expect();
-		const config = WeaponConfigs[weapon] as WeaponConfig;
-		return config;
-	}
-
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	private onCharacterAdded(player: Player, character: Model) {
+	onCharacterAdded(player: Player) {
 		onCharacterLoaded(player).then(() => {
-			this.setModel(player, this.storeService.getValue(player, "weapon").expect());
+			this.storeService.useValue(player, "weapon", (value: string) => this.setModel(player, value));
+
+			const weapon = this.storeService.getValue(player, "weapon").expect();
+
+			if (weapon !== undefined) {
+				this.setModel(player, weapon);
+			}
 		});
 	}
 
-	private setModel(player: Player, name: string) {
+	getEquippedConfig(player: Player): WeaponConfig | void {
+		const weapon = this.storeService.getValue(player, "weapon").expect();
+
+		if (weapon !== undefined) {
+			return WeaponConfigs[weapon] as WeaponConfig;
+		}
+	}
+
+	private setModel(player: Player, name: string): void {
 		if (!isPlayerAlive(player)) return;
 
 		const character = player.Character as Model;

@@ -20,13 +20,23 @@ export class CombatService implements OnClick {
 		if (!isPlayerAlive(player)) return;
 
 		const weaponConfig = this.weaponService.getEquippedConfig(player);
+		if (weaponConfig === undefined) return;
+
 		const damage = this.storeService.getValue(player, "power").expect();
+		if (damage === undefined) return;
 
 		const character = player.Character as Model;
 		const targets = getAround<Model>(
+			(instance: Instance) => {
+				const humanoid = instance.FindFirstChildWhichIsA("Humanoid");
+				return (
+					instance.HasTag("Target") &&
+					humanoid !== undefined &&
+					humanoid.GetState() !== Enum.HumanoidStateType.Dead
+				);
+			},
 			character.PrimaryPart!.Position,
 			weaponConfig.radius,
-			(instance: Instance) => instance.HasTag("Target"),
 			[character],
 		);
 

@@ -2,9 +2,9 @@ import { Workspace } from "@rbxts/services";
 import { getFirstParent } from "./get-first";
 
 export function getAround<T extends Instance>(
+	predicate: (instance: Instance) => boolean,
 	position: Vector3,
 	radius: number,
-	predicate: (instance: Instance) => boolean,
 	ignore?: Instance[],
 ): T[] {
 	const params = new OverlapParams();

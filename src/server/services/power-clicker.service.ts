@@ -11,10 +11,16 @@ export class PowerClickerService implements OnClick {
 	) {}
 
 	onClick(player: Player): void {
-		this.storeService.updateValue(player, "power", (value) => value + this.getIncrement(player));
+		const increment = this.getIncrement(player);
+		if (increment === undefined) return;
+
+		this.storeService.updateValue(player, "power", (value) => value + increment);
 	}
 
-	private getIncrement(player: Player): number {
-		return this.weaponService.getEquippedConfig(player).power;
+	private getIncrement(player: Player): number | void {
+		const config = this.weaponService.getEquippedConfig(player);
+		if (config === undefined) return;
+
+		return config.power;
 	}
 }
