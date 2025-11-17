@@ -3,7 +3,7 @@ import { OnPlayerJoined } from "./player-lifecycle.service";
 import { isPlayerAlive, onCharacterLoaded } from "shared/utils/player-utils";
 import { StoreService } from "./store.service";
 import { getReplicatedAsset } from "shared/utils/asset-utils";
-import { WeaponConfig, WeaponConfigs } from "shared/constants/configs/weapon.config";
+import { GetWeaponConfig, WeaponConfig } from "shared/constants/configs/weapon.config";
 import { OnCharacterAdded } from "./character-lifecycle.service";
 
 const WEAPON_FOLDER = getReplicatedAsset("Weapon") as Folder;
@@ -39,7 +39,7 @@ export class WeaponService implements OnPlayerJoined, OnCharacterAdded {
 		const weapon = this.storeService.getValue(player, "weapon").expect();
 
 		if (weapon !== undefined) {
-			return WeaponConfigs[weapon] as WeaponConfig;
+			return GetWeaponConfig(weapon) as WeaponConfig;
 		}
 	}
 

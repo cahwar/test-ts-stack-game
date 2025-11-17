@@ -2,7 +2,7 @@ import { Controller, OnStart, Modding } from "@flamework/core";
 import { UserInputService } from "@rbxts/services";
 import { Events } from "client/network";
 import { StoreController } from "./store.controller";
-import { WeaponConfigs } from "shared/constants/configs/weapon.config";
+import { GetWeaponConfig } from "shared/constants/configs/weapon.config";
 
 export interface OnClick {
 	onClick(): void;
@@ -40,7 +40,8 @@ export class ClickerController implements OnStart, OnClick {
 	}
 
 	private getCooldown() {
-		return WeaponConfigs[this.storeController.getValue("weapon").expect()]?.cooldown ?? 0.5;
+		const weapon = this.storeController.getValue("weapon").expect();
+		return GetWeaponConfig(weapon)?.cooldown ?? 0.5;
 	}
 
 	private setCooldown() {

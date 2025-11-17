@@ -14,7 +14,10 @@ export class WeaponConfig {
 	) {}
 }
 
-export const WeaponConfigs: Record<string, WeaponConfig> = {
-	Katana: new WeaponConfig("Katana", 1),
-	Axe: new WeaponConfig("Axe", 2),
-};
+export const WeaponConfigs: WeaponConfig[] = [new WeaponConfig("Katana", 1), new WeaponConfig("Axe", 2)];
+
+export function GetWeaponConfig(name: string): WeaponConfig | never {
+	const config = WeaponConfigs.find((value) => value.name === name);
+	if (config === undefined) error(`No weapon config for ${name}`);
+	return config;
+}
