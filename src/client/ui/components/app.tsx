@@ -4,6 +4,7 @@ import { Pages } from "./view/pages";
 import { HudWrapper } from "./view/hud";
 import { PopUpWrapper } from "./view/pop-up";
 import { FloatersWrapper } from "./view/floaters";
+import { NpcDisplayList } from "./view/npc/npc-display-list";
 
 export function App() {
 	return (
@@ -13,6 +14,7 @@ export function App() {
 			<HudWrapper></HudWrapper>
 			<PopUpWrapper></PopUpWrapper>
 			<FloatersWrapper></FloatersWrapper>
+			<NpcDisplayList></NpcDisplayList>
 		</>
 	);
 }

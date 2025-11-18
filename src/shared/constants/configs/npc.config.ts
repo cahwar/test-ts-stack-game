@@ -16,7 +16,7 @@ export class NpcConfig {
 }
 
 export const NpcConfigs: NpcConfig[] = [
-	new NpcConfig(getModel("Ninja"), "Ninja", 1000, false),
+	new NpcConfig(getModel("Ninja"), "Ninja", 100, false),
 	new NpcConfig(getModel("Big Ninja"), "Big Ninja", 5000, true),
 ];
 

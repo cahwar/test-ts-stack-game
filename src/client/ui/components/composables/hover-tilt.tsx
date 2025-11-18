@@ -5,7 +5,7 @@ import { useBindingState, useMotion } from "@rbxts/pretty-react-hooks";
 import { getPositiveOrNegative } from "shared/utils/functions/get-positive-or-negative";
 import { springs } from "shared/constants/ui/springs";
 import { useButtonContext } from "client/ui/contexts/button-context";
-import { useBindedProperty } from "client/ui/hooks/use-property";
+import { useBindedProperty } from "client/ui/hooks/use-binded-property";
 
 export interface HoverTiltProps extends FrameProps {
 	useButtonContext?: boolean;

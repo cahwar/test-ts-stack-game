@@ -2,6 +2,7 @@ import { Service } from "@flamework/core";
 import { Debris, Workspace } from "@rbxts/services";
 import { Events } from "server/network";
 import { NpcConfig } from "shared/constants/configs/npc.config";
+import { getUniqueId } from "shared/utils/functions/get-unique-id";
 
 const DESTROY_EFFECT_TIME = 0.8;
 
@@ -24,6 +25,7 @@ export class NpcService {
 
 		instance.Parent = NPC_FOLDER;
 		instance.SetAttribute("ConfigName", config.name);
+		instance.SetAttribute("Id", getUniqueId());
 		instance.AddTag("Npc");
 		instance.AddTag("Target");
 

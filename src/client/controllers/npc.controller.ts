@@ -15,8 +15,9 @@ const DESTROY_VFX = getVfx("NpcDestroyPuff");
 const SPAWNED_SOUND = getSound("NpcBorn");
 
 export interface NpcData {
-	config: NpcConfig;
 	instance: Model;
+	config: NpcConfig;
+	id: string;
 }
 
 @Controller()
@@ -51,7 +52,10 @@ export class NpcController implements OnStart {
 		const configName = npc.GetAttribute("ConfigName") as string;
 		if (configName === undefined) return;
 
-		const npcData: NpcData = { config: GetNpcConfig(configName), instance: npc };
+		const id = npc.GetAttribute("Id") as string;
+		if (id === undefined) return;
+
+		const npcData: NpcData = { config: GetNpcConfig(configName), instance: npc, id };
 
 		this.npcs((prev) => new Map([...prev, [npc, npcData]]));
 	}

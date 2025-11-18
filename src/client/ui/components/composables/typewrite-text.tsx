@@ -5,6 +5,7 @@ import { useEffect } from "@rbxts/react";
 import { getSound } from "shared/utils/asset-utils";
 import { playSound } from "shared/utils/sfx-utils";
 import { ExcludedProps } from "client/ui/types";
+import { useBindedProperty } from "client/ui/hooks/use-binded-property";
 
 const TYPEWRITE_DURATION = 0.4;
 const SOUND_THROTTLE_WAIT = 0.1;
@@ -28,7 +29,7 @@ export function TypewriteText(props: TypewriteTextProps) {
 
 	useEffect(() => {
 		graphemesMotor.immediate(0);
-		graphemesMotor.tween(props.Text.size(), {
+		graphemesMotor.tween(useBindedProperty(props.Text).size(), {
 			time: props.typewriteDuration ?? TYPEWRITE_DURATION,
 			style: Enum.EasingStyle.Linear,
 		});

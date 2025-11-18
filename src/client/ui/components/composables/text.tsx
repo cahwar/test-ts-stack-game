@@ -5,7 +5,7 @@ import { Stroke } from "../style/stroke";
 import { usePx } from "client/ui/hooks/use-px";
 
 interface NativeTextProps extends NativeProps<TextLabel> {
-	Text: string;
+	Text: BindedProperty<string>;
 	TextStrokeTransparency?: BindedProperty<number>;
 	MaxVisibleGraphemes?: BindedProperty<number>;
 	TextTransparency?: BindedProperty<number>;
