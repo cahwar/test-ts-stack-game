@@ -1,10 +1,11 @@
 import { Service } from "@flamework/core";
 import { OnClick } from "./clicker.service";
 import { isPlayerAlive } from "shared/utils/player-utils";
-import { getAround } from "shared/utils/functions/get-around";
+import { getAroundIncluded } from "shared/utils/functions/get-around";
 import { Events } from "server/network";
 import { WeaponService } from "./weapon.service";
 import { StoreService } from "./store.service";
+import { CollectionService } from "@rbxts/services";
 
 const CRITICAL_MULTIPLER = 1.5;
 const CRITICAL_CHANCE = 10;
@@ -26,7 +27,11 @@ export class CombatService implements OnClick {
 		if (damage === undefined) return;
 
 		const character = player.Character as Model;
-		const targets = getAround<Model>(
+
+		const targets = getAroundIncluded<Model>(
+			CollectionService.GetTagged("TargetHitPart"),
+			(character.PrimaryPart as BasePart).Position,
+			weaponConfig.radius,
 			(instance: Instance) => {
 				const humanoid = instance.FindFirstChildWhichIsA("Humanoid");
 				return (
@@ -35,9 +40,6 @@ export class CombatService implements OnClick {
 					humanoid.GetState() !== Enum.HumanoidStateType.Dead
 				);
 			},
-			character.PrimaryPart!.Position,
-			weaponConfig.radius,
-			[character],
 		);
 
 		targets.sort(

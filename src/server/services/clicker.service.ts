@@ -47,6 +47,6 @@ export class ClickService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 
 	click(player: Player) {
 		this.setLatestTick(player);
-		this.onClickListeners.forEach((listener) => listener.onClick(player));
+		this.onClickListeners.forEach((listener) => task.spawn(() => listener.onClick(player)));
 	}
 }

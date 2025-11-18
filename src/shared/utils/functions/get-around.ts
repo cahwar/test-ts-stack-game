@@ -1,19 +1,8 @@
 import { Workspace } from "@rbxts/services";
 import { getFirstParent } from "./get-first";
 
-export function getAround<T extends Instance>(
-	predicate: (instance: Instance) => boolean,
-	position: Vector3,
-	radius: number,
-	ignore?: Instance[],
-): T[] {
-	const params = new OverlapParams();
-	params.FilterDescendantsInstances = ignore ?? [];
-	params.FilterType = Enum.RaycastFilterType.Exclude;
-
+function filter<T extends Instance>(overlapParts: BasePart[], predicate: (instance: Instance) => boolean): T[] {
 	const instances: Array<T> = [];
-
-	const overlapParts = Workspace.GetPartBoundsInRadius(position, radius, params);
 
 	overlapParts.forEach((part) => {
 		const instance = predicate(part) ? part : getFirstParent(part, predicate);
@@ -22,4 +11,34 @@ export function getAround<T extends Instance>(
 	});
 
 	return instances;
+}
+
+export function getAround<T extends Instance>(
+	origin: Vector3,
+	radius: number,
+	predicate: (instance: Instance) => boolean,
+	exclude?: Instance[],
+): T[] {
+	const params = new OverlapParams();
+	params.FilterDescendantsInstances = exclude ?? [];
+	params.FilterType = Enum.RaycastFilterType.Exclude;
+
+	const overlapParts = Workspace.GetPartBoundsInRadius(origin, radius, params);
+
+	return filter<T>(overlapParts, predicate);
+}
+
+export function getAroundIncluded<T extends Instance>(
+	include: Instance[],
+	origin: Vector3,
+	radius: number,
+	predicate: (instance: Instance) => boolean,
+): T[] {
+	const params = new OverlapParams();
+	params.FilterDescendantsInstances = include;
+	params.FilterType = Enum.RaycastFilterType.Include;
+
+	const overlapParts = Workspace.GetPartBoundsInRadius(origin, radius, params);
+
+	return filter<T>(overlapParts, predicate);
 }

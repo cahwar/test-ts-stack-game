@@ -29,6 +29,9 @@ export class NpcService {
 		instance.AddTag("Npc");
 		instance.AddTag("Target");
 
+		const hitPart = instance.PrimaryPart ?? instance.FindFirstChildWhichIsA("BasePart");
+		hitPart?.AddTag("TargetHitPart");
+
 		return instance;
 	}
 }
