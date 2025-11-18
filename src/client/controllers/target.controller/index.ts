@@ -12,7 +12,6 @@ const REMOVAL_RADIUS = 15;
 const TARGETS_UPDATE_COOLDOWN = 0.3;
 
 interface TargetData {
-	meetPosition: Vector3;
 	instance: Model;
 	name: string;
 }
@@ -21,7 +20,7 @@ interface TargetData {
 export class TargetController implements OnStart, OnRender, OnCharacterRemoved {
 	private targets = atom<Map<Model, TargetData | undefined>>(new Map());
 	private latestTargetsUpdateTime = 0;
-	private facePosition: Vector3 | undefined = undefined;
+	private faceTarget: Model | undefined = undefined;
 
 	onStart(): void {
 		Events.Combat.Targeted.connect((target) => {
@@ -40,7 +39,7 @@ export class TargetController implements OnStart, OnRender, OnCharacterRemoved {
 
 		subscribe(this.targets, (state) => {
 			if (state.isEmpty()) {
-				this.facePosition = undefined;
+				this.faceTarget = undefined;
 
 				if (isPlayerAlive()) {
 					const character = Players.LocalPlayer.Character as Model;
@@ -50,7 +49,7 @@ export class TargetController implements OnStart, OnRender, OnCharacterRemoved {
 				}
 			} else {
 				const entries = Object.entries(state);
-				this.facePosition = entries[entries.size() - 1][1].instance.GetPivot().Position;
+				this.faceTarget = entries[0][1].instance;
 			}
 		});
 	}
@@ -62,16 +61,15 @@ export class TargetController implements OnStart, OnRender, OnCharacterRemoved {
 	onRender(): void {
 		if (!isPlayerAlive()) return;
 		if (tick() - this.latestTargetsUpdateTime >= TARGETS_UPDATE_COOLDOWN) this.updateTargets();
-		if (this.facePosition !== undefined) {
-			this.forceFaceTarget(this.facePosition as Vector3);
+		if (this.faceTarget !== undefined) {
+			this.forceFaceTarget(this.faceTarget.PrimaryPart?.Position ?? this.faceTarget.GetPivot().Position);
 		}
 	}
 
 	private add(target: Model) {
 		if (this.targets().has(target)) return;
 
-		const meetPosition = Players.LocalPlayer.Character!.PrimaryPart!.Position;
-		this.targets((prev) => new Map([...prev, [target, { meetPosition, instance: target, name: target.Name }]]));
+		this.targets((prev) => new Map([...prev, [target, { instance: target, name: target.Name }]]));
 	}
 
 	private remove(target: Model) {
@@ -86,7 +84,11 @@ export class TargetController implements OnStart, OnRender, OnCharacterRemoved {
 		const characterPosition = Players.LocalPlayer.Character!.PrimaryPart!.Position;
 
 		for (const [, v] of pairs(peek(this.targets()))) {
-			if (!isCharacterAlive(v.instance) || characterPosition.sub(v.meetPosition).Magnitude >= REMOVAL_RADIUS)
+			if (
+				!isCharacterAlive(v.instance) ||
+				characterPosition.sub(v.instance.PrimaryPart?.Position ?? v.instance.GetPivot().Position).Magnitude >=
+					REMOVAL_RADIUS
+			)
 				this.remove(v.instance);
 		}
 
