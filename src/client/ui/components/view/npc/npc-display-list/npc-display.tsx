@@ -66,39 +66,6 @@ export function NpcDisplay(props: NpcDisplayProps) {
 				goal={props.data.config.hp}
 				showProgressText={true}
 			/>
-			{/* <Frame
-				Size={UDim2.fromScale(0.9, 0.525)}
-				Position={UDim2.fromScale(0.5, 0.975)}
-				AnchorPoint={new Vector2(0.5, 1)}
-				BackgroundColor3={Color3.fromRGB(60, 60, 60)}
-				cornerRadius={new UDim(0, px(16))}
-				useStroke={true}
-			>
-				<Frame
-					Size={UDim2.fromScale(1, 1)}
-					BackgroundColor3={Color3.fromRGB(74, 245, 107)}
-					cornerRadius={new UDim(0, px(16))}
-				>
-					<Text
-						Text={hp.map((value) => `${value} / ${props.data.config.hp}`)}
-						Size={UDim2.fromScale(0.8, 0.8)}
-						Position={UDim2.fromScale(0.5, 0.5)}
-						AnchorPoint={new Vector2(0.5, 0.5)}
-						TextScaled={true}
-					/>
-					<uigradient
-						Offset={hpAlpha.map((value) => new Vector2(-0.5 + value, 0))}
-						Transparency={
-							new NumberSequence([
-								new NumberSequenceKeypoint(0, 0),
-								new NumberSequenceKeypoint(0.499, 0),
-								new NumberSequenceKeypoint(0.5, 1),
-								new NumberSequenceKeypoint(1, 1),
-							])
-						}
-					/>
-				</Frame>
-			</Frame> */}
 		</billboardgui>
 	);
 }
