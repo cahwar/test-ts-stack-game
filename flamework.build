@@ -60,7 +60,8 @@
 		"test-react-charm-flamework:out/server/services/npc.service/init@NpcService": "server/services/npc.service/init@NpcService",
 		"test-react-charm-flamework:out/shared/constants/configs/npc.config@NpcConfig": "shared/constants/configs/npc.config@NpcConfig",
 		"test-react-charm-flamework:out/server/components/npc-node.component@NpcNode": "server/components/npc-node.component@NpcNode",
-		"test-react-charm-flamework:out/client/controllers/npc.controller@NpcController": "client/controllers/npc.controller@NpcController"
+		"test-react-charm-flamework:out/client/controllers/npc.controller@NpcController": "client/controllers/npc.controller@NpcController",
+		"test-react-charm-flamework:out/shared/types/npc@TypedAttributes": "shared/types/npc@TypedAttributes"
 	},
 	"metadata": {}
 }

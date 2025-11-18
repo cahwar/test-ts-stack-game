@@ -3,6 +3,7 @@ import { atom, observe } from "@rbxts/charm";
 import { createMotion } from "@rbxts/ripple";
 import { CollectionService, Debris, Players, TweenService, Workspace } from "@rbxts/services";
 import { Events } from "client/network";
+import { GetNpcConfig, NpcConfig } from "shared/constants/configs/npc.config";
 import { RAYCAST_IGNORE_TAGS } from "shared/constants/ignore-tags";
 import { springs } from "shared/constants/ui/springs";
 import { getSound, getVfx } from "shared/utils/asset-utils";
@@ -13,18 +14,23 @@ const MAX_EFFECT_DISTANCE = 150;
 const DESTROY_VFX = getVfx("NpcDestroyPuff");
 const SPAWNED_SOUND = getSound("NpcBorn");
 
+export interface NpcData {
+	config: NpcConfig;
+	instance: Model;
+}
+
 @Controller()
 export class NpcController implements OnStart {
-	private npcs = atom<Model[]>([]);
+	private npcs = atom<Map<Model, NpcData>>(new Map());
 
 	onStart(): void {
 		CollectionService.GetTagged("Npc").forEach((npc) => this.add(npc as Model));
 		CollectionService.GetInstanceAddedSignal("Npc").Connect((npc) => this.add(npc as Model));
 		CollectionService.GetInstanceRemovedSignal("Npc").Connect((npc) => this.remove(npc as Model));
 
-		observe(this.npcs, (npc) => {
-			if (this.shouldPlayEffect(npc)) {
-				this.playSpawnedEffect(npc);
+		observe(this.npcs, (npcData) => {
+			if (this.shouldPlayEffect(npcData.instance)) {
+				this.playSpawnedEffect(npcData.instance);
 			}
 		});
 
@@ -37,19 +43,24 @@ export class NpcController implements OnStart {
 		});
 	}
 
+	get(): Map<Model, NpcData> {
+		return this.npcs();
+	}
+
 	private add(npc: Model) {
-		this.npcs((prev) => [...prev, npc]);
+		const configName = npc.GetAttribute("ConfigName") as string;
+		if (configName === undefined) return;
+
+		const npcData: NpcData = { config: GetNpcConfig(configName), instance: npc };
+
+		this.npcs((prev) => new Map([...prev, [npc, npcData]]));
 	}
 
 	private remove(npc: Model) {
 		this.npcs((prev) => {
-			const index = prev.indexOf(npc);
+			prev.delete(npc);
 
-			if (index !== undefined) {
-				prev.remove(index);
-			}
-
-			return [...prev];
+			return new Map([...prev]);
 		});
 	}
 

@@ -23,7 +23,7 @@ export class NpcService {
 		humanoid.BreakJointsOnDeath = false;
 
 		instance.Parent = NPC_FOLDER;
-		instance.SetAttribute("DisplayName", config.name);
+		instance.SetAttribute("ConfigName", config.name);
 		instance.AddTag("Npc");
 		instance.AddTag("Target");
 
