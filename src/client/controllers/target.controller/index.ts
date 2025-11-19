@@ -54,6 +54,10 @@ export class TargetController implements OnStart, OnRender, OnCharacterRemoved {
 		});
 	}
 
+	getList() {
+		return this.targets();
+	}
+
 	onCharacterRemoved(): void {
 		this.clear();
 	}

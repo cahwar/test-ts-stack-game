@@ -27,6 +27,7 @@ export function AnimatedFrame(props: AnimatedFrameProps) {
 		<MountDelay shouldRender={props.enabled} unmountDelay={0.5}>
 			<Frame {...nativeProps} BackgroundTransparency={1}>
 				<Frame
+					BackgroundTransparency={props.BackgroundTransparency}
 					BackgroundColor3={props.BackgroundColor3}
 					AnchorPoint={new Vector2(0.5, 0.5)}
 					Position={lerpBinding(

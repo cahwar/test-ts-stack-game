@@ -5,6 +5,7 @@ import { HudWrapper } from "./view/hud";
 import { PopUpWrapper } from "./view/pop-up";
 import { FloatersWrapper } from "./view/floaters";
 import { NpcDisplayList } from "./view/npc/npc-display-list";
+import { BossFrameWrapper } from "./view/npc/boss-frame";
 
 export function App() {
 	return (
@@ -15,6 +16,7 @@ export function App() {
 			<PopUpWrapper></PopUpWrapper>
 			<FloatersWrapper></FloatersWrapper>
 			<NpcDisplayList></NpcDisplayList>
+			<BossFrameWrapper></BossFrameWrapper>
 		</>
 	);
 }

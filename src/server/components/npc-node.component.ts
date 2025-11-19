@@ -22,6 +22,8 @@ export class NpcNode extends BaseComponent<NpcNodeAttributes, BasePart> implemen
 
 	onStart(): void {
 		this.createRecursional();
+
+		this.instance.Transparency = 1;
 	}
 
 	private createRecursional() {

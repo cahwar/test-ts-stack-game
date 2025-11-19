@@ -1,5 +1,5 @@
 import { Controller, OnStart } from "@flamework/core";
-import { atom, observe } from "@rbxts/charm";
+import { atom, observe, peek } from "@rbxts/charm";
 import { createMotion } from "@rbxts/ripple";
 import { CollectionService, Debris, Players, TweenService, Workspace } from "@rbxts/services";
 import { Events } from "client/network";
@@ -44,8 +44,17 @@ export class NpcController implements OnStart {
 		});
 	}
 
-	get(): Map<Model, NpcData> {
+	getList() {
 		return this.npcs();
+	}
+
+	getNpcData(instance: Model): NpcData | never {
+		if (!this.isNpc(instance)) error("Trying to get NPC Data for unknown object");
+		return peek(this.npcs()).get(instance) as NpcData;
+	}
+
+	isNpc(instance: Model): boolean {
+		return instance.HasTag("Npc") && peek(this.npcs()).get(instance) !== undefined;
 	}
 
 	private add(npc: Model) {

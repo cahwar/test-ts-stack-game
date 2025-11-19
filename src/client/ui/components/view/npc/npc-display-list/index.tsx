@@ -8,7 +8,7 @@ import { NpcDisplay } from "./npc-display";
 export function NpcDisplayList() {
 	const npcController = useFlameworkDependency<NpcController>();
 
-	const npcs = useAtom(() => npcController.get());
+	const npcs = useAtom(() => npcController.getList());
 
 	return (
 		<>
