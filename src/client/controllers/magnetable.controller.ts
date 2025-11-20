@@ -4,7 +4,6 @@ import { createMotion } from "@rbxts/ripple";
 import { Debris, Players, Workspace } from "@rbxts/services";
 import { setTimeout } from "@rbxts/set-timeout";
 import { Events } from "client/network";
-import { MONEY_ICON } from "shared/constants/ui/icons";
 import { springs } from "shared/constants/ui/springs";
 import { getSound } from "shared/utils/asset-utils";
 import { getBezier } from "shared/utils/functions/get-bezier";
