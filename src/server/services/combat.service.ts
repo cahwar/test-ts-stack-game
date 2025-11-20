@@ -6,6 +6,7 @@ import { Events } from "server/network";
 import { WeaponService } from "./weapon.service";
 import { StoreService } from "./store.service";
 import { CollectionService } from "@rbxts/services";
+import { NpcService } from "./npc.service";
 
 const CRITICAL_MULTIPLER = 1.5;
 const CRITICAL_CHANCE = 10;
@@ -15,6 +16,7 @@ export class CombatService implements OnClick {
 	constructor(
 		private readonly weaponService: WeaponService,
 		private readonly storeService: StoreService,
+		private readonly npcService: NpcService,
 	) {}
 
 	onClick(player: Player): void {
@@ -54,22 +56,31 @@ export class CombatService implements OnClick {
 			if (count >= weaponConfig.splashHits) return;
 
 			const isCritical = math.random(1, 100) < CRITICAL_CHANCE;
-			if (this.damage(target, damage * (isCritical ? CRITICAL_MULTIPLER : 1), isCritical)) {
+
+			const { success, killed } = this.damage(target, damage * (isCritical ? CRITICAL_MULTIPLER : 1), isCritical);
+
+			if (success) {
 				Events.Combat.Targeted.fire(player, target);
+
+				if (killed && this.npcService.isNpc(target)) {
+					this.npcService.countKill(player, target);
+				}
 			}
 
 			count += 1;
 		});
 	}
 
-	private damage(target: Model, damage: number, isCritical: boolean): boolean {
+	private damage(target: Model, damage: number, isCritical: boolean): { success: boolean; killed?: boolean } {
 		const humanoid = target.FindFirstChildWhichIsA("Humanoid");
-		if (!humanoid || humanoid.GetState() === Enum.HumanoidStateType.Dead) return false;
+		if (!humanoid || humanoid.GetState() === Enum.HumanoidStateType.Dead) return { success: false };
+
+		const healthBefore = humanoid.Health;
 
 		humanoid.TakeDamage(damage);
 
 		Events.Combat.Damaged.broadcast(target, damage, isCritical);
 
-		return true;
+		return { success: true, killed: healthBefore > 0 && humanoid.Health <= 0 };
 	}
 }

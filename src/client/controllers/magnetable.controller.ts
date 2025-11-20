@@ -1,7 +1,7 @@
 import { Controller, OnStart } from "@flamework/core";
-import { atom, observe } from "@rbxts/charm";
+import { atom } from "@rbxts/charm";
 import { createMotion } from "@rbxts/ripple";
-import { Debris, Players, Workspace } from "@rbxts/services";
+import { Players, Workspace } from "@rbxts/services";
 import { setTimeout } from "@rbxts/set-timeout";
 import { Events } from "client/network";
 import { springs } from "shared/constants/ui/springs";
@@ -28,10 +28,6 @@ export class MagnetableController implements OnStart {
 	private magnetables = atom<MagnetableData[]>([]);
 
 	onStart(): void {
-		observe(this.magnetables, (item) => {
-			return () => Debris.AddItem(item.adornee, 0);
-		});
-
 		Events.EmitMagnetable.connect((origin, icon, amount, radius) => {
 			this.emit(origin, icon, amount, radius);
 		});
@@ -116,6 +112,9 @@ export class MagnetableController implements OnStart {
 	}
 
 	private remove(id: string): void {
+		this.magnetables()
+			.find((value) => value.id === id)
+			?.adornee?.Destroy();
 		this.magnetables((prev) => [...prev.filter((data) => data.id !== id)]);
 	}
 }

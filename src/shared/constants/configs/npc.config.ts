@@ -12,12 +12,13 @@ export class NpcConfig {
 		public readonly name: string,
 		public readonly hp: number,
 		public readonly isBoss: boolean,
+		public readonly reward: number,
 	) {}
 }
 
 export const NpcConfigs: NpcConfig[] = [
-	new NpcConfig(getModel("Ninja"), "Ninja", 100, false),
-	new NpcConfig(getModel("Big Ninja"), "Big Ninja", 5000, true),
+	new NpcConfig(getModel("Ninja"), "Ninja", 100, false, 10),
+	new NpcConfig(getModel("Big Ninja"), "Big Ninja", 5000, true, 50),
 ];
 
 export function GetNpcConfig(name: string): NpcConfig | never {
