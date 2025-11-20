@@ -23,7 +23,7 @@ const story = {
 				strokeSize={px(5)}
 				cornerRadius={new UDim(0, px(8))}
 			>
-				<CenterHighlightGradient PrimaryColor={Color3.fromRGB(250, 158, 77)}></CenterHighlightGradient>
+				<CenterHighlightGradient color={Color3.fromRGB(250, 158, 77)}></CenterHighlightGradient>
 
 				<HoverTilt
 					Size={UDim2.fromScale(1, 0.25)}

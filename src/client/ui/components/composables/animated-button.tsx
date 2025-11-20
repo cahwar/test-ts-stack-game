@@ -9,6 +9,7 @@ import { playSound } from "shared/utils/sfx-utils";
 import { brighten } from "shared/utils/color-utils";
 import { useNativeProps } from "client/ui/hooks/use-native-props";
 import { ButtonContext } from "client/ui/contexts/button-context";
+import { useBindedProperty } from "client/ui/hooks/use-binded-property";
 
 const HOVER_SOUND = getSound("MouseHover");
 const CLICK_SOUND = getSound("MouseClick");
@@ -94,7 +95,10 @@ export function AnimatedButton(props: AnimatedButtonProps) {
 		<imagebutton {...nativeProps} Event={event} BackgroundTransparency={1}>
 			<Frame
 				BackgroundColor3={brightness.map((value) => {
-					return brighten(props.BackgroundColor3 as Color3, props.ignoreColor ? 0 : value);
+					return brighten(
+						useBindedProperty(props.BackgroundColor3) ?? Color3.fromRGB(255, 255, 255),
+						props.ignoreColor ? 0 : value,
+					);
 				})}
 				AnchorPoint={new Vector2(0.5, 0.5)}
 				Position={UDim2.fromScale(0.5, 0.5)}

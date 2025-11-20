@@ -62,7 +62,8 @@
 		"test-react-charm-flamework:out/server/components/npc-node.component@NpcNode": "server/components/npc-node.component@NpcNode",
 		"test-react-charm-flamework:out/client/controllers/npc.controller@NpcController": "client/controllers/npc.controller@NpcController",
 		"test-react-charm-flamework:out/shared/types/npc@TypedAttributes": "shared/types/npc@TypedAttributes",
-		"test-react-charm-flamework:out/client/controllers/magnetable.controller@MagnetableController": "client/controllers/magnetable.controller@MagnetableController"
+		"test-react-charm-flamework:out/client/controllers/magnetable.controller@MagnetableController": "client/controllers/magnetable.controller@MagnetableController",
+		"test-react-charm-flamework:out/client/controllers/auto-click.controller@AutoClickController": "client/controllers/auto-click.controller@AutoClickController"
 	},
 	"metadata": {}
 }

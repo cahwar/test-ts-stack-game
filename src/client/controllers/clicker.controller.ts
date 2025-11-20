@@ -30,37 +30,39 @@ export class ClickerController implements OnStart, OnClick {
 				)
 					return;
 
-				if (this.isOnCooldown()) return;
-
-				this.click();
+				this.attemptClick();
 			});
 		} else {
 			UserInputService.TouchTapInWorld.Connect((_, processedByUI) => {
 				if (processedByUI) return;
-				if (this.isOnCooldown()) return;
-				this.click();
+				this.attemptClick();
 			});
 		}
+	}
+
+	attemptClick(): void {
+		if (this.isOnCooldown()) return;
+		this.click();
 	}
 
 	onClick(): void {
 		Events.Click.fire();
 	}
 
-	private isOnCooldown() {
+	private isOnCooldown(): boolean {
 		return tick() - this.latestClickTick < this.getCooldown();
 	}
 
-	private getCooldown() {
+	private getCooldown(): number {
 		const weapon = this.storeController.getValue("weapon").expect();
 		return GetWeaponConfig(weapon)?.cooldown ?? 0.5;
 	}
 
-	private setCooldown() {
+	private setCooldown(): void {
 		this.latestClickTick = tick();
 	}
 
-	private click() {
+	private click(): void {
 		this.setCooldown();
 
 		this.onClickListeners.forEach((listener) => listener.onClick());

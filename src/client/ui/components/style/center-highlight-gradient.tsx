@@ -1,20 +1,23 @@
 import React from "@rbxts/react";
+import { useBindedProperty } from "client/ui/hooks/use-binded-property";
+import { BindedProperty } from "client/ui/types";
 import { brighten } from "shared/utils/color-utils";
 
 export interface CenterHiglightGradientProps {
-	PrimaryColor: Color3;
-	Rotation?: number;
+	color: BindedProperty<Color3>;
+	rotation?: number;
+	intensity?: number;
 }
 
-export function CenterHighlightGradient({ PrimaryColor, Rotation = 0 }: CenterHiglightGradientProps) {
+export function CenterHighlightGradient({ color, rotation = 0, intensity = 0.5 }: CenterHiglightGradientProps) {
 	return (
 		<uigradient
-			Rotation={Rotation}
+			Rotation={rotation}
 			Color={
 				new ColorSequence([
-					new ColorSequenceKeypoint(0, PrimaryColor),
-					new ColorSequenceKeypoint(0.5, brighten(PrimaryColor, 0.7)),
-					new ColorSequenceKeypoint(1, PrimaryColor),
+					new ColorSequenceKeypoint(0, useBindedProperty(color)),
+					new ColorSequenceKeypoint(0.5, brighten(useBindedProperty(color), intensity)),
+					new ColorSequenceKeypoint(1, useBindedProperty(color)),
 				])
 			}
 		/>

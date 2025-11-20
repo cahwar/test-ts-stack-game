@@ -6,15 +6,20 @@ import { useAtom } from "@rbxts/react-charm";
 import { AdminController } from "client/controllers/admin.controller";
 import { StoreController } from "client/controllers/store.controller";
 import { MONEY_ICON, POWER_ICON } from "shared/constants/ui/icons";
+import { AutoClickController } from "client/controllers/auto-click.controller";
 
 export function HudWrapper() {
 	const pageController = useFlameworkDependency<UIPageController>();
 	const adminController = useFlameworkDependency<AdminController>();
 	const storeController = useFlameworkDependency<StoreController>();
+	const autoClickController = useFlameworkDependency<AutoClickController>();
 
 	const togglePage = (page: PageList) => pageController.toggle(page);
+	const toggleAutoClick = () => autoClickController.toggle();
+
 	const activePage = useAtom(pageController.getSelector());
 	const hasAdminAccess = useAtom(adminController.hasAccess);
+	const isAutoClickActive = useAtom(() => autoClickController.getIsActive());
 
 	const power = useAtom(() => storeController.getValue("power").expect());
 	const money = useAtom(() => storeController.getValue("money").expect());
@@ -22,9 +27,10 @@ export function HudWrapper() {
 	return (
 		<Hud
 			togglePage={togglePage}
+			autoClicker={{ toggle: toggleAutoClick, isActive: isAutoClickActive }}
 			showAdminButton={hasAdminAccess}
 			enabled={activePage === undefined}
-			values={[
+			currencyValues={[
 				{ value: power, icon: POWER_ICON },
 				{ value: money, icon: MONEY_ICON },
 			]}

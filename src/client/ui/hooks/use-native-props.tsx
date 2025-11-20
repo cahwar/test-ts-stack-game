@@ -13,6 +13,7 @@ export interface NativeProps<T extends Instance> {
 	BackgroundColor3?: BindedProperty<Color3>;
 	Visible?: BindedProperty<boolean>;
 	Rotation?: BindedProperty<number>;
+	SizeConstraint?: Enum.SizeConstraint;
 	ClipsDescendants?: boolean;
 	LayoutOrder?: number;
 	ZIndex?: number;
@@ -29,9 +30,10 @@ const NativeKeys = [
 	"BackgroundColor3",
 	"Visible",
 	"Rotation",
+	"SizeConstraint",
+	"ClipsDescendants",
 	"LayoutOrder",
 	"ZIndex",
-	"ClipsDescendants",
 ];
 
 export function useNativeProps<T extends Instance>(props: NativeProps<T>): Partial<NativeProps<T>> {
