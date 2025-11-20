@@ -3,6 +3,7 @@ import { UserInputService } from "@rbxts/services";
 import { Events } from "client/network";
 import { StoreController } from "./store.controller";
 import { GetWeaponConfig } from "shared/constants/configs/weapon.config";
+import { getPlatform } from "shared/utils/functions/get-platform";
 
 export interface OnClick {
 	onClick(): void;
@@ -18,17 +19,28 @@ export class ClickerController implements OnStart, OnClick {
 	onStart() {
 		Modding.onListenerAdded<OnClick>((listener) => this.onClickListeners.add(listener));
 
-		UserInputService.InputBegan.Connect((inputObject: InputObject, gameProcessedEvent: boolean) => {
-			if (gameProcessedEvent) return;
-			if (
-				inputObject.UserInputType !== Enum.UserInputType.MouseButton1 &&
-				inputObject.UserInputType !== Enum.UserInputType.Touch
-			)
-				return;
-			if (this.isOnCooldown()) return;
+		const platform = getPlatform();
 
-			this.click();
-		});
+		if (platform === "Desktop" || platform === "Console") {
+			UserInputService.InputBegan.Connect((inputObject: InputObject, gameProcessedEvent: boolean) => {
+				if (gameProcessedEvent) return;
+				if (
+					inputObject.UserInputType !== Enum.UserInputType.MouseButton1 &&
+					inputObject.KeyCode !== Enum.KeyCode.ButtonR1
+				)
+					return;
+
+				if (this.isOnCooldown()) return;
+
+				this.click();
+			});
+		} else {
+			UserInputService.TouchTapInWorld.Connect((_, processedByUI) => {
+				if (processedByUI) return;
+				if (this.isOnCooldown()) return;
+				this.click();
+			});
+		}
 	}
 
 	onClick(): void {

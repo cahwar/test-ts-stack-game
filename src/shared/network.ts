@@ -4,6 +4,8 @@ import { SyncPayload } from "@rbxts/charm-sync";
 import { SharedAtoms } from "./state-sync/atoms";
 
 interface ClientToServerEvents {
+	Click: () => void;
+
 	State: {
 		RequestSyncState: () => void;
 	};
@@ -11,11 +13,11 @@ interface ClientToServerEvents {
 	Admin: {
 		ProcessCommand: (name: string) => void;
 	};
-
-	Click: () => void;
 }
 
 interface ServerToClientEvents {
+	EmitMagnetable: (origin: Vector3, icon: string, amount: number, radius: number) => void;
+
 	State: {
 		SyncState: (payloads: SyncPayload<SharedAtoms>) => void;
 	};

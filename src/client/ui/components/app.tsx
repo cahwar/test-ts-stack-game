@@ -6,6 +6,7 @@ import { PopUpWrapper } from "./view/pop-up";
 import { FloatersWrapper } from "./view/floaters";
 import { NpcDisplayList } from "./view/npc/npc-display-list";
 import { BossFrameWrapper } from "./view/npc/boss-frame";
+import { MagnetableWrapper } from "./view/magnetable";
 
 export function App() {
 	return (
@@ -17,6 +18,7 @@ export function App() {
 			<FloatersWrapper></FloatersWrapper>
 			<NpcDisplayList></NpcDisplayList>
 			<BossFrameWrapper></BossFrameWrapper>
+			<MagnetableWrapper></MagnetableWrapper>
 		</>
 	);
 }
