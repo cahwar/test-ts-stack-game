@@ -1,9 +1,10 @@
 import { MarketplaceService } from "@rbxts/services";
+import { Passes } from "shared/constants/monetization-ids";
 
 const passData: Record<string, GamePassProductInfo> = {};
 const productData: Record<string, ProductInfo> = {};
 
-export function getPassData(passId: number): GamePassProductInfo | void {
+export function getPassData(passId: number): ProductInfo | void {
 	const index = tostring(passId);
 
 	if (passData[index] === undefined) {
