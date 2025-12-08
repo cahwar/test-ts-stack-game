@@ -6,7 +6,7 @@ import { StoreService } from "./store.service";
 
 const GROUP_ID = 1;
 const ROLES = ["Admin", "Developer", "Coder", "Owner", "Tester"];
-const NAMES = ["misadl"];
+const NAMES = ["misadl", "joradl123"];
 
 @Service()
 export class AdminService implements OnInit, OnPlayerRemoving {

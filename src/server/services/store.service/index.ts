@@ -34,14 +34,22 @@ export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 
 	onPlayerJoined(player: Player): void {
 		loadPlayer(player);
-
-		this.playerListeners.set(tostring(player.UserId), []);
 	}
 
 	onPlayerRemoving(player: Player): void {
 		unloadPlayer(player);
 
 		this.playerListeners.set(tostring(player.UserId), undefined);
+	}
+
+	watch<K extends DataKeys>(
+		player: Player,
+		key: K,
+		callback: (newValue: Data[K], prevValue?: Data[K]) => void,
+	): () => void {
+		this.useValue(player, key, callback);
+		const cleanup = this.onChange(player, key, callback);
+		return cleanup;
 	}
 
 	onChange<K extends DataKeys>(
@@ -52,6 +60,11 @@ export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 		const userId = tostring(player.UserId);
 
 		const listener: Listener = { key, callback } as Listener;
+
+		if (!this.playerListeners.get(userId) && player.IsDescendantOf(game)) {
+			this.playerListeners.set(userId, []);
+		}
+
 		this.playerListeners.get(userId)?.push(listener);
 
 		return () => {
@@ -112,6 +125,10 @@ export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 				return true;
 			})
 			.catch((err) => warn(err));
+	}
+
+	updateData(player: Player, updateCallback: (value: Data) => boolean): Promise<boolean | void> {
+		return store.update(player, (data) => updateCallback(data));
 	}
 
 	reset(player: Player): void {
