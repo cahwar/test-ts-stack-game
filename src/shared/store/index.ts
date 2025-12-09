@@ -1,9 +1,10 @@
 import { t } from "@rbxts/t";
 
 export const migrationSteps = {};
-export const dataName = "Data_v5";
+export const dataName = "Data_v6";
 export const template = {
 	money: 0,
+	gems: 0,
 	power: 0,
 	ownedWeapons: new Map<string, string>([["Katana", "0"]]),
 	weapon: "Katana",
@@ -12,6 +13,7 @@ export const template = {
 
 export const schema = t.strictInterface({
 	money: t.number,
+	gems: t.number,
 	power: t.number,
 	ownedWeapons: t.map(t.string, t.string),
 	weapon: t.string,

@@ -5,7 +5,7 @@ import { Hud } from "./hud";
 import { useAtom } from "@rbxts/react-charm";
 import { AdminController } from "client/controllers/admin.controller";
 import { StoreController } from "client/controllers/store.controller";
-import { MONEY_ICON, POWER_ICON } from "shared/constants/ui/icons";
+import { GEMS_ICON, MONEY_ICON, POWER_ICON } from "shared/constants/ui/icons";
 import { AutoClickController } from "client/controllers/auto-click.controller";
 
 export function HudWrapper() {
@@ -23,6 +23,7 @@ export function HudWrapper() {
 
 	const power = useAtom(() => storeController.getValue("power").expect());
 	const money = useAtom(() => storeController.getValue("money").expect());
+	const gems = useAtom(() => storeController.getValue("gems").expect());
 
 	return (
 		<Hud
@@ -33,6 +34,7 @@ export function HudWrapper() {
 			currencyValues={[
 				{ value: power, icon: POWER_ICON },
 				{ value: money, icon: MONEY_ICON },
+				{ value: gems, icon: GEMS_ICON },
 			]}
 		/>
 	);
