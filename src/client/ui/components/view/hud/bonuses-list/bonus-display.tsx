@@ -2,26 +2,34 @@ import React from "@rbxts/react";
 import { Frame } from "client/ui/components/composables/frame";
 import { Text } from "client/ui/components/composables/text";
 import { usePx } from "client/ui/hooks/use-px";
-import { MONEY_ICON } from "shared/constants/ui/icons";
+import { BONUS_ICON } from "shared/constants/ui/icons";
 import { BonusData } from "shared/interfaces/bonus.interface";
 import { getFormattedNumberString } from "shared/utils/text-utils";
-
-const FILLER_IMAGE = MONEY_ICON;
 
 export interface BonusDisplayProps {
 	valueName: string;
 	bonusData: BonusData;
+	setHoveredBonus: (bonusData: BonusData | undefined) => void;
 }
 
 export function BonusDisplay(props: BonusDisplayProps) {
 	const px = usePx();
 
 	return (
-		<Frame Size={UDim2.fromScale(1, 1)} SizeConstraint={Enum.SizeConstraint.RelativeYY} BackgroundTransparency={1}>
+		<Frame
+			Event={{
+				MouseEnter: () => props.setHoveredBonus(props.bonusData),
+				MouseLeave: () => props.setHoveredBonus(undefined),
+			}}
+			Size={UDim2.fromScale(1, 1)}
+			SizeConstraint={Enum.SizeConstraint.RelativeYY}
+			BackgroundTransparency={1}
+			ZIndex={1}
+		>
 			<imagelabel
 				Size={UDim2.fromScale(1, 1)}
 				BackgroundTransparency={1}
-				Image={props.bonusData.icon ?? FILLER_IMAGE}
+				Image={props.bonusData.icon ?? BONUS_ICON}
 			/>
 			<Text
 				Text={`+${getFormattedNumberString(props.bonusData.percent)}%`}

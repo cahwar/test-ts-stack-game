@@ -3,4 +3,5 @@ export interface BonusData {
 	percent: number;
 	displayName?: string;
 	icon?: string;
+	description?: string;
 }

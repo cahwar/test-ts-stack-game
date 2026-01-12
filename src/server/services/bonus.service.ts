@@ -32,6 +32,7 @@ export class BonusService implements OnPlayerRemoving {
 		percent: number,
 		icon?: string,
 		displayName?: string,
+		description?: string,
 	): void {
 		const userId = tostring(player.UserId);
 
@@ -48,7 +49,7 @@ export class BonusService implements OnPlayerRemoving {
 				userBonuses[valueName].remove(existingIndex);
 			}
 
-			userBonuses[valueName].push({ bonusName, percent, icon, displayName });
+			userBonuses[valueName].push({ bonusName, percent, icon, displayName, description });
 
 			return { ...prev, [userId]: userBonuses };
 		});
