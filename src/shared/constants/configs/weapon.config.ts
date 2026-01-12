@@ -14,7 +14,7 @@ export class WeaponConfig {
 	) {}
 }
 
-export const WeaponConfigs: WeaponConfig[] = [new WeaponConfig("Katana", 1), new WeaponConfig("Axe", 2)];
+export const WeaponConfigs: WeaponConfig[] = [new WeaponConfig("Katana", 25), new WeaponConfig("Axe", 6)];
 
 export function GetWeaponConfig(name: string): WeaponConfig | never {
 	const config = WeaponConfigs.find((value) => value.name === name);

@@ -3,7 +3,7 @@ import { atom, Selector, subscribe } from "@rbxts/charm";
 import { setTimeout } from "@rbxts/set-timeout";
 import { NEGATIVE_COLOR, POSITIVE_COLOR } from "shared/constants/ui/palette";
 import { getUniqueId } from "shared/utils/functions/get-unique-id";
-import { getColoredString } from "shared/utils/text-utils";
+import { getColoredString, getRoundedNumberString } from "shared/utils/text-utils";
 import { StoreController } from "./store.controller";
 import { GEMS_ICON, MONEY_ICON, POWER_ICON } from "shared/constants/ui/icons";
 
@@ -56,7 +56,7 @@ export class PopUpController implements OnStart {
 	subscribePopValue(selector: Selector<number>, icon: string = "") {
 		subscribe(selector, (state, prev) => {
 			const text = getColoredString(
-				`${prev > state ? "-" : "+"}${math.abs(state - prev)}`,
+				`${prev > state ? "-" : "+"}${getRoundedNumberString(math.abs(state - prev))}`,
 				prev > state ? NEGATIVE_COLOR : POSITIVE_COLOR,
 			);
 			this.add(text, icon);
