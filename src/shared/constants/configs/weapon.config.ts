@@ -7,7 +7,7 @@
 export class WeaponConfig {
 	constructor(
 		public readonly name: string,
-		public readonly power: number,
+		public readonly powerIncrement: number,
 		public readonly splashHits: number = 1,
 		public readonly cooldown: number = 0.2,
 		public readonly radius: number = 8,

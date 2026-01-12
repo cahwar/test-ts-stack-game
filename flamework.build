@@ -65,7 +65,9 @@
 		"test-react-charm-flamework:out/client/controllers/magnetable.controller@MagnetableController": "client/controllers/magnetable.controller@MagnetableController",
 		"test-react-charm-flamework:out/client/controllers/auto-click.controller@AutoClickController": "client/controllers/auto-click.controller@AutoClickController",
 		"test-react-charm-flamework:out/server/services/monetization.service@MonetizationService": "server/services/monetization.service@MonetizationService",
-		"test-react-charm-flamework:out/client/controllers/monetization.controller@MonetizationController": "client/controllers/monetization.controller@MonetizationController"
+		"test-react-charm-flamework:out/client/controllers/monetization.controller@MonetizationController": "client/controllers/monetization.controller@MonetizationController",
+		"test-react-charm-flamework:out/server/services/bonus.service@BonusService": "server/services/bonus.service@BonusService",
+		"test-react-charm-flamework:out/server/services/rebirth.service@RebirthService": "server/services/rebirth.service@RebirthService"
 	},
 	"metadata": {}
 }

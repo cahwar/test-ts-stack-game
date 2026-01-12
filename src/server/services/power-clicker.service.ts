@@ -18,9 +18,14 @@ export class PowerClickerService implements OnClick {
 	}
 
 	private getIncrement(player: Player): number | void {
-		const config = this.weaponService.getEquippedConfig(player);
-		if (config === undefined) return;
+		let powerIncrement = 0;
 
-		return config.power;
+		const config = this.weaponService.getEquippedConfig(player);
+		if (config !== undefined) powerIncrement = config.powerIncrement;
+
+		const rebirthCount = this.storeService.getValue(player, "rebirthCount").expect() ?? 0;
+		if (rebirthCount > 0) powerIncrement *= 1 + 0.1 * rebirthCount;
+
+		return powerIncrement;
 	}
 }
