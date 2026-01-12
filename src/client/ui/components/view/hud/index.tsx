@@ -7,12 +7,14 @@ import { AdminController } from "client/controllers/admin.controller";
 import { StoreController } from "client/controllers/store.controller";
 import { GEMS_ICON, MONEY_ICON, POWER_ICON } from "shared/constants/ui/icons";
 import { AutoClickController } from "client/controllers/auto-click.controller";
+import { BonusController } from "client/controllers/bonus.controller";
 
 export function HudWrapper() {
 	const pageController = useFlameworkDependency<UIPageController>();
 	const adminController = useFlameworkDependency<AdminController>();
 	const storeController = useFlameworkDependency<StoreController>();
 	const autoClickController = useFlameworkDependency<AutoClickController>();
+	const bonusController = useFlameworkDependency<BonusController>();
 
 	const togglePage = (page: PageList) => pageController.toggle(page);
 	const toggleAutoClick = () => autoClickController.toggle();
@@ -25,6 +27,8 @@ export function HudWrapper() {
 	const money = useAtom(() => storeController.getValue("money").expect());
 	const gems = useAtom(() => storeController.getValue("gems").expect());
 
+	const bonusesData = useAtom(() => bonusController.getBonuses());
+
 	return (
 		<Hud
 			togglePage={togglePage}
@@ -36,6 +40,7 @@ export function HudWrapper() {
 				{ value: money, icon: MONEY_ICON },
 				{ value: gems, icon: GEMS_ICON },
 			]}
+			bonusesData={bonusesData}
 		/>
 	);
 }

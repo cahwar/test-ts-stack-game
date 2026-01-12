@@ -1,6 +1,6 @@
 import React, { useEffect } from "@rbxts/react";
-import { Frame } from "../../composables/frame";
-import { Text } from "../../composables/text";
+import { Frame } from "../../../composables/frame";
+import { Text } from "../../../composables/text";
 import { usePx } from "client/ui/hooks/use-px";
 import { getFormattedNumberString } from "shared/utils/text-utils";
 import { lerpBinding, useBindingState, useMotion, useUpdateEffect } from "@rbxts/pretty-react-hooks";

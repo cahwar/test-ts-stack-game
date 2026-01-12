@@ -2,7 +2,7 @@ import React from "@rbxts/react";
 import ReactRoblox from "@rbxts/react-roblox";
 import { InferProps } from "@rbxts/ui-labs";
 import { POWER_ICON } from "shared/constants/ui/icons";
-import { ValueDisplay } from "../view/hud/value-display";
+import { ValueDisplay } from "../view/hud/hud-composables/value-display";
 
 const controls = { value: 1234, icon: POWER_ICON };
 

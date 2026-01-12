@@ -3,6 +3,7 @@ import { OnPlayerJoined } from "./player-lifecycle.service";
 import { BonusService } from "./bonus.service";
 import { StoreService } from "./store.service";
 import { AdminService } from "./admin.service";
+import { REBIRTH_ICON } from "shared/constants/ui/icons";
 
 @Service()
 export class RebirthService implements OnInit, OnPlayerJoined {
@@ -21,7 +22,7 @@ export class RebirthService implements OnInit, OnPlayerJoined {
 	onPlayerJoined(player: Player): void {
 		this.storeService.watch(player, "rebirthCount", (value) => {
 			if (value === 0) this.bonusService.removeBonus(player, "power", "Rebirth");
-			else this.bonusService.setBonus(player, "power", "Rebirth", 10 * value);
+			else this.bonusService.setBonus(player, "power", "Rebirth", 10 * value, REBIRTH_ICON);
 		});
 	}
 

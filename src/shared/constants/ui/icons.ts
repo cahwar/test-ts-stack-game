@@ -4,3 +4,4 @@ export const GEMS_ICON = "rbxassetid://17368064384";
 export const MILK_ICON = "rbxassetid://91371134468794";
 export const DAMAGE_ICON = "rbxassetid://17368087730";
 export const CLICK_ICON = "rbxassetid://17293879614";
+export const REBIRTH_ICON = "rbxassetid://17368214873";

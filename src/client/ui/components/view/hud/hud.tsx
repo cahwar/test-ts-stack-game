@@ -4,15 +4,18 @@ import { Layer } from "../../composables/layer";
 import { Frame } from "../../composables/frame";
 import { usePx } from "client/ui/hooks/use-px";
 import { AdminButton } from "./admin-button";
-import { ValueDisplay } from "./value-display";
+import { ValueDisplay } from "./hud-composables/value-display";
 import { lerpBinding, useMotion } from "@rbxts/pretty-react-hooks";
 import { springs } from "shared/constants/ui/springs";
 import { AutoClickerButton } from "./auto-clicker-button";
+import { BonusesList } from "./bonuses-list";
+import { BonusData } from "shared/interfaces/bonus.interface";
 
 export interface HudProps {
 	togglePage: (page: PageList) => void;
 	autoClicker: { toggle: () => void; isActive: boolean };
 	currencyValues: Array<{ value: number; icon: string }>;
+	bonusesData: Record<string, Array<BonusData>>;
 	showAdminButton: boolean;
 	enabled: boolean;
 }
@@ -62,6 +65,8 @@ export function Hud(props: HudProps) {
 
 					<AutoClickerButton isActive={props.autoClicker.isActive} toggle={props.autoClicker.toggle} />
 				</Frame>
+
+				<BonusesList bonusesData={props.bonusesData} enabled={props.enabled} />
 			</>
 		</Layer>
 	);
