@@ -2,12 +2,14 @@ import { Service } from "@flamework/core";
 import { OnClick } from "./clicker.service";
 import { StoreService } from "./store.service";
 import { WeaponService } from "./weapon.service";
+import { BonusService } from "./bonus.service";
 
 @Service()
 export class PowerClickerService implements OnClick {
 	constructor(
 		private readonly storeService: StoreService,
 		private readonly weaponService: WeaponService,
+		private readonly bonusService: BonusService,
 	) {}
 
 	onClick(player: Player): void {
@@ -23,9 +25,6 @@ export class PowerClickerService implements OnClick {
 		const config = this.weaponService.getEquippedConfig(player);
 		if (config !== undefined) powerIncrement = config.powerIncrement;
 
-		const rebirthCount = this.storeService.getValue(player, "rebirthCount").expect() ?? 0;
-		if (rebirthCount > 0) powerIncrement *= 1 + 0.1 * rebirthCount;
-
-		return powerIncrement;
+		return this.bonusService.getValueWithBonus(player, "power", powerIncrement);
 	}
 }
