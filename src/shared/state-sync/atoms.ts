@@ -10,7 +10,7 @@ function PlayerRecordAtom<T>(): Atom<PlayerRecord<T>> {
 
 export const sharedAtoms = {
 	store: PlayerRecordAtom<Data>(),
-	bonuses: PlayerRecordAtom<Record<string, Array<BonusData>>>(),
+	bonuses: PlayerRecordAtom<BonusData[]>(),
 };
 
 export type SharedAtoms = typeof sharedAtoms;

@@ -7,7 +7,7 @@ import { sharedAtoms } from "shared/state-sync/atoms";
 export class BonusController {
 	private userId = tostring(Players.LocalPlayer.UserId);
 
-	getBonuses(): Record<string, Array<BonusData>> {
-		return sharedAtoms.bonuses()[this.userId] ?? {};
+	getBonuses(): BonusData[] | undefined {
+		return sharedAtoms.bonuses()[this.userId];
 	}
 }

@@ -1,4 +1,3 @@
-import Object from "@rbxts/object-utils";
 import React, { useEffect, useState } from "@rbxts/react";
 import { Frame } from "client/ui/components/composables/frame";
 import { BonusData } from "shared/interfaces/bonus.interface";
@@ -9,7 +8,7 @@ import { usePx } from "client/ui/hooks/use-px";
 import { BonusTooltip } from "./bonus-tooltip";
 
 export interface BonusesListProps {
-	bonusesData: Record<string, Array<BonusData>>;
+	bonusesData: BonusData[];
 	enabled: boolean;
 }
 
@@ -40,18 +39,14 @@ export function BonusesList(props: BonusesListProps) {
 					Padding={new UDim(0, px(10))}
 				/>
 
-				{Object.entries(props.bonusesData).map((bonusEntry) => {
-					const valueName = bonusEntry[0];
-					const bonusesData = bonusEntry[1];
-
-					return bonusesData.map((bonusData) => (
+				{props.bonusesData.map((bonusData) => {
+					return (
 						<BonusDisplay
 							key={bonusData.bonusName}
-							valueName={valueName}
 							bonusData={bonusData}
 							setHoveredBonus={setHoveredBonus}
 						/>
-					));
+					);
 				})}
 			</Frame>
 		</>

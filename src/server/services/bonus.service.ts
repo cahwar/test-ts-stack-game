@@ -14,13 +14,17 @@ export class BonusService implements OnPlayerRemoving {
 
 	getTotalBonus(player: Player, valueName: string): number {
 		const userId = tostring(player.UserId);
-		const bonuses = sharedAtoms.bonuses()[userId]?.[valueName];
+		const bonuses = sharedAtoms.bonuses()[userId];
 
-		if (bonuses === undefined) return 0;
+		if (bonuses === undefined) {
+			return 0;
+		}
 
 		let total = 0;
 
-		bonuses.forEach((bonus) => (total += bonus.percent));
+		bonuses.forEach((bonusData) => {
+			if (bonusData.valueName === valueName) total += bonusData.percent;
+		});
 
 		return total;
 	}
@@ -36,44 +40,23 @@ export class BonusService implements OnPlayerRemoving {
 	): void {
 		const userId = tostring(player.UserId);
 
-		sharedAtoms.bonuses((prev) => {
-			const userBonuses = prev[userId] ?? {};
+		sharedAtoms.bonuses((state) => {
+			const userState = state[userId] ? [...state[userId]] : [];
 
-			if (userBonuses[valueName] === undefined) {
-				userBonuses[valueName] = [];
-			}
+			userState.remove(userState.findIndex((bonusData) => bonusData.bonusName === bonusName));
+			userState.push({ valueName, bonusName, percent, icon, displayName, description });
 
-			const existingIndex = userBonuses[valueName].findIndex((bonusData) => bonusData.bonusName === bonusName);
-
-			if (existingIndex !== undefined) {
-				userBonuses[valueName].remove(existingIndex);
-			}
-
-			userBonuses[valueName].push({ bonusName, percent, icon, displayName, description });
-
-			return { ...prev, [userId]: userBonuses };
+			return { ...state, [userId]: userState };
 		});
 	}
 
 	removeBonus(player: Player, valueName: string, bonusName: string): void {
 		const userId = tostring(player.UserId);
 
-		sharedAtoms.bonuses((prev) => {
-			const userBonuses = prev[userId] ?? {};
-
-			if (userBonuses[valueName] === undefined) {
-				return prev;
-			}
-
-			const index = userBonuses[valueName].findIndex((value) => value.bonusName === bonusName);
-
-			if (index === undefined) {
-				return prev;
-			}
-
-			userBonuses[valueName].remove(index);
-
-			return { ...prev, [userId]: userBonuses };
+		sharedAtoms.bonuses((state) => {
+			const userState = state[userId] ? [...state[userId]] : [];
+			userState.remove(userState.findIndex((bonusData) => bonusData.bonusName === bonusName));
+			return { ...state, [userId]: [...userState] };
 		});
 	}
 

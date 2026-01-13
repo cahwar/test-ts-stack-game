@@ -12,10 +12,10 @@ const story = {
 	reactRoblox: ReactRoblox,
 	controls: controls,
 	story: (props: InferProps<typeof controls>) => {
-		const mockBonuses: Record<string, BonusData[]> = { ["money"]: [] };
+		const mockBonuses: BonusData[] = [];
 
 		for (let i = 0; i < props.controls.bonusesAmount; i++) {
-			mockBonuses["money"].push({ bonusName: `Test #${i}`, percent: 10 * i });
+			mockBonuses.push({ valueName: "money", bonusName: `Test #${i}`, percent: 10 * i });
 		}
 
 		return (

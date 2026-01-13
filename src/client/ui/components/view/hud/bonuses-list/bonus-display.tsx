@@ -7,7 +7,6 @@ import { BonusData } from "shared/interfaces/bonus.interface";
 import { getFormattedNumberString } from "shared/utils/text-utils";
 
 export interface BonusDisplayProps {
-	valueName: string;
 	bonusData: BonusData;
 	setHoveredBonus: (bonusData: BonusData | undefined) => void;
 }

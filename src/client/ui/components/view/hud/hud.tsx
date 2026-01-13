@@ -15,9 +15,9 @@ export interface HudProps {
 	togglePage: (page: PageList) => void;
 	autoClicker: { toggle: () => void; isActive: boolean };
 	currencyValues: Array<{ value: number; icon: string }>;
-	bonusesData: Record<string, Array<BonusData>>;
 	showAdminButton: boolean;
 	enabled: boolean;
+	bonusesData?: BonusData[];
 }
 
 export function Hud(props: HudProps) {
@@ -66,7 +66,9 @@ export function Hud(props: HudProps) {
 					<AutoClickerButton isActive={props.autoClicker.isActive} toggle={props.autoClicker.toggle} />
 				</Frame>
 
-				<BonusesList bonusesData={props.bonusesData} enabled={props.enabled} />
+				{props.bonusesData !== undefined && (
+					<BonusesList bonusesData={props.bonusesData} enabled={props.enabled} />
+				)}
 			</>
 		</Layer>
 	);
