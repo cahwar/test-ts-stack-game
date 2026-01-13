@@ -10,8 +10,8 @@ import { Text } from "client/ui/components/composables/text";
 import { getColoredString } from "shared/utils/text-utils";
 import { DETAIL_COLOR } from "shared/constants/ui/palette";
 
-const SIZE_X = 150;
-const SIZE_Y = SIZE_X / 2;
+const SIZE_X = 190;
+const SIZE_Y = 100;
 
 export interface BonusTooltipProps {
 	enabled: boolean;
@@ -83,7 +83,9 @@ export function BonusTooltip(props: BonusTooltipProps) {
 				<Text
 					Text={props.bonusData?.displayName ?? props.bonusData?.bonusName ?? ""}
 					TextScaled={true}
-					Size={UDim2.fromScale(0.6, 0.9)}
+					Size={UDim2.fromScale(0.7, 0.9)}
+					TextColor3={Color3.fromRGB(247, 161, 79)}
+					strokeSize={px(2)}
 				/>
 			</Frame>
 
@@ -113,6 +115,7 @@ export function BonusTooltip(props: BonusTooltipProps) {
 					Position={UDim2.fromScale(0.5, 0.5)}
 					AnchorPoint={new Vector2(0.5, 0.5)}
 					RichText={true}
+					strokeSize={px(2)}
 				/>
 			</Frame>
 		</Frame>
