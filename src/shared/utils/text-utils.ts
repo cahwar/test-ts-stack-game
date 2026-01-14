@@ -38,3 +38,18 @@ export function getFormattedNumberString(value: number): string {
 
 	return sign + getRoundedNumberString(scaled, 2) + suffix;
 }
+
+export function getTimeStringHMS(time: number) {
+	const hours = math.floor(time / 3600);
+	const minutes = math.floor((time % 3600) / 60);
+	const seconds = math.floor(time % 60);
+
+	return string.format("%02d:%02d:%02d", hours, minutes, seconds);
+}
+
+export function getTimeStringMS(time: number) {
+	const minutes = math.floor((time % 3600) / 60);
+	const seconds = math.floor(time % 60);
+
+	return string.format("%02d:%02d", minutes, seconds);
+}

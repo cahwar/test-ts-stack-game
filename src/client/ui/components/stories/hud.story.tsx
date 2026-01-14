@@ -15,7 +15,13 @@ const story = {
 		const mockBonuses: BonusData[] = [];
 
 		for (let i = 0; i < props.controls.bonusesAmount; i++) {
-			mockBonuses.push({ valueName: "money", bonusName: `Test #${i}`, percent: 10 * i });
+			mockBonuses.push({
+				valueName: "money",
+				bonusName: `Test #${i}`,
+				percent: 10 * i,
+				startTime: i % 2 === 0 ? os.time() : undefined,
+				expiresIn: i % 2 === 0 ? 5 : undefined,
+			});
 		}
 
 		return (

@@ -49,15 +49,15 @@ export function BonusTooltip(props: BonusTooltipProps) {
 				UDim2.fromOffset(value.X + px(SIZE_X / 1.9), value.Y - px(SIZE_Y / 1.5)),
 			)}
 			AnchorPoint={new Vector2(0.5, 0.5)}
-			BackgroundTransparency={0.5}
-			BackgroundColor3={Color3.fromRGB(252, 191, 128)}
+			BackgroundTransparency={0.25}
+			BackgroundColor3={Color3.fromRGB(250, 189, 135)}
 			ZIndex={0}
 			Visible={alpha.map((value) => value > 0)}
-			cornerRadius={new UDim(0, px(8))}
+			cornerRadius={new UDim(0, px(16))}
 			useStroke={true}
 		>
 			<Frame
-				Size={UDim2.fromScale(1, 0.4)}
+				Size={UDim2.fromScale(0.9, 0.4)}
 				Position={UDim2.fromScale(0.5, 0)}
 				AnchorPoint={new Vector2(0.5, 0)}
 				cornerRadius={new UDim(0, px(8))}
