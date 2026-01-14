@@ -21,6 +21,9 @@ const story = {
 				percent: 10 * i,
 				startTime: i % 2 === 0 ? os.time() : undefined,
 				expiresIn: i % 2 === 0 ? 5 : undefined,
+				description: undefined,
+				displayName: undefined,
+				icon: undefined,
 			});
 		}
 

@@ -99,7 +99,16 @@ export class BonusService implements OnPlayerRemoving, OnPlayerJoined {
 			const userState = state[userId] ? [...state[userId]] : [];
 
 			userState.remove(userState.findIndex((bonusData) => bonusData.bonusName === bonusName));
-			userState.push({ valueName, bonusName, percent, icon, displayName, description });
+			userState.push({
+				valueName,
+				bonusName,
+				percent,
+				icon,
+				displayName,
+				description,
+				startTime: undefined,
+				expiresIn: undefined,
+			});
 
 			return { ...state, [userId]: userState };
 		});
