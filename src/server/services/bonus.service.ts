@@ -1,7 +1,7 @@
 import { Service } from "@flamework/core";
 import { OnPlayerJoined, OnPlayerRemoving } from "./player-lifecycle.service";
 import { sharedAtoms } from "shared/state-sync/atoms";
-import { isExpiringBonusData } from "shared/interfaces/bonus.interface";
+import { BonusData, isExpiringBonusData } from "shared/interfaces/bonus.interface";
 import { setInterval } from "@rbxts/set-timeout";
 import { StoreService } from "./store.service";
 
@@ -12,15 +12,19 @@ export class BonusService implements OnPlayerRemoving, OnPlayerJoined {
 	constructor(private readonly storeService: StoreService) {}
 
 	onPlayerJoined(player: Player): void {
-		this.storeService.watch(player, "expiringBonuses", (expiringBonuses) => {
-			expiringBonuses.forEach((bonusData) => {
+		this.storeService.watch(player, "expiringBonuses", (expiringBonuses, previousBonuses) => {
+			previousBonuses?.forEach((bonusData) => {
 				if (isExpiringBonusData(bonusData) && os.time() - bonusData.startTime >= bonusData.expiresIn) {
-					this.removeBonus(player, bonusData.bonusName);
+					this.removeActiveBonus(player, bonusData.bonusName);
+				}
+			});
 
+			expiringBonuses.forEach((bonusData) => {
+				if (this.hasActiveBonus(player, bonusData.bonusName)) {
 					return;
 				}
 
-				this.setBonus(
+				this.setActiveBonus(
 					player,
 					bonusData.valueName,
 					bonusData.bonusName,
@@ -34,7 +38,7 @@ export class BonusService implements OnPlayerRemoving, OnPlayerJoined {
 			});
 		});
 
-		this.addExpiringBonus(player, "money", "Test Money Bonus", 15, 25);
+		this.addExpiringBonus(player, "money", "Test Money Bonus", 15, 5);
 	}
 
 	onPlayerRemoving(player: Player): void {
@@ -106,7 +110,7 @@ export class BonusService implements OnPlayerRemoving, OnPlayerJoined {
 			});
 	}
 
-	setBonus(
+	setActiveBonus(
 		player: Player,
 		valueName: string,
 		bonusName: string,
@@ -138,7 +142,7 @@ export class BonusService implements OnPlayerRemoving, OnPlayerJoined {
 		});
 	}
 
-	removeBonus(player: Player, bonusName: string): void {
+	removeActiveBonus(player: Player, bonusName: string): void {
 		const userId = tostring(player.UserId);
 
 		sharedAtoms.bonuses((state) => {
@@ -146,6 +150,15 @@ export class BonusService implements OnPlayerRemoving, OnPlayerJoined {
 			userState.remove(userState.findIndex((bonusData) => bonusData.bonusName === bonusName));
 			return { ...state, [userId]: [...userState] };
 		});
+	}
+
+	getActiveBonus(player: Player, bonusName: string): BonusData | undefined {
+		const userId = tostring(player.UserId);
+		return sharedAtoms.bonuses()[userId]?.find((bonusData) => bonusData.bonusName === bonusName);
+	}
+
+	hasActiveBonus(player: Player, bonusName: string): boolean {
+		return this.getActiveBonus(player, bonusName) !== undefined;
 	}
 
 	clearPlayer(player: Player): void {

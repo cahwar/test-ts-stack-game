@@ -21,9 +21,9 @@ export class RebirthService implements OnInit, OnPlayerJoined {
 
 	onPlayerJoined(player: Player): void {
 		this.storeService.watch(player, "rebirthCount", (value) => {
-			if (value === 0) this.bonusService.removeBonus(player, "Rebirth");
+			if (value === 0) this.bonusService.removeActiveBonus(player, "Rebirth");
 			else
-				this.bonusService.setBonus(
+				this.bonusService.setActiveBonus(
 					player,
 					"power",
 					"Rebirth",
