@@ -12,6 +12,8 @@ export class BonusService implements OnPlayerRemoving, OnPlayerJoined {
 	constructor(private readonly storeService: StoreService) {}
 
 	onPlayerJoined(player: Player): void {
+		const userId = tostring(player.UserId);
+
 		this.storeService.watch(player, "expiringBonuses", (expiringBonuses, previousBonuses) => {
 			previousBonuses?.forEach((bonusData) => {
 				if (isExpiringBonusData(bonusData) && os.time() - bonusData.startTime >= bonusData.expiresIn) {
@@ -36,9 +38,13 @@ export class BonusService implements OnPlayerRemoving, OnPlayerJoined {
 					bonusData.expiresIn,
 				);
 			});
+
+			if (this.checkIntervalCleanups[userId] === undefined) {
+				this.initCheckInterval(player);
+			}
 		});
 
-		this.addExpiringBonus(player, "money", "Test Money Bonus", 15, 5);
+		this.addExpiringBonus(player, "money", "Test Money Bonus", 15, 10);
 	}
 
 	onPlayerRemoving(player: Player): void {
@@ -87,27 +93,21 @@ export class BonusService implements OnPlayerRemoving, OnPlayerJoined {
 			expiresIn += existingBonus.expiresIn - (os.time() - existingBonus.startTime);
 		}
 
-		this.storeService
-			.updateValue(player, "expiringBonuses", (expiringBonuses) => {
-				expiringBonuses.remove(expiringBonuses.findIndex((bonusData) => bonusData.bonusName === bonusName));
-				expiringBonuses.push({
-					valueName,
-					bonusName,
-					percent,
-					startTime: os.time(),
-					expiresIn,
-					icon,
-					displayName,
-					description,
-				});
-
-				return expiringBonuses;
-			})
-			.then(() => {
-				if (this.checkIntervalCleanups[userId] === undefined) {
-					this.initCheckInterval(player);
-				}
+		this.storeService.updateValue(player, "expiringBonuses", (expiringBonuses) => {
+			expiringBonuses.remove(expiringBonuses.findIndex((bonusData) => bonusData.bonusName === bonusName));
+			expiringBonuses.push({
+				valueName,
+				bonusName,
+				percent,
+				startTime: os.time(),
+				expiresIn,
+				icon,
+				displayName,
+				description,
 			});
+
+			return expiringBonuses;
+		});
 	}
 
 	setActiveBonus(
@@ -177,11 +177,9 @@ export class BonusService implements OnPlayerRemoving, OnPlayerJoined {
 
 		this.checkIntervalCleanups[userId] = setInterval(() => {
 			this.storeService.getValue(player, "expiringBonuses").then((expiringBonuses) => {
-				if (expiringBonuses === undefined) {
-					return;
-				}
+				if (expiringBonuses === undefined || expiringBonuses.size() <= 0) {
+					this.clearCheckInterval(player);
 
-				if (expiringBonuses.size() <= 0) {
 					return;
 				}
 
