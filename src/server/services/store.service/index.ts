@@ -5,6 +5,9 @@ import { teleport } from "shared/utils/teleport-utils";
 import { OnPlayerJoined, OnPlayerRemoving } from "../player-lifecycle.service";
 import { attempt } from "shared/utils/functions/attempt";
 
+const DATA_ATTEMPT_TIME = 10;
+const DATA_ATTEMPT_PERIOD = 1;
+
 interface Listener<K extends DataKeys = DataKeys> {
 	key: K;
 	callback: (newValue: Data[K], prevValue?: Data[K]) => void;
@@ -87,8 +90,8 @@ export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 					err.find("Key not loaded")[0] !== undefined
 				);
 			},
-			3,
-			1,
+			DATA_ATTEMPT_TIME,
+			DATA_ATTEMPT_PERIOD,
 		);
 	}
 
@@ -105,13 +108,11 @@ export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 	}
 
 	setValue<Key extends DataKeys>(player: Player, key: Key, value: Data[Key]): Promise<boolean | void> {
-		return store
-			.update(player, (data) => {
-				data[key] = value;
+		return this.updateData(player, (data) => {
+			data[key] = value;
 
-				return true;
-			})
-			.catch((err) => warn(err));
+			return true;
+		}).catch((err) => warn(err));
 	}
 
 	updateValue<Key extends DataKeys>(
@@ -119,16 +120,26 @@ export class StoreService implements OnStart, OnPlayerJoined, OnPlayerRemoving {
 		key: Key,
 		updateCallback: (value: Data[Key]) => Data[Key],
 	): Promise<boolean | void> {
-		return store
-			.update(player, (data) => {
-				data[key] = updateCallback(data[key]);
-				return true;
-			})
-			.catch((err) => warn(err));
+		return this.updateData(player, (data) => {
+			data[key] = updateCallback(data[key]);
+			return true;
+		}).catch((err) => warn(err));
 	}
 
 	updateData(player: Player, updateCallback: (value: Data) => boolean): Promise<boolean | void> {
-		return store.update(player, (data) => updateCallback(data));
+		return attempt<boolean>(
+			() => store.updateAsync(player, (data) => updateCallback(data)),
+			(err?: unknown) => {
+				return (
+					player.IsDescendantOf(game) &&
+					err !== undefined &&
+					typeIs(err, "string") &&
+					err.find("Key not loaded")[0] !== undefined
+				);
+			},
+			DATA_ATTEMPT_TIME,
+			DATA_ATTEMPT_PERIOD,
+		);
 	}
 
 	reset(player: Player): void {
