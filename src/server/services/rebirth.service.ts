@@ -30,7 +30,7 @@ export class RebirthService implements OnInit, OnPlayerJoined {
 					10 * value,
 					REBIRTH_ICON,
 					"Rebirth Multipler",
-					"You get this multipler for the rebirths",
+					"Increased power income",
 				);
 		});
 	}

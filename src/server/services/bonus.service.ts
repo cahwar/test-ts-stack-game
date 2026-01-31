@@ -43,8 +43,6 @@ export class BonusService implements OnPlayerRemoving, OnPlayerJoined {
 				this.initCheckInterval(player);
 			}
 		});
-
-		this.addExpiringBonus(player, "money", "Test Money Bonus", 15, 10);
 	}
 
 	onPlayerRemoving(player: Player): void {
